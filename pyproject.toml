@@ -72,6 +72,8 @@ testpaths = ["tests"]
 [tool.coverage.run]
 source = ["curve2csv"]
 branch = false
+# The Tk window is exercised by the headless smoke, not by the unit suite.
+omit = ["*/curve2csv/gui.py"]
 
 [tool.coverage.report]
 show_missing = true

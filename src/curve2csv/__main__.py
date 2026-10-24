@@ -124,16 +124,50 @@ def _extract_command(argv: list[str]) -> int:
     if args.axes is None and limits is None:
         logging.error(
             "no axis source. Pass --axes, or --xmin/--xmax/--ymin/--ymax. "
-            "On-device OCR is not bundled; tick labels are not read automatically."
+            "Tick-label OCR is not bundled; labels are not read automatically."
         )
         return 2
     return _run_extract(args.image, args.out, args.axes, limits, args.x_log, args.y_log)
 
 
+def _headless_smoke(argv: list[str]) -> int:
+    """Run one extract without opening a window. Prints SMOKE_OK or SMOKE_FAIL."""
+
+    parser = argparse.ArgumentParser(prog="curve2csv --headless-smoke")
+    parser.add_argument("image", type=Path)
+    parser.add_argument("-o", "--out", type=Path, required=True)
+    parser.add_argument("--xmin", type=float, default=0.0)
+    parser.add_argument("--xmax", type=float, default=3.0)
+    parser.add_argument("--ymin", type=float, default=-1.2)
+    parser.add_argument("--ymax", type=float, default=1.2)
+    args = parser.parse_args(argv)
+    code = _run_extract(
+        args.image,
+        args.out,
+        None,
+        {"xmin": args.xmin, "xmax": args.xmax, "ymin": args.ymin, "ymax": args.ymax},
+        False,
+        False,
+    )
+    csv_path = args.out / f"{args.image.stem}.csv"
+    overlay = args.out / f"{args.image.stem}.overlay.png"
+    if code != 0 or not csv_path.is_file() or csv_path.stat().st_size == 0 or not overlay.is_file():
+        print("SMOKE_FAIL")
+        return 1 if code == 0 else code
+    print("SMOKE_OK")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
+    if args and args[0] == "--headless-smoke":
+        return _headless_smoke(args[1:])
     if args and args[0] == "extract":
         return _extract_command(args[1:])
+    if not args or args[0] == "gui":
+        from curve2csv.gui import run_gui
+
+        return run_gui()
     return _legacy(args)
 
 

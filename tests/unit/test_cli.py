@@ -94,3 +94,53 @@ def test_loader_rgba_gray_and_errors(tmp_path: Path) -> None:
     bad.write_bytes(b"not an image")
     with pytest.raises(InputError):
         load_image(bad)
+
+
+def test_headless_smoke_prints_ok(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    x = np.linspace(0.0, 3.0, 40)
+    image, _axes = line_figure(x, [(np.sin(x), "#d62728")])
+    image_path = tmp_path / "smoke.png"
+    save_image(image_path, image)
+    code = main(["--headless-smoke", str(image_path), "-o", str(tmp_path / "out")])
+    captured = capsys.readouterr()
+    assert code == 0
+    assert "SMOKE_OK" in captured.out
+    assert (tmp_path / "out" / "smoke.csv").is_file()
+
+
+def test_pdf_page_and_series_rename(tmp_path: Path) -> None:
+    pypdfium2 = pytest.importorskip("pypdfium2")
+    matplotlib = pytest.importorskip("matplotlib")
+    matplotlib.use("Agg")
+    from matplotlib.backends.backend_pdf import PdfPages
+
+    pdf_path = tmp_path / "pages.pdf"
+    with PdfPages(pdf_path) as pdf:
+        for color in ("#ffffff", "#000000"):
+            fig = matplotlib.figure.Figure()
+            ax = fig.add_subplot(1, 1, 1)
+            ax.plot([0, 1], [0, 1], color=color)
+            pdf.savefig(fig)
+    first = load_image(pdf_path, page=1)
+    second = load_image(pdf_path, page=2)
+    assert first.page == 1 and second.page == 2
+    assert first.rgb.shape[2] == 3
+    assert int(first.rgb.mean()) != int(second.rgb.mean())
+    with pytest.raises(InputError):
+        load_image(pdf_path, page=3)
+    del pypdfium2
+
+    from curve2csv.io.labels import rename_series_label
+
+    csv_path = tmp_path / "fig.csv"
+    json_path = tmp_path / "fig.json"
+    csv_path.write_text(
+        "series_id,series_label,kind,x,y,confidence,flags,px,py\ns1,,line,0,1,1,,1,2\n",
+        encoding="utf-8",
+    )
+    json_path.write_text('{"series": [{"series_id": "s1", "label": ""}]}\n', encoding="utf-8")
+    rename_series_label(csv_path, json_path, "s1", "measured")
+    assert "s1,measured,line" in csv_path.read_text(encoding="utf-8")
+    assert '"label": "measured"' in json_path.read_text(encoding="utf-8")
+    with pytest.raises(InputError):
+        rename_series_label(csv_path, json_path, "s1", "a,b")

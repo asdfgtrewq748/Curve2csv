@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `curve2csv extract IMAGE -o DIR` with `--axes` or `--xmin/--xmax/--ymin/--ymax` (optional `--x-log` / `--y-log`).
 - Android debug app (`android/`, Chaquopy, Python 3.10, minSdk 24): photo or gallery, two-tap crop, typed axis endpoints, on-device extract, share CSV. GitHub Actions uploads `curve2csv-debug-apk`.
 - CIELAB and CIEDE2000 in pure NumPy (`color_math.py`) so the core imports on Android, where scikit-image has no wheel.
+- Desktop window (`curve2csv` with no arguments, or `curve2csv gui`): open an image or a PDF page, optional two-click crop, typed axis endpoints, QA overlay, series rename, export. Optional `gui` extra adds PDF rendering and file drop.
+- `curve2csv --headless-smoke IMAGE -o DIR` runs one extract without a window and prints `SMOKE_OK`. GitHub Actions builds a Windows exe with PyInstaller and uploads `curve2csv-windows-exe`.
 
 ### Notes
 

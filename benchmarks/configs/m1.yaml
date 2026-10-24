@@ -1,0 +1,37 @@
+# M1 synthetic benchmark. Thresholds are targets, not claims.
+dataset_version: synth-v0.1
+global_seed: 20261025
+splits:
+  dev: 1000
+  test: 2000
+  smoke: 60
+split_seeds:
+  dev: 2
+  test: 3
+  smoke: 4
+chart_types: [line, line+marker, scatter, bar]
+degradations: [clean, light, medium]
+series_buckets: ["1", "2-3", "4+"]
+gates:
+  plot_area_iou_median: {op: ">=", value: 0.95, subset: all}
+  axis_calib_rel_err_median: {op: "<=", value: 0.005, subset: all}
+  curve_nrmse_clean_median: {op: "<=", value: 1.0, subset: "line/clean"}
+  curve_nrmse_clean_p90: {op: "<=", value: 3.0, subset: "line/clean"}
+  curve_nrmse_light_median: {op: "<=", value: 2.0, subset: "line/light"}
+  x_coverage_clean_unoccluded_median: {op: ">=", value: 0.90, subset: "line/clean/unoccluded"}
+  false_point_rate_median: {op: "<=", value: 0.02, subset: "line/all"}
+  series_match_acc: {op: ">=", value: 0.95, subset: "multi/tab10"}
+  scatter_f1_median: {op: ">=", value: 0.90, subset: "scatter/nonoverlap"}
+  bar_rel_err_median: {op: "<=", value: 0.01, subset: bar}
+  fabrication_count: {op: "==", value: 0, subset: all, hard: true}
+  completeness: {op: "==", value: 1.0, subset: all, hard: true}
+  runtime_s_median: {op: "<=", value: 3.0, subset: "size_ok"}
+regression:
+  relative: 0.10
+  margin_fraction: 0.50
+  metrics:
+    - curve_nrmse_range_median
+    - x_coverage_median
+    - series_match_acc
+    - scatter_f1_median
+    - axis_calib_rel_err_median

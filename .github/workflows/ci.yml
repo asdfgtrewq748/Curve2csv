@@ -28,7 +28,9 @@ jobs:
           python-version: ${{ matrix.python }}
           cache: pip
       - name: Install
-        run: pip install -e ".[dev,bench]"
+        # Floating ruff/mypy releases change format and types under the feet of
+        # the locked benchmark environment. The lock is the CI pin.
+        run: pip install -e ".[dev,bench]" -c benchmarks/requirements.lock
       - name: Lint
         run: |
           ruff check src tests benchmarks
@@ -50,7 +52,9 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Install
-        run: pip install -e ".[dev,bench]"
+        # Floating ruff/mypy releases change format and types under the feet of
+        # the locked benchmark environment. The lock is the CI pin.
+        run: pip install -e ".[dev,bench]" -c benchmarks/requirements.lock
       - name: Full synthetic test split
         run: make bench-test
       - uses: actions/upload-artifact@v4

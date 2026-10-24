@@ -70,8 +70,9 @@ jobs:
           target: aosp_atd
           ram-size: 2048
           emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot
+          # The runner invokes this script with /bin/sh (dash), which has no pipefail.
           script: |
-            set -euo pipefail
+            set -eu
             adb logcat -c
             adb install -r -t apk/*.apk
             timeout 300 adb shell am start -W -n dev.curve2csv/.MainActivity --ez smoke true

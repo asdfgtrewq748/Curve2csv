@@ -1,0 +1,175 @@
+{
+  "slug": "foreign-born-population-of-the-united-states",
+  "split": "dev",
+  "title": "Foreign-born population of the United States",
+  "source_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states",
+  "csv_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states.csv",
+  "svg_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states.svg",
+  "png_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "United States"
+  ],
+  "y_column": "Foreign-born population of the United States",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1850.0,
+    2024.0
+  ],
+  "y_range": [
+    0.0,
+    50000000.0
+  ],
+  "plot_w": 753.54,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "United States": [
+      [
+        1850.0,
+        2244602.0
+      ],
+      [
+        1860.0,
+        4138697.0
+      ],
+      [
+        1870.0,
+        5567229.0
+      ],
+      [
+        1880.0,
+        6679943.0
+      ],
+      [
+        1890.0,
+        9249547.0
+      ],
+      [
+        1900.0,
+        10341276.0
+      ],
+      [
+        1910.0,
+        13515886.0
+      ],
+      [
+        1920.0,
+        13920692.0
+      ],
+      [
+        1930.0,
+        14204149.0
+      ],
+      [
+        1940.0,
+        11594896.0
+      ],
+      [
+        1950.0,
+        10347395.0
+      ],
+      [
+        1960.0,
+        9738091.0
+      ],
+      [
+        1970.0,
+        9619302.0
+      ],
+      [
+        1980.0,
+        14079906.0
+      ],
+      [
+        1990.0,
+        19767316.0
+      ],
+      [
+        2000.0,
+        31107889.0
+      ],
+      [
+        2005.0,
+        35689842.0
+      ],
+      [
+        2006.0,
+        37547789.0
+      ],
+      [
+        2007.0,
+        38059694.0
+      ],
+      [
+        2008.0,
+        37960935.0
+      ],
+      [
+        2009.0,
+        38517234.0
+      ],
+      [
+        2010.0,
+        39955854.0
+      ],
+      [
+        2011.0,
+        40377860.0
+      ],
+      [
+        2012.0,
+        40824658.0
+      ],
+      [
+        2013.0,
+        41348066.0
+      ],
+      [
+        2014.0,
+        42391794.0
+      ],
+      [
+        2015.0,
+        43290372.0
+      ],
+      [
+        2016.0,
+        43739345.0
+      ],
+      [
+        2017.0,
+        44525855.0
+      ],
+      [
+        2018.0,
+        44728721.0
+      ],
+      [
+        2019.0,
+        44932901.0
+      ],
+      [
+        2021.0,
+        45270103.0
+      ],
+      [
+        2022.0,
+        46182177.0
+      ],
+      [
+        2023.0,
+        47831411.0
+      ],
+      [
+        2024.0,
+        50234858.0
+      ]
+    ]
+  }
+}

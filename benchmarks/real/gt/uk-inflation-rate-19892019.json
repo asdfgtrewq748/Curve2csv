@@ -1,0 +1,163 @@
+{
+  "slug": "uk-inflation-rate-19892019",
+  "split": "held-out",
+  "title": "Inflation rate",
+  "source_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019",
+  "csv_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019.csv",
+  "svg_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019.svg",
+  "png_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "United Kingdom"
+  ],
+  "y_column": "CPI Inflation (%)",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1989.0,
+    2020.0
+  ],
+  "y_range": [
+    0.0,
+    8.0
+  ],
+  "plot_w": 668.44,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "United Kingdom": [
+      [
+        1989.0,
+        3.7591937
+      ],
+      [
+        1990.0,
+        5.237595
+      ],
+      [
+        1991.0,
+        6.972683
+      ],
+      [
+        1992.0,
+        7.532649
+      ],
+      [
+        1993.0,
+        4.2615485
+      ],
+      [
+        1994.0,
+        2.5065002
+      ],
+      [
+        1995.0,
+        1.9784902
+      ],
+      [
+        1996.0,
+        2.6564522
+      ],
+      [
+        1997.0,
+        2.4648187
+      ],
+      [
+        1998.0,
+        1.8248596
+      ],
+      [
+        1999.0,
+        1.5571399
+      ],
+      [
+        2000.0,
+        1.3287442
+      ],
+      [
+        2001.0,
+        0.79652286
+      ],
+      [
+        2002.0,
+        1.2332544
+      ],
+      [
+        2003.0,
+        1.2592776
+      ],
+      [
+        2004.0,
+        1.3615575
+      ],
+      [
+        2005.0,
+        1.3435267
+      ],
+      [
+        2006.0,
+        2.0566108
+      ],
+      [
+        2007.0,
+        2.329
+      ],
+      [
+        2008.0,
+        2.322981
+      ],
+      [
+        2009.0,
+        3.601908
+      ],
+      [
+        2010.0,
+        2.165426
+      ],
+      [
+        2011.0,
+        3.2979476
+      ],
+      [
+        2012.0,
+        4.463749
+      ],
+      [
+        2013.0,
+        2.8280957
+      ],
+      [
+        2014.0,
+        2.565112
+      ],
+      [
+        2015.0,
+        1.4608147
+      ],
+      [
+        2016.0,
+        0.4
+      ],
+      [
+        2017.0,
+        2.6
+      ],
+      [
+        2018.0,
+        2.3
+      ],
+      [
+        2019.0,
+        1.7
+      ],
+      [
+        2020.0,
+        1.0
+      ]
+    ]
+  }
+}

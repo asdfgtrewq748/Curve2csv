@@ -1,0 +1,3930 @@
+{
+  "dataset": "owid-grapher-v1",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "seed": 20261025,
+  "split_rule": "dev if int(sha256(slug).hexdigest(), 16) % 5 < 2 else held-out",
+  "accuracy": "A figure is correct when the number of predicted series that still have an unflagged finite point equals the number of ground-truth series, and every Hungarian match has NRMSE <= 2% of the axis range and x-coverage >= 0.90. Flagged or null points are removed before scoring.",
+  "n_figures": 110,
+  "n_dev": 49,
+  "n_held_out": 61,
+  "reject_counts": {
+    "download:RuntimeError": 430,
+    "multi_or_empty_value": 150,
+    "entity_count": 1484,
+    "no_svg_axes": 1352,
+    "not_line_chart": 539,
+    "no_year_entity": 14,
+    "ok": 110,
+    "config:HTTPError": 39,
+    "too_few_points": 8,
+    "values_outside_axis": 2
+  },
+  "figures": [
+    {
+      "slug": "air-passengers-per-fatality",
+      "split": "dev",
+      "title": "Air passengers per fatality",
+      "source_url": "https://ourworldindata.org/grapher/air-passengers-per-fatality",
+      "csv_url": "https://ourworldindata.org/grapher/air-passengers-per-fatality.csv",
+      "svg_url": "https://ourworldindata.org/grapher/air-passengers-per-fatality.svg",
+      "png_url": "https://ourworldindata.org/grapher/air-passengers-per-fatality.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Passengers per fatality",
+      "x_scale": "linear",
+      "y_scale": "log10",
+      "x_range": [
+        1970.0,
+        2022.0
+      ],
+      "y_range": [
+        200000.0,
+        50000000.0
+      ],
+      "plot_w": 688.15,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 50
+      }
+    },
+    {
+      "slug": "annual-fish-catch-taxa",
+      "split": "held-out",
+      "title": "Annual fish catch relative to mean catch",
+      "source_url": "https://ourworldindata.org/grapher/annual-fish-catch-taxa",
+      "csv_url": "https://ourworldindata.org/grapher/annual-fish-catch-taxa.csv",
+      "svg_url": "https://ourworldindata.org/grapher/annual-fish-catch-taxa.svg",
+      "png_url": "https://ourworldindata.org/grapher/annual-fish-catch-taxa.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Mackerels",
+        "Tuna",
+        "Shrimps",
+        "Forage fish",
+        "Other marine fish"
+      ],
+      "y_column": "catch_mean_taxa",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1970.0,
+        2018.0
+      ],
+      "y_range": [
+        0.0,
+        1.6
+      ],
+      "plot_w": 660.88,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Mackerels": 49,
+        "Tuna": 47,
+        "Shrimps": 48,
+        "Forage fish": 49,
+        "Other marine fish": 49
+      }
+    },
+    {
+      "slug": "annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar",
+      "split": "held-out",
+      "title": "People receiving antiretroviral therapy through PEPFAR",
+      "source_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar",
+      "csv_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar.csv",
+      "svg_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar.svg",
+      "png_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Number of people receiving antiretroviral therapy through PEPFAR",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2004.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        20000000.0
+      ],
+      "plot_w": 688.15,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 19
+      }
+    },
+    {
+      "slug": "annual-patents-invention-united-states-1790",
+      "split": "held-out",
+      "title": "Invention patents granted annually in the United States since 1790",
+      "source_url": "https://ourworldindata.org/grapher/annual-patents-invention-united-states-1790",
+      "csv_url": "https://ourworldindata.org/grapher/annual-patents-invention-united-states-1790.csv",
+      "svg_url": "https://ourworldindata.org/grapher/annual-patents-invention-united-states-1790.svg",
+      "png_url": "https://ourworldindata.org/grapher/annual-patents-invention-united-states-1790.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Utility/inventions patents",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1790.0,
+        2020.0
+      ],
+      "y_range": [
+        0.0,
+        350000.0
+      ],
+      "plot_w": 761.91,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 231
+      }
+    },
+    {
+      "slug": "arable-land-pin",
+      "split": "held-out",
+      "title": "Arable land needed to produce a fixed quantity of crops",
+      "source_url": "https://ourworldindata.org/grapher/arable-land-pin",
+      "csv_url": "https://ourworldindata.org/grapher/arable-land-pin.csv",
+      "svg_url": "https://ourworldindata.org/grapher/arable-land-pin.svg",
+      "png_url": "https://ourworldindata.org/grapher/arable-land-pin.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Arable land needed to produce a fixed quantity of crops",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        1.0
+      ],
+      "plot_w": 727.71,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 63
+      }
+    },
+    {
+      "slug": "arctic-sea-ice-coverage-19352014",
+      "split": "dev",
+      "title": "Arctic sea ice coverage",
+      "source_url": "https://ourworldindata.org/grapher/arctic-sea-ice-coverage-19352014",
+      "csv_url": "https://ourworldindata.org/grapher/arctic-sea-ice-coverage-19352014.csv",
+      "svg_url": "https://ourworldindata.org/grapher/arctic-sea-ice-coverage-19352014.svg",
+      "png_url": "https://ourworldindata.org/grapher/arctic-sea-ice-coverage-19352014.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Global"
+      ],
+      "y_column": "Extent of sea ice (millions of square kilometers)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1935.0,
+        2014.0
+      ],
+      "y_range": [
+        0.0,
+        900.0
+      ],
+      "plot_w": 788.51,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Global": 80
+      }
+    },
+    {
+      "slug": "aviation-fatalities-per-million-passengers",
+      "split": "dev",
+      "title": "Global aviation fatalities per million passengers",
+      "source_url": "https://ourworldindata.org/grapher/aviation-fatalities-per-million-passengers",
+      "csv_url": "https://ourworldindata.org/grapher/aviation-fatalities-per-million-passengers.csv",
+      "svg_url": "https://ourworldindata.org/grapher/aviation-fatalities-per-million-passengers.svg",
+      "png_url": "https://ourworldindata.org/grapher/aviation-fatalities-per-million-passengers.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Fatalities per million passengers",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1970.0,
+        2022.0
+      ],
+      "y_range": [
+        0.0,
+        6.0
+      ],
+      "plot_w": 804.17,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 52
+      }
+    },
+    {
+      "slug": "banana-yields",
+      "split": "dev",
+      "title": "Banana yields",
+      "source_url": "https://ourworldindata.org/grapher/banana-yields",
+      "csv_url": "https://ourworldindata.org/grapher/banana-yields.csv",
+      "svg_url": "https://ourworldindata.org/grapher/banana-yields.svg",
+      "png_url": "https://ourworldindata.org/grapher/banana-yields.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Turkey",
+        "South Africa",
+        "Indonesia"
+      ],
+      "y_column": "Bananas - Yield (tonnes per hectare)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        80.0
+      ],
+      "plot_w": 686.26,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Turkey": 64,
+        "South Africa": 64,
+        "Indonesia": 64
+      }
+    },
+    {
+      "slug": "bean-yields",
+      "split": "dev",
+      "title": "Bean yields",
+      "source_url": "https://ourworldindata.org/grapher/bean-yields",
+      "csv_url": "https://ourworldindata.org/grapher/bean-yields.csv",
+      "svg_url": "https://ourworldindata.org/grapher/bean-yields.svg",
+      "png_url": "https://ourworldindata.org/grapher/bean-yields.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Brazil",
+        "United States",
+        "Libya",
+        "South Korea"
+      ],
+      "y_column": "Dry beans - Yield (tonnes per hectare)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        3.5
+      ],
+      "plot_w": 676.14,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Brazil": 64,
+        "United States": 64,
+        "Libya": 59,
+        "South Korea": 64
+      }
+    },
+    {
+      "slug": "biomass-fish-stocks-taxa",
+      "split": "held-out",
+      "title": "Health of fish stocks by fish group",
+      "source_url": "https://ourworldindata.org/grapher/biomass-fish-stocks-taxa",
+      "csv_url": "https://ourworldindata.org/grapher/biomass-fish-stocks-taxa.csv",
+      "svg_url": "https://ourworldindata.org/grapher/biomass-fish-stocks-taxa.svg",
+      "png_url": "https://ourworldindata.org/grapher/biomass-fish-stocks-taxa.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Tuna"
+      ],
+      "y_column": "biomass_mean_taxa",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1970.0,
+        2016.0
+      ],
+      "y_range": [
+        0.0,
+        2.0
+      ],
+      "plot_w": 735.27,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Tuna": 47
+      }
+    },
+    {
+      "slug": "breast-cancer-death-rate-in-women",
+      "split": "held-out",
+      "title": "Breast cancer death rate in women",
+      "source_url": "https://ourworldindata.org/grapher/breast-cancer-death-rate-in-women",
+      "csv_url": "https://ourworldindata.org/grapher/breast-cancer-death-rate-in-women.csv",
+      "svg_url": "https://ourworldindata.org/grapher/breast-cancer-death-rate-in-women.svg",
+      "png_url": "https://ourworldindata.org/grapher/breast-cancer-death-rate-in-women.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States",
+        "Canada",
+        "France",
+        "Italy",
+        "Sweden",
+        "South Africa"
+      ],
+      "y_column": "Age-standardized death rate from breast cancer per 100,000 females",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1950.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        30.0
+      ],
+      "plot_w": 687.75,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 73,
+        "Canada": 75,
+        "France": 74,
+        "Italy": 73,
+        "Sweden": 73,
+        "South Africa": 25
+      }
+    },
+    {
+      "slug": "cases-of-paralytic-polio-from-wild-polioviruses",
+      "split": "held-out",
+      "title": "Reported cases of paralytic polio from wild polioviruses",
+      "source_url": "https://ourworldindata.org/grapher/cases-of-paralytic-polio-from-wild-polioviruses",
+      "csv_url": "https://ourworldindata.org/grapher/cases-of-paralytic-polio-from-wild-polioviruses.csv",
+      "svg_url": "https://ourworldindata.org/grapher/cases-of-paralytic-polio-from-wild-polioviruses.svg",
+      "png_url": "https://ourworldindata.org/grapher/cases-of-paralytic-polio-from-wild-polioviruses.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Afghanistan",
+        "Pakistan",
+        "Nigeria",
+        "Malawi",
+        "India"
+      ],
+      "y_column": "Wild Poliovirus cases",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2001.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        1600.0
+      ],
+      "plot_w": 678.5600000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Afghanistan": 23,
+        "Pakistan": 23,
+        "Nigeria": 23,
+        "Malawi": 23,
+        "India": 23
+      }
+    },
+    {
+      "slug": "cashew-nut-yields",
+      "split": "held-out",
+      "title": "Cashew nut yields",
+      "source_url": "https://ourworldindata.org/grapher/cashew-nut-yields",
+      "csv_url": "https://ourworldindata.org/grapher/cashew-nut-yields.csv",
+      "svg_url": "https://ourworldindata.org/grapher/cashew-nut-yields.svg",
+      "png_url": "https://ourworldindata.org/grapher/cashew-nut-yields.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "China",
+        "Mexico",
+        "Peru",
+        "Mali"
+      ],
+      "y_column": "Cashew nuts - Yield (tonnes per hectare)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1980.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        7.0
+      ],
+      "plot_w": 723.93,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "China": 40,
+        "Mexico": 41,
+        "Peru": 36,
+        "Mali": 34
+      }
+    },
+    {
+      "slug": "cholera-case-fatality-rate",
+      "split": "held-out",
+      "title": "Cholera case-fatality rate",
+      "source_url": "https://ourworldindata.org/grapher/cholera-case-fatality-rate",
+      "csv_url": "https://ourworldindata.org/grapher/cholera-case-fatality-rate.csv",
+      "svg_url": "https://ourworldindata.org/grapher/cholera-case-fatality-rate.svg",
+      "png_url": "https://ourworldindata.org/grapher/cholera-case-fatality-rate.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Cholera case fatality rate",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1949.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        100.0
+      ],
+      "plot_w": 712.32,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 76
+      }
+    },
+    {
+      "slug": "co2-long-term-concentration",
+      "split": "held-out",
+      "title": "Carbon dioxide concentration in the atmosphere",
+      "source_url": "https://ourworldindata.org/grapher/co2-long-term-concentration",
+      "csv_url": "https://ourworldindata.org/grapher/co2-long-term-concentration.csv",
+      "svg_url": "https://ourworldindata.org/grapher/co2-long-term-concentration.svg",
+      "png_url": "https://ourworldindata.org/grapher/co2-long-term-concentration.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Annual average",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        -803719.0,
+        2025.0
+      ],
+      "y_range": [
+        50.0,
+        450.0
+      ],
+      "plot_w": 693.4200000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 1874
+      }
+    },
+    {
+      "slug": "coal-output-per-worker-in-the-united-kingdom",
+      "split": "held-out",
+      "title": "Coal output per worker in the United Kingdom",
+      "source_url": "https://ourworldindata.org/grapher/coal-output-per-worker-in-the-united-kingdom",
+      "csv_url": "https://ourworldindata.org/grapher/coal-output-per-worker-in-the-united-kingdom.csv",
+      "svg_url": "https://ourworldindata.org/grapher/coal-output-per-worker-in-the-united-kingdom.svg",
+      "png_url": "https://ourworldindata.org/grapher/coal-output-per-worker-in-the-united-kingdom.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Coal production per worker",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1873.0,
+        2019.0
+      ],
+      "y_range": [
+        0.0,
+        7000.0
+      ],
+      "plot_w": 644.2700000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 109
+      }
+    },
+    {
+      "slug": "cohort-fertility-rate",
+      "split": "dev",
+      "title": "Completed cohort fertility rate: births per woman",
+      "source_url": "https://ourworldindata.org/grapher/cohort-fertility-rate",
+      "csv_url": "https://ourworldindata.org/grapher/cohort-fertility-rate.csv",
+      "svg_url": "https://ourworldindata.org/grapher/cohort-fertility-rate.svg",
+      "png_url": "https://ourworldindata.org/grapher/cohort-fertility-rate.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States",
+        "England and Wales",
+        "Russia",
+        "Germany",
+        "Japan",
+        "Spain"
+      ],
+      "y_column": "Completed cohort fertility rate",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1907.0,
+        1974.0
+      ],
+      "y_range": [
+        0.0,
+        3.5
+      ],
+      "plot_w": 651.7,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 57,
+        "England and Wales": 50,
+        "Russia": 25,
+        "Germany": 27,
+        "Japan": 43,
+        "Spain": 67
+      }
+    },
+    {
+      "slug": "computer-chess-ability",
+      "split": "dev",
+      "title": "Highest chess rating ever achieved by computers",
+      "source_url": "https://ourworldindata.org/grapher/computer-chess-ability",
+      "csv_url": "https://ourworldindata.org/grapher/computer-chess-ability.csv",
+      "svg_url": "https://ourworldindata.org/grapher/computer-chess-ability.svg",
+      "png_url": "https://ourworldindata.org/grapher/computer-chess-ability.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Computer chess engine"
+      ],
+      "y_column": "Elo rating",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1985.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        3500.0
+      ],
+      "plot_w": 777.57,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Computer chess engine": 35
+      }
+    },
+    {
+      "slug": "cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009",
+      "split": "held-out",
+      "title": "Cost of generating electricity (new capacity) using photovoltaic cells in the US",
+      "source_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009",
+      "csv_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009.csv",
+      "svg_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009.svg",
+      "png_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Cost (2005 $ per kWh)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1976.0,
+        2019.0
+      ],
+      "y_range": [
+        0.0,
+        120.0
+      ],
+      "plot_w": 788.51,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 44
+      }
+    },
+    {
+      "slug": "countries-with-a-signed-bilateral-investment-treaty",
+      "split": "held-out",
+      "title": "Countries with a signed bilateral investment treaty",
+      "source_url": "https://ourworldindata.org/grapher/countries-with-a-signed-bilateral-investment-treaty",
+      "csv_url": "https://ourworldindata.org/grapher/countries-with-a-signed-bilateral-investment-treaty.csv",
+      "svg_url": "https://ourworldindata.org/grapher/countries-with-a-signed-bilateral-investment-treaty.svg",
+      "png_url": "https://ourworldindata.org/grapher/countries-with-a-signed-bilateral-investment-treaty.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Developing regions",
+        "Least Developed Countries (LDCs)"
+      ],
+      "y_column": "17.5.1 - Number of countries with a signed bilateral investment treaty (BIT) with least developed countries and developing countries (Number) - SG_CPA_SIGN_BIT",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1959.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        180.0
+      ],
+      "plot_w": 556.66,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Developing regions": 63,
+        "Least Developed Countries (LDCs)": 63
+      }
+    },
+    {
+      "slug": "countries-with-an-inforce-bilateral-investment-treaty",
+      "split": "held-out",
+      "title": "Countries with an in-force bilateral investment treaty",
+      "source_url": "https://ourworldindata.org/grapher/countries-with-an-inforce-bilateral-investment-treaty",
+      "csv_url": "https://ourworldindata.org/grapher/countries-with-an-inforce-bilateral-investment-treaty.csv",
+      "svg_url": "https://ourworldindata.org/grapher/countries-with-an-inforce-bilateral-investment-treaty.svg",
+      "png_url": "https://ourworldindata.org/grapher/countries-with-an-inforce-bilateral-investment-treaty.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Developing regions",
+        "Least Developed Countries (LDCs)"
+      ],
+      "y_column": "17.5.1 - Number of countries with an in-force bilateral investment treaty (BIT) with least developed countries and developing countries (Number) - SG_CPA_INFORCE_BIT",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1959.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        180.0
+      ],
+      "plot_w": 556.66,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Developing regions": 63,
+        "Least Developed Countries (LDCs)": 63
+      }
+    },
+    {
+      "slug": "crude-death-rate-hmd",
+      "split": "dev",
+      "title": "Crude death rate",
+      "source_url": "https://ourworldindata.org/grapher/crude-death-rate-hmd",
+      "csv_url": "https://ourworldindata.org/grapher/crude-death-rate-hmd.csv",
+      "svg_url": "https://ourworldindata.org/grapher/crude-death-rate-hmd.svg",
+      "png_url": "https://ourworldindata.org/grapher/crude-death-rate-hmd.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Hong Kong",
+        "Sweden",
+        "England and Wales",
+        "Japan",
+        "United States"
+      ],
+      "y_column": "Central death rate",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1751.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        50.0
+      ],
+      "plot_w": 654.94,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Hong Kong": 38,
+        "Sweden": 274,
+        "England and Wales": 182,
+        "Japan": 77,
+        "United States": 91
+      }
+    },
+    {
+      "slug": "cumulative-space-visits",
+      "split": "held-out",
+      "title": "Cumulative number of human visits to space",
+      "source_url": "https://ourworldindata.org/grapher/cumulative-space-visits",
+      "csv_url": "https://ourworldindata.org/grapher/cumulative-space-visits.csv",
+      "svg_url": "https://ourworldindata.org/grapher/cumulative-space-visits.svg",
+      "png_url": "https://ourworldindata.org/grapher/cumulative-space-visits.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World",
+        "United States",
+        "Japan",
+        "Russia"
+      ],
+      "y_column": "Cumulative number of human visits to space",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        1400.0
+      ],
+      "plot_w": 668.98,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 61,
+        "United States": 61,
+        "Japan": 61,
+        "Russia": 61
+      }
+    },
+    {
+      "slug": "daily-per-capita-caloric-supply",
+      "split": "dev",
+      "title": "Daily supply of calories per person",
+      "source_url": "https://ourworldindata.org/grapher/daily-per-capita-caloric-supply",
+      "csv_url": "https://ourworldindata.org/grapher/daily-per-capita-caloric-supply.csv",
+      "svg_url": "https://ourworldindata.org/grapher/daily-per-capita-caloric-supply.svg",
+      "png_url": "https://ourworldindata.org/grapher/daily-per-capita-caloric-supply.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Daily calorie supply per person",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1274.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        3500.0
+      ],
+      "plot_w": 625.7800000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 81
+      }
+    },
+    {
+      "slug": "deaths-and-disappearances-during-migration",
+      "split": "held-out",
+      "title": "Recorded deaths and disappearances during migration",
+      "source_url": "https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration",
+      "csv_url": "https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration.csv",
+      "svg_url": "https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration.svg",
+      "png_url": "https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Total deaths and disappearances recorded during migration (number)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2014.0,
+        2025.0
+      ],
+      "y_range": [
+        0.0,
+        10000.0
+      ],
+      "plot_w": 704.35,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 12
+      }
+    },
+    {
+      "slug": "deaths-from-aids-un",
+      "split": "dev",
+      "title": "HIV/AIDS deaths",
+      "source_url": "https://ourworldindata.org/grapher/deaths-from-aids-un",
+      "csv_url": "https://ourworldindata.org/grapher/deaths-from-aids-un.csv",
+      "svg_url": "https://ourworldindata.org/grapher/deaths-from-aids-un.svg",
+      "png_url": "https://ourworldindata.org/grapher/deaths-from-aids-un.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "AIDS-related deaths",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1990.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        2000000.0
+      ],
+      "plot_w": 684.91,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 32
+      }
+    },
+    {
+      "slug": "deaths-from-smallpox-in-london",
+      "split": "dev",
+      "title": "Smallpox deaths as a share of all deaths in London",
+      "source_url": "https://ourworldindata.org/grapher/deaths-from-smallpox-in-london",
+      "csv_url": "https://ourworldindata.org/grapher/deaths-from-smallpox-in-london.csv",
+      "svg_url": "https://ourworldindata.org/grapher/deaths-from-smallpox-in-london.svg",
+      "png_url": "https://ourworldindata.org/grapher/deaths-from-smallpox-in-london.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Smallpox death rate in London 1629-1902 (OWID, 2017)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1629.0,
+        1902.0
+      ],
+      "y_range": [
+        0.0,
+        18.0
+      ],
+      "plot_w": 660.61,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 240
+      }
+    },
+    {
+      "slug": "difference-in-female-and-male-life-expectancy-at-age-45",
+      "split": "held-out",
+      "title": "Sex gap in life expectancy at age 45",
+      "source_url": "https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45",
+      "csv_url": "https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45.csv",
+      "svg_url": "https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45.svg",
+      "png_url": "https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "France",
+        "United Kingdom",
+        "United States",
+        "Sweden"
+      ],
+      "y_column": "Life expectancy (female-male difference) at 45, period",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1751.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        7.0
+      ],
+      "plot_w": 644.1400000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "France": 208,
+        "United Kingdom": 102,
+        "United States": 91,
+        "Sweden": 273
+      }
+    },
+    {
+      "slug": "different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk",
+      "split": "dev",
+      "title": "Different ways of pushing down the wage-setting curve: the Netherlands and the UK",
+      "source_url": "https://ourworldindata.org/grapher/different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk",
+      "csv_url": "https://ourworldindata.org/grapher/different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk.csv",
+      "svg_url": "https://ourworldindata.org/grapher/different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk.svg",
+      "png_url": "https://ourworldindata.org/grapher/different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom",
+        "Netherlands"
+      ],
+      "y_column": "Unemployment rate (%)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1960.0,
+        2020.0
+      ],
+      "y_range": [
+        0.0,
+        30.0
+      ],
+      "plot_w": 660.61,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 29,
+        "Netherlands": 29
+      }
+    },
+    {
+      "slug": "diphtheria-cases-in-the-united-states",
+      "split": "held-out",
+      "title": "Diphtheria cases in the United States",
+      "source_url": "https://ourworldindata.org/grapher/diphtheria-cases-in-the-united-states",
+      "csv_url": "https://ourworldindata.org/grapher/diphtheria-cases-in-the-united-states.csv",
+      "svg_url": "https://ourworldindata.org/grapher/diphtheria-cases-in-the-united-states.svg",
+      "png_url": "https://ourworldindata.org/grapher/diphtheria-cases-in-the-united-states.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Diphtheria cases",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1937.0,
+        2022.0
+      ],
+      "y_range": [
+        0.0,
+        30000.0
+      ],
+      "plot_w": 661.15,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 85
+      }
+    },
+    {
+      "slug": "electric-car-stocks",
+      "split": "dev",
+      "title": "Electric car stocks",
+      "source_url": "https://ourworldindata.org/grapher/electric-car-stocks",
+      "csv_url": "https://ourworldindata.org/grapher/electric-car-stocks.csv",
+      "svg_url": "https://ourworldindata.org/grapher/electric-car-stocks.svg",
+      "png_url": "https://ourworldindata.org/grapher/electric-car-stocks.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "European Union (27)",
+        "World",
+        "China",
+        "United States"
+      ],
+      "y_column": "Electric car stocks",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2010.0,
+        2025.0
+      ],
+      "y_range": [
+        0.0,
+        80000000.0
+      ],
+      "plot_w": 602.56,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "European Union (27)": 16,
+        "World": 16,
+        "China": 16,
+        "United States": 16
+      }
+    },
+    {
+      "slug": "electricity-air-conditioning",
+      "split": "dev",
+      "title": "Global electricity use for air conditioning",
+      "source_url": "https://ourworldindata.org/grapher/electricity-air-conditioning",
+      "csv_url": "https://ourworldindata.org/grapher/electricity-air-conditioning.csv",
+      "svg_url": "https://ourworldindata.org/grapher/electricity-air-conditioning.svg",
+      "png_url": "https://ourworldindata.org/grapher/electricity-air-conditioning.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Space cooling",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2000.0,
+        2022.0
+      ],
+      "y_range": [
+        0.0,
+        2500.0
+      ],
+      "plot_w": 744.5,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 23
+      }
+    },
+    {
+      "slug": "employment-in-the-coal-industry-in-the-united-kingdom",
+      "split": "dev",
+      "title": "Employment in the coal industry in the United Kingdom",
+      "source_url": "https://ourworldindata.org/grapher/employment-in-the-coal-industry-in-the-united-kingdom",
+      "csv_url": "https://ourworldindata.org/grapher/employment-in-the-coal-industry-in-the-united-kingdom.csv",
+      "svg_url": "https://ourworldindata.org/grapher/employment-in-the-coal-industry-in-the-united-kingdom.svg",
+      "png_url": "https://ourworldindata.org/grapher/employment-in-the-coal-industry-in-the-united-kingdom.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Employment in coal industry",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1873.0,
+        2019.0
+      ],
+      "y_range": [
+        0.0,
+        1200000.0
+      ],
+      "plot_w": 625.37,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 109
+      }
+    },
+    {
+      "slug": "fatal-airliner-accidents-per-million-flights",
+      "split": "held-out",
+      "title": "Fatal airliner accidents per million commercial flights",
+      "source_url": "https://ourworldindata.org/grapher/fatal-airliner-accidents-per-million-flights",
+      "csv_url": "https://ourworldindata.org/grapher/fatal-airliner-accidents-per-million-flights.csv",
+      "svg_url": "https://ourworldindata.org/grapher/fatal-airliner-accidents-per-million-flights.svg",
+      "png_url": "https://ourworldindata.org/grapher/fatal-airliner-accidents-per-million-flights.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Fatal accidents per million commercial flights",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1970.0,
+        2022.0
+      ],
+      "y_range": [
+        0.0,
+        7.0
+      ],
+      "plot_w": 804.17,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 52
+      }
+    },
+    {
+      "slug": "fatality-rates-due-to-lightning-in-the-us",
+      "split": "dev",
+      "title": "Fatality rates due to lightning in the US",
+      "source_url": "https://ourworldindata.org/grapher/fatality-rates-due-to-lightning-in-the-us",
+      "csv_url": "https://ourworldindata.org/grapher/fatality-rates-due-to-lightning-in-the-us.csv",
+      "svg_url": "https://ourworldindata.org/grapher/fatality-rates-due-to-lightning-in-the-us.svg",
+      "png_url": "https://ourworldindata.org/grapher/fatality-rates-due-to-lightning-in-the-us.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Lightning",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1900.0,
+        2015.0
+      ],
+      "y_range": [
+        0.0,
+        7.0
+      ],
+      "plot_w": 804.17,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 116
+      }
+    },
+    {
+      "slug": "fertilizer-total-use",
+      "split": "dev",
+      "title": "Fertilizer consumption",
+      "source_url": "https://ourworldindata.org/grapher/fertilizer-total-use",
+      "csv_url": "https://ourworldindata.org/grapher/fertilizer-total-use.csv",
+      "svg_url": "https://ourworldindata.org/grapher/fertilizer-total-use.svg",
+      "png_url": "https://ourworldindata.org/grapher/fertilizer-total-use.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "All fertilizers use",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        200000000.0
+      ],
+      "plot_w": 671.95,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 63
+      }
+    },
+    {
+      "slug": "fish-catch-uk",
+      "split": "held-out",
+      "title": "Fish catch in the United Kingdom",
+      "source_url": "https://ourworldindata.org/grapher/fish-catch-uk",
+      "csv_url": "https://ourworldindata.org/grapher/fish-catch-uk.csv",
+      "svg_url": "https://ourworldindata.org/grapher/fish-catch-uk.svg",
+      "png_url": "https://ourworldindata.org/grapher/fish-catch-uk.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "England and Wales",
+        "United Kingdom"
+      ],
+      "y_column": "Fish landings",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1889.0,
+        2007.0
+      ],
+      "y_range": [
+        0.0,
+        800000.0
+      ],
+      "plot_w": 612.14,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "England and Wales": 119,
+        "United Kingdom": 119
+      }
+    },
+    {
+      "slug": "fish-discards",
+      "split": "dev",
+      "title": "Fish discards",
+      "source_url": "https://ourworldindata.org/grapher/fish-discards",
+      "csv_url": "https://ourworldindata.org/grapher/fish-discards.csv",
+      "svg_url": "https://ourworldindata.org/grapher/fish-discards.svg",
+      "png_url": "https://ourworldindata.org/grapher/fish-discards.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "discards",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1950.0,
+        2018.0
+      ],
+      "y_range": [
+        0.0,
+        16000000.0
+      ],
+      "plot_w": 679.78,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 69
+      }
+    },
+    {
+      "slug": "foreign-born-population-of-the-united-states",
+      "split": "dev",
+      "title": "Foreign-born population of the United States",
+      "source_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states",
+      "csv_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states.csv",
+      "svg_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states.svg",
+      "png_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Foreign-born population of the United States",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1850.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        50000000.0
+      ],
+      "plot_w": 753.54,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 35
+      }
+    },
+    {
+      "slug": "global-commodity-prices-19602019",
+      "split": "held-out",
+      "title": "Global commodity prices",
+      "source_url": "https://ourworldindata.org/grapher/global-commodity-prices-19602019",
+      "csv_url": "https://ourworldindata.org/grapher/global-commodity-prices-19602019.csv",
+      "svg_url": "https://ourworldindata.org/grapher/global-commodity-prices-19602019.svg",
+      "png_url": "https://ourworldindata.org/grapher/global-commodity-prices-19602019.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "World Bank Commodity Price Index (2010 = 100)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1960.0,
+        2020.0
+      ],
+      "y_range": [
+        0.0,
+        120.0
+      ],
+      "plot_w": 723.12,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 61
+      }
+    },
+    {
+      "slug": "global-death-rate-in-violent-political-conflicts-over-the-long-run",
+      "split": "held-out",
+      "title": "Global death rate in violent political conflicts over the long run",
+      "source_url": "https://ourworldindata.org/grapher/global-death-rate-in-violent-political-conflicts-over-the-long-run",
+      "csv_url": "https://ourworldindata.org/grapher/global-death-rate-in-violent-political-conflicts-over-the-long-run.csv",
+      "svg_url": "https://ourworldindata.org/grapher/global-death-rate-in-violent-political-conflicts-over-the-long-run.svg",
+      "png_url": "https://ourworldindata.org/grapher/global-death-rate-in-violent-political-conflicts-over-the-long-run.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Death rate in ongoing conflicts - Conflict type: all",
+      "x_scale": "linear",
+      "y_scale": "log10",
+      "x_range": [
+        1400.0,
+        2000.0
+      ],
+      "y_range": [
+        0.1,
+        100.0
+      ],
+      "plot_w": 788.51,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 574
+      }
+    },
+    {
+      "slug": "global-deaths-in-violent-political-conflicts-over-the-long-run",
+      "split": "dev",
+      "title": "Global deaths in violent political conflicts over the long run",
+      "source_url": "https://ourworldindata.org/grapher/global-deaths-in-violent-political-conflicts-over-the-long-run",
+      "csv_url": "https://ourworldindata.org/grapher/global-deaths-in-violent-political-conflicts-over-the-long-run.csv",
+      "svg_url": "https://ourworldindata.org/grapher/global-deaths-in-violent-political-conflicts-over-the-long-run.svg",
+      "png_url": "https://ourworldindata.org/grapher/global-deaths-in-violent-political-conflicts-over-the-long-run.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Deaths in ongoing conflicts - Conflict type: all",
+      "x_scale": "linear",
+      "y_scale": "log10",
+      "x_range": [
+        1400.0,
+        2000.0
+      ],
+      "y_range": [
+        100.0,
+        1000000.0
+      ],
+      "plot_w": 761.37,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 582
+      }
+    },
+    {
+      "slug": "global-plastics-production",
+      "split": "dev",
+      "title": "Global plastics production",
+      "source_url": "https://ourworldindata.org/grapher/global-plastics-production",
+      "csv_url": "https://ourworldindata.org/grapher/global-plastics-production.csv",
+      "svg_url": "https://ourworldindata.org/grapher/global-plastics-production.svg",
+      "png_url": "https://ourworldindata.org/grapher/global-plastics-production.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Annual plastic production between 1950 and 2019",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1950.0,
+        2019.0
+      ],
+      "y_range": [
+        0.0,
+        500000000.0
+      ],
+      "plot_w": 737.34,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 69
+      }
+    },
+    {
+      "slug": "global-smallpox-cases",
+      "split": "held-out",
+      "title": "Smallpox cases reported worldwide",
+      "source_url": "https://ourworldindata.org/grapher/global-smallpox-cases",
+      "csv_url": "https://ourworldindata.org/grapher/global-smallpox-cases.csv",
+      "svg_url": "https://ourworldindata.org/grapher/global-smallpox-cases.svg",
+      "png_url": "https://ourworldindata.org/grapher/global-smallpox-cases.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Reported Smallpox Cases (WHO, 2011)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1920.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        700000.0
+      ],
+      "plot_w": 696.52,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 104
+      }
+    },
+    {
+      "slug": "growth-of-global-trade",
+      "split": "held-out",
+      "title": "Growth of global trade",
+      "source_url": "https://ourworldindata.org/grapher/growth-of-global-trade",
+      "csv_url": "https://ourworldindata.org/grapher/growth-of-global-trade.csv",
+      "svg_url": "https://ourworldindata.org/grapher/growth-of-global-trade.svg",
+      "png_url": "https://ourworldindata.org/grapher/growth-of-global-trade.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Trade volume index",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1800.0,
+        2025.0
+      ],
+      "y_range": [
+        0.0,
+        2500.0
+      ],
+      "plot_w": 777.57,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 215
+      }
+    },
+    {
+      "slug": "heat-wave-index-usa",
+      "split": "held-out",
+      "title": "Annual Heat Wave Index in the United States",
+      "source_url": "https://ourworldindata.org/grapher/heat-wave-index-usa",
+      "csv_url": "https://ourworldindata.org/grapher/heat-wave-index-usa.csv",
+      "svg_url": "https://ourworldindata.org/grapher/heat-wave-index-usa.svg",
+      "png_url": "https://ourworldindata.org/grapher/heat-wave-index-usa.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Heatwave Index",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1895.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        1.4
+      ],
+      "plot_w": 684.51,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 127
+      }
+    },
+    {
+      "slug": "hepb3-number-unvaccinated",
+      "split": "held-out",
+      "title": "Number of one-year-olds who are not fully vaccinated against hepatitis B",
+      "source_url": "https://ourworldindata.org/grapher/hepb3-number-unvaccinated",
+      "csv_url": "https://ourworldindata.org/grapher/hepb3-number-unvaccinated.csv",
+      "svg_url": "https://ourworldindata.org/grapher/hepb3-number-unvaccinated.svg",
+      "png_url": "https://ourworldindata.org/grapher/hepb3-number-unvaccinated.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Hepatitis B (HepB3)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1985.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        140000000.0
+      ],
+      "plot_w": 680.32,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 39
+      }
+    },
+    {
+      "slug": "homicide-rates-across-western-europe",
+      "split": "dev",
+      "title": "Homicide rates over the long term",
+      "source_url": "https://ourworldindata.org/grapher/homicide-rates-across-western-europe",
+      "csv_url": "https://ourworldindata.org/grapher/homicide-rates-across-western-europe.csv",
+      "svg_url": "https://ourworldindata.org/grapher/homicide-rates-across-western-europe.svg",
+      "png_url": "https://ourworldindata.org/grapher/homicide-rates-across-western-europe.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Spain",
+        "France",
+        "Germany",
+        "England and Wales",
+        "Italy"
+      ],
+      "y_column": "Homicide rate per 100,000 population - Eisner and WHO Mortality Database",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1250.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        70.0
+      ],
+      "plot_w": 654.94,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Spain": 85,
+        "France": 85,
+        "Germany": 50,
+        "England and Wales": 16,
+        "Italy": 85
+      }
+    },
+    {
+      "slug": "incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49",
+      "split": "dev",
+      "title": "New infections of HIV per 1,000 people",
+      "source_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49",
+      "csv_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49.csv",
+      "svg_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49.svg",
+      "png_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "New infections of HIV per 1,000 people",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1990.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        1.0
+      ],
+      "plot_w": 727.71,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 35
+      }
+    },
+    {
+      "slug": "india-government-debt-as-a-percentage-of-gdp-19802019",
+      "split": "held-out",
+      "title": "Government debt as a percentage of GDP in India",
+      "source_url": "https://ourworldindata.org/grapher/india-government-debt-as-a-percentage-of-gdp-19802019",
+      "csv_url": "https://ourworldindata.org/grapher/india-government-debt-as-a-percentage-of-gdp-19802019.csv",
+      "svg_url": "https://ourworldindata.org/grapher/india-government-debt-as-a-percentage-of-gdp-19802019.svg",
+      "png_url": "https://ourworldindata.org/grapher/india-government-debt-as-a-percentage-of-gdp-19802019.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "India"
+      ],
+      "y_column": "Government debt (% of GDP)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1980.0,
+        2019.0
+      ],
+      "y_range": [
+        40.0,
+        100.0
+      ],
+      "plot_w": 720.82,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "India": 40
+      }
+    },
+    {
+      "slug": "indian-rhinos",
+      "split": "held-out",
+      "title": "Indian rhino population",
+      "source_url": "https://ourworldindata.org/grapher/indian-rhinos",
+      "csv_url": "https://ourworldindata.org/grapher/indian-rhinos.csv",
+      "svg_url": "https://ourworldindata.org/grapher/indian-rhinos.svg",
+      "png_url": "https://ourworldindata.org/grapher/indian-rhinos.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Indian Rhino",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1910.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        4000.0
+      ],
+      "plot_w": 712.1800000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 14
+      }
+    },
+    {
+      "slug": "international-capital-flows",
+      "split": "dev",
+      "title": "International capital flows",
+      "source_url": "https://ourworldindata.org/grapher/international-capital-flows",
+      "csv_url": "https://ourworldindata.org/grapher/international-capital-flows.csv",
+      "svg_url": "https://ourworldindata.org/grapher/international-capital-flows.svg",
+      "png_url": "https://ourworldindata.org/grapher/international-capital-flows.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Average absolute current account balances (15 countries, as a % of GDP)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1872.0,
+        2017.0
+      ],
+      "y_range": [
+        0.0,
+        7.0
+      ],
+      "plot_w": 727.98,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 30
+      }
+    },
+    {
+      "slug": "interpersonal-trust-in-the-us",
+      "split": "dev",
+      "title": "Interpersonal trust in the United States",
+      "source_url": "https://ourworldindata.org/grapher/interpersonal-trust-in-the-us",
+      "csv_url": "https://ourworldindata.org/grapher/interpersonal-trust-in-the-us.csv",
+      "svg_url": "https://ourworldindata.org/grapher/interpersonal-trust-in-the-us.svg",
+      "png_url": "https://ourworldindata.org/grapher/interpersonal-trust-in-the-us.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Interpersonal Trust (%)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1972.0,
+        2018.0
+      ],
+      "y_range": [
+        0.0,
+        50.0
+      ],
+      "plot_w": 676.9499999999999,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 28
+      }
+    },
+    {
+      "slug": "javan-rhinos",
+      "split": "held-out",
+      "title": "Javan rhino population",
+      "source_url": "https://ourworldindata.org/grapher/javan-rhinos",
+      "csv_url": "https://ourworldindata.org/grapher/javan-rhinos.csv",
+      "svg_url": "https://ourworldindata.org/grapher/javan-rhinos.svg",
+      "png_url": "https://ourworldindata.org/grapher/javan-rhinos.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Javan Rhino",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1965.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        80.0
+      ],
+      "plot_w": 730.95,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 16
+      }
+    },
+    {
+      "slug": "labor-force-participation-rate-of-men-65-years-and-older-in-the-usa",
+      "split": "held-out",
+      "title": "Labor force participation rate of men aged 65+ in the United States",
+      "source_url": "https://ourworldindata.org/grapher/labor-force-participation-rate-of-men-65-years-and-older-in-the-usa",
+      "csv_url": "https://ourworldindata.org/grapher/labor-force-participation-rate-of-men-65-years-and-older-in-the-usa.csv",
+      "svg_url": "https://ourworldindata.org/grapher/labor-force-participation-rate-of-men-65-years-and-older-in-the-usa.svg",
+      "png_url": "https://ourworldindata.org/grapher/labor-force-participation-rate-of-men-65-years-and-older-in-the-usa.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Labor Force Participation Rate in the US of men 65 and older",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1850.0,
+        2015.0
+      ],
+      "y_range": [
+        0.0,
+        80.0
+      ],
+      "plot_w": 676.9499999999999,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 30
+      }
+    },
+    {
+      "slug": "labor-productivity-agriculture-sweden",
+      "split": "dev",
+      "title": "Labor productivity in agriculture (GDP/worker)",
+      "source_url": "https://ourworldindata.org/grapher/labor-productivity-agriculture-sweden",
+      "csv_url": "https://ourworldindata.org/grapher/labor-productivity-agriculture-sweden.csv",
+      "svg_url": "https://ourworldindata.org/grapher/labor-productivity-agriculture-sweden.svg",
+      "png_url": "https://ourworldindata.org/grapher/labor-productivity-agriculture-sweden.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Sweden"
+      ],
+      "y_column": "Labor Productivity (GDP/worker) (Scho\u0308n and Krantz (2007, 2012, 2015))",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1850.0,
+        2010.0
+      ],
+      "y_range": [
+        0.0,
+        10000.0
+      ],
+      "plot_w": 769.74,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Sweden": 161
+      }
+    },
+    {
+      "slug": "labor-productivity-per-hour",
+      "split": "dev",
+      "title": "Productivity per hour of work in the UK",
+      "source_url": "https://ourworldindata.org/grapher/labor-productivity-per-hour",
+      "csv_url": "https://ourworldindata.org/grapher/labor-productivity-per-hour.csv",
+      "svg_url": "https://ourworldindata.org/grapher/labor-productivity-per-hour.svg",
+      "png_url": "https://ourworldindata.org/grapher/labor-productivity-per-hour.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Labor productivity per hour (2013=100)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1760.0,
+        2016.0
+      ],
+      "y_range": [
+        0.0,
+        100.0
+      ],
+      "plot_w": 663.58,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 257
+      }
+    },
+    {
+      "slug": "land-natural-share",
+      "split": "held-out",
+      "title": "Share of land defined as natural habitat",
+      "source_url": "https://ourworldindata.org/grapher/land-natural-share",
+      "csv_url": "https://ourworldindata.org/grapher/land-natural-share.csv",
+      "svg_url": "https://ourworldindata.org/grapher/land-natural-share.svg",
+      "png_url": "https://ourworldindata.org/grapher/land-natural-share.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom",
+        "World",
+        "France",
+        "Germany"
+      ],
+      "y_column": "natural_ha_share",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1780.0,
+        2010.0
+      ],
+      "y_range": [
+        0.0,
+        80.0
+      ],
+      "plot_w": 660.61,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 24,
+        "World": 24,
+        "France": 24,
+        "Germany": 24
+      }
+    },
+    {
+      "slug": "land-use-agriculture-longterm",
+      "split": "held-out",
+      "title": "Land used for agriculture",
+      "source_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm",
+      "csv_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm.csv",
+      "svg_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm.svg",
+      "png_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "agriculture_ha",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1780.0,
+        2010.0
+      ],
+      "y_range": [
+        0.0,
+        5000000000.0
+      ],
+      "plot_w": 681.6700000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 24
+      }
+    },
+    {
+      "slug": "long-term-cod-catch",
+      "split": "held-out",
+      "title": "Five centuries of cod catches in Eastern Canada",
+      "source_url": "https://ourworldindata.org/grapher/long-term-cod-catch",
+      "csv_url": "https://ourworldindata.org/grapher/long-term-cod-catch.csv",
+      "svg_url": "https://ourworldindata.org/grapher/long-term-cod-catch.svg",
+      "png_url": "https://ourworldindata.org/grapher/long-term-cod-catch.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Eastern Canada"
+      ],
+      "y_column": "Northern Atlantic cod catch",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1508.0,
+        2019.0
+      ],
+      "y_range": [
+        0.0,
+        800000.0
+      ],
+      "plot_w": 632.8,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Eastern Canada": 512
+      }
+    },
+    {
+      "slug": "macroplastics-in-ocean",
+      "split": "dev",
+      "title": "Macroplastics in the surface ocean",
+      "source_url": "https://ourworldindata.org/grapher/macroplastics-in-ocean",
+      "csv_url": "https://ourworldindata.org/grapher/macroplastics-in-ocean.csv",
+      "svg_url": "https://ourworldindata.org/grapher/macroplastics-in-ocean.svg",
+      "png_url": "https://ourworldindata.org/grapher/macroplastics-in-ocean.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Emissions growth to 2050",
+        "Emissions level to 2020",
+        "Emissions stop in 2020"
+      ],
+      "y_column": "Macroplastics (>0.5cm)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1950.0,
+        2050.0
+      ],
+      "y_range": [
+        0.0,
+        4000000.0
+      ],
+      "plot_w": 558.8199999999999,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Emissions growth to 2050": 101,
+        "Emissions level to 2020": 101,
+        "Emissions stop in 2020": 101
+      }
+    },
+    {
+      "slug": "maize-production",
+      "split": "held-out",
+      "title": "Corn production",
+      "source_url": "https://ourworldindata.org/grapher/maize-production",
+      "csv_url": "https://ourworldindata.org/grapher/maize-production.csv",
+      "svg_url": "https://ourworldindata.org/grapher/maize-production.svg",
+      "png_url": "https://ourworldindata.org/grapher/maize-production.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States",
+        "China",
+        "India",
+        "European Union (27)",
+        "Russia"
+      ],
+      "y_column": "Maize (corn) - Production (tonnes)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        400000000.0
+      ],
+      "plot_w": 586.36,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 63,
+        "China": 64,
+        "India": 64,
+        "European Union (27)": 64,
+        "Russia": 33
+      }
+    },
+    {
+      "slug": "marriage-rate-per-1000-inhabitants",
+      "split": "held-out",
+      "title": "Marriage rates",
+      "source_url": "https://ourworldindata.org/grapher/marriage-rate-per-1000-inhabitants",
+      "csv_url": "https://ourworldindata.org/grapher/marriage-rate-per-1000-inhabitants.csv",
+      "svg_url": "https://ourworldindata.org/grapher/marriage-rate-per-1000-inhabitants.svg",
+      "png_url": "https://ourworldindata.org/grapher/marriage-rate-per-1000-inhabitants.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States",
+        "United Kingdom",
+        "South Korea",
+        "Mexico",
+        "Poland"
+      ],
+      "y_column": "Crude marriage rate",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1886.0,
+        2022.0
+      ],
+      "y_range": [
+        0.0,
+        16.0
+      ],
+      "plot_w": 671.4100000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 127,
+        "United Kingdom": 58,
+        "South Korea": 53,
+        "Mexico": 36,
+        "Poland": 63
+      }
+    },
+    {
+      "slug": "material-footprint-per-capita",
+      "split": "held-out",
+      "title": "Material footprint per capita",
+      "source_url": "https://ourworldindata.org/grapher/material-footprint-per-capita",
+      "csv_url": "https://ourworldindata.org/grapher/material-footprint-per-capita.csv",
+      "svg_url": "https://ourworldindata.org/grapher/material-footprint-per-capita.svg",
+      "png_url": "https://ourworldindata.org/grapher/material-footprint-per-capita.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Material footprint per capita, by type of raw material (tonnes) - Total or no breakdown",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2000.0,
+        2022.0
+      ],
+      "y_range": [
+        0.0,
+        14.0
+      ],
+      "plot_w": 722.58,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 23
+      }
+    },
+    {
+      "slug": "mention-of-the-word-capitalism-in-new-york-times-articles",
+      "split": "held-out",
+      "title": "Mention of the word \u2018capitalism\u2019 in New York Times articles",
+      "source_url": "https://ourworldindata.org/grapher/mention-of-the-word-capitalism-in-new-york-times-articles",
+      "csv_url": "https://ourworldindata.org/grapher/mention-of-the-word-capitalism-in-new-york-times-articles.csv",
+      "svg_url": "https://ourworldindata.org/grapher/mention-of-the-word-capitalism-in-new-york-times-articles.svg",
+      "png_url": "https://ourworldindata.org/grapher/mention-of-the-word-capitalism-in-new-york-times-articles.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Percentage of articles",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1851.0,
+        2016.0
+      ],
+      "y_range": [
+        0.0,
+        1.6
+      ],
+      "plot_w": 782.3,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 166
+      }
+    },
+    {
+      "slug": "microplastics-in-ocean",
+      "split": "held-out",
+      "title": "Microplastics in the surface ocean",
+      "source_url": "https://ourworldindata.org/grapher/microplastics-in-ocean",
+      "csv_url": "https://ourworldindata.org/grapher/microplastics-in-ocean.csv",
+      "svg_url": "https://ourworldindata.org/grapher/microplastics-in-ocean.svg",
+      "png_url": "https://ourworldindata.org/grapher/microplastics-in-ocean.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Emissions growth to 2050",
+        "Emissions level to 2020",
+        "Emissions stop in 2020"
+      ],
+      "y_column": "Microplastics (<0.5cm)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1950.0,
+        2050.0
+      ],
+      "y_range": [
+        0.0,
+        3000000.0
+      ],
+      "plot_w": 558.8199999999999,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Emissions growth to 2050": 101,
+        "Emissions level to 2020": 101,
+        "Emissions stop in 2020": 101
+      }
+    },
+    {
+      "slug": "natural-resource-rents",
+      "split": "dev",
+      "title": "Total natural resource rents",
+      "source_url": "https://ourworldindata.org/grapher/natural-resource-rents",
+      "csv_url": "https://ourworldindata.org/grapher/natural-resource-rents.csv",
+      "svg_url": "https://ourworldindata.org/grapher/natural-resource-rents.svg",
+      "png_url": "https://ourworldindata.org/grapher/natural-resource-rents.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Total natural resources rents (% of GDP)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1970.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        7.0
+      ],
+      "plot_w": 727.98,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 52
+      }
+    },
+    {
+      "slug": "new-reported-cases-tetanus",
+      "split": "held-out",
+      "title": "Number of confirmed cases of tetanus",
+      "source_url": "https://ourworldindata.org/grapher/new-reported-cases-tetanus",
+      "csv_url": "https://ourworldindata.org/grapher/new-reported-cases-tetanus.csv",
+      "svg_url": "https://ourworldindata.org/grapher/new-reported-cases-tetanus.svg",
+      "png_url": "https://ourworldindata.org/grapher/new-reported-cases-tetanus.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Confirmed tetanus cases (WHO)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1980.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        120000.0
+      ],
+      "plot_w": 696.52,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 45
+      }
+    },
+    {
+      "slug": "nitrous-oxide-long",
+      "split": "held-out",
+      "title": "Concentration of nitrous oxide in the atmosphere",
+      "source_url": "https://ourworldindata.org/grapher/nitrous-oxide-long",
+      "csv_url": "https://ourworldindata.org/grapher/nitrous-oxide-long.csv",
+      "svg_url": "https://ourworldindata.org/grapher/nitrous-oxide-long.svg",
+      "png_url": "https://ourworldindata.org/grapher/nitrous-oxide-long.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Annual average",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        -796475.0,
+        2025.0
+      ],
+      "y_range": [
+        180.0,
+        340.0
+      ],
+      "plot_w": 689.91,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 937
+      }
+    },
+    {
+      "slug": "northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c",
+      "split": "dev",
+      "title": "Northern hemisphere temperatures over the long run, deviation from 1951-1990 mean temperature",
+      "source_url": "https://ourworldindata.org/grapher/northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c",
+      "csv_url": "https://ourworldindata.org/grapher/northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c.csv",
+      "svg_url": "https://ourworldindata.org/grapher/northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c.svg",
+      "png_url": "https://ourworldindata.org/grapher/northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Global"
+      ],
+      "y_column": "Deviation from 1951-1990 average temperature",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1000.0,
+        2019.0
+      ],
+      "y_range": [
+        -0.8,
+        1.2
+      ],
+      "plot_w": 703.67,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Global": 1020
+      }
+    },
+    {
+      "slug": "northern-white-rhinos",
+      "split": "held-out",
+      "title": "Northern white rhino population",
+      "source_url": "https://ourworldindata.org/grapher/northern-white-rhinos",
+      "csv_url": "https://ourworldindata.org/grapher/northern-white-rhinos.csv",
+      "svg_url": "https://ourworldindata.org/grapher/northern-white-rhinos.svg",
+      "png_url": "https://ourworldindata.org/grapher/northern-white-rhinos.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Northern White Rhino",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1960.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        2500.0
+      ],
+      "plot_w": 712.1800000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 17
+      }
+    },
+    {
+      "slug": "number-of-child-deaths-unwpp",
+      "split": "held-out",
+      "title": "Number of children who die before age 5",
+      "source_url": "https://ourworldindata.org/grapher/number-of-child-deaths-unwpp",
+      "csv_url": "https://ourworldindata.org/grapher/number-of-child-deaths-unwpp.csv",
+      "svg_url": "https://ourworldindata.org/grapher/number-of-child-deaths-unwpp.svg",
+      "png_url": "https://ourworldindata.org/grapher/number-of-child-deaths-unwpp.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Number of children who die before age 5",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1950.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        25000000.0
+      ],
+      "plot_w": 688.15,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 74
+      }
+    },
+    {
+      "slug": "number-of-countries-having-implemented-a-vat",
+      "split": "dev",
+      "title": "Number of countries having implemented value added taxes",
+      "source_url": "https://ourworldindata.org/grapher/number-of-countries-having-implemented-a-vat",
+      "csv_url": "https://ourworldindata.org/grapher/number-of-countries-having-implemented-a-vat.csv",
+      "svg_url": "https://ourworldindata.org/grapher/number-of-countries-having-implemented-a-vat.svg",
+      "png_url": "https://ourworldindata.org/grapher/number-of-countries-having-implemented-a-vat.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Countries with VAT"
+      ],
+      "y_column": "Number of Countries with VAT",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1960.0,
+        2016.0
+      ],
+      "y_range": [
+        0.0,
+        180.0
+      ],
+      "plot_w": 788.51,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Countries with VAT": 47
+      }
+    },
+    {
+      "slug": "number-of-natural-disaster-events",
+      "split": "held-out",
+      "title": "Number of reported natural disaster events",
+      "source_url": "https://ourworldindata.org/grapher/number-of-natural-disaster-events",
+      "csv_url": "https://ourworldindata.org/grapher/number-of-natural-disaster-events.csv",
+      "svg_url": "https://ourworldindata.org/grapher/number-of-natural-disaster-events.svg",
+      "png_url": "https://ourworldindata.org/grapher/number-of-natural-disaster-events.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "All disasters"
+      ],
+      "y_column": "Disasters",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1900.0,
+        2025.0
+      ],
+      "y_range": [
+        0.0,
+        500.0
+      ],
+      "plot_w": 689.5,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "All disasters": 126
+      }
+    },
+    {
+      "slug": "number-of-patents-through-the-industrial-revolution",
+      "split": "dev",
+      "title": "Annual patents granted in Great Britain during the Industrial Revolution",
+      "source_url": "https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution",
+      "csv_url": "https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution.csv",
+      "svg_url": "https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution.svg",
+      "png_url": "https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "England",
+        "Ireland",
+        "Scotland"
+      ],
+      "y_column": "Number of patents awarded",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1700.0,
+        1851.0
+      ],
+      "y_range": [
+        0.0,
+        600.0
+      ],
+      "plot_w": 709.08,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "England": 152,
+        "Ireland": 152,
+        "Scotland": 152
+      }
+    },
+    {
+      "slug": "number-un-peacekeeping-missions",
+      "split": "held-out",
+      "title": "Number of active United Nations peacekeeping missions",
+      "source_url": "https://ourworldindata.org/grapher/number-un-peacekeeping-missions",
+      "csv_url": "https://ourworldindata.org/grapher/number-un-peacekeeping-missions.csv",
+      "svg_url": "https://ourworldindata.org/grapher/number-un-peacekeeping-missions.svg",
+      "png_url": "https://ourworldindata.org/grapher/number-un-peacekeeping-missions.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Number of peacekeeping missions",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1947.0,
+        2022.0
+      ],
+      "y_range": [
+        0.0,
+        20.0
+      ],
+      "plot_w": 796.34,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 75
+      }
+    },
+    {
+      "slug": "ozone-depleting-substance-emissions",
+      "split": "dev",
+      "title": "Ozone-depleting substance emissions",
+      "source_url": "https://ourworldindata.org/grapher/ozone-depleting-substance-emissions",
+      "csv_url": "https://ourworldindata.org/grapher/ozone-depleting-substance-emissions.csv",
+      "svg_url": "https://ourworldindata.org/grapher/ozone-depleting-substance-emissions.svg",
+      "png_url": "https://ourworldindata.org/grapher/ozone-depleting-substance-emissions.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Natural emissions",
+        "Total emissions"
+      ],
+      "y_column": "Ozone-depleting substance emissions (Scientific Assessment 2014)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2014.0
+      ],
+      "y_range": [
+        0.0,
+        1600000.0
+      ],
+      "plot_w": 573.0,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Natural emissions": 54,
+        "Total emissions": 54
+      }
+    },
+    {
+      "slug": "ozone-depleting-substances-index",
+      "split": "held-out",
+      "title": "Change in the consumption of ozone-depleting substances",
+      "source_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index",
+      "csv_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index.csv",
+      "svg_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index.svg",
+      "png_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Consumption of controlled substance (relative to 1986) - Chemical: All (Ozone-depleting)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1986.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        140.0
+      ],
+      "plot_w": 723.12,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 34
+      }
+    },
+    {
+      "slug": "palm-oil-production",
+      "split": "dev",
+      "title": "Oil palm production",
+      "source_url": "https://ourworldindata.org/grapher/palm-oil-production",
+      "csv_url": "https://ourworldindata.org/grapher/palm-oil-production.csv",
+      "svg_url": "https://ourworldindata.org/grapher/palm-oil-production.svg",
+      "png_url": "https://ourworldindata.org/grapher/palm-oil-production.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Palm oil - Production (tonnes)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        80000000.0
+      ],
+      "plot_w": 679.78,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 63
+      }
+    },
+    {
+      "slug": "percentage-of-persons-without-health-insurance-coverage-us",
+      "split": "held-out",
+      "title": "Percentage of people without health insurance in the United States",
+      "source_url": "https://ourworldindata.org/grapher/percentage-of-persons-without-health-insurance-coverage-us",
+      "csv_url": "https://ourworldindata.org/grapher/percentage-of-persons-without-health-insurance-coverage-us.csv",
+      "svg_url": "https://ourworldindata.org/grapher/percentage-of-persons-without-health-insurance-coverage-us.svg",
+      "png_url": "https://ourworldindata.org/grapher/percentage-of-persons-without-health-insurance-coverage-us.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Percentage of persons without health insurance (%)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1963.0,
+        2015.0
+      ],
+      "y_range": [
+        0.0,
+        25.0
+      ],
+      "plot_w": 785.54,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 39
+      }
+    },
+    {
+      "slug": "population-growth-rate",
+      "split": "held-out",
+      "title": "World population growth",
+      "source_url": "https://ourworldindata.org/grapher/population-growth-rate",
+      "csv_url": "https://ourworldindata.org/grapher/population-growth-rate.csv",
+      "svg_url": "https://ourworldindata.org/grapher/population-growth-rate.svg",
+      "png_url": "https://ourworldindata.org/grapher/population-growth-rate.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Population growth rate",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1700.0,
+        2100.0
+      ],
+      "y_range": [
+        -0.5,
+        2.5
+      ],
+      "plot_w": 711.91,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 163
+      }
+    },
+    {
+      "slug": "population-of-england-millennium",
+      "split": "dev",
+      "title": "Population of England over history",
+      "source_url": "https://ourworldindata.org/grapher/population-of-england-millennium",
+      "csv_url": "https://ourworldindata.org/grapher/population-of-england-millennium.csv",
+      "svg_url": "https://ourworldindata.org/grapher/population-of-england-millennium.svg",
+      "png_url": "https://ourworldindata.org/grapher/population-of-england-millennium.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Population (England)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1086.0,
+        2016.0
+      ],
+      "y_range": [
+        0.0,
+        60000000.0
+      ],
+      "plot_w": 753.54,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 931
+      }
+    },
+    {
+      "slug": "population-unwpp",
+      "split": "dev",
+      "title": "Population",
+      "source_url": "https://ourworldindata.org/grapher/population-unwpp",
+      "csv_url": "https://ourworldindata.org/grapher/population-unwpp.csv",
+      "svg_url": "https://ourworldindata.org/grapher/population-unwpp.svg",
+      "png_url": "https://ourworldindata.org/grapher/population-unwpp.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "China",
+        "India",
+        "United States"
+      ],
+      "y_column": "Population (historical estimates)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1950.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        1400000000.0
+      ],
+      "plot_w": 637.12,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "China": 74,
+        "India": 73,
+        "United States": 74
+      }
+    },
+    {
+      "slug": "prevalence-of-undernourishment-in-developing-countries-since-1970",
+      "split": "held-out",
+      "title": "Share of people who are undernourished in developing countries",
+      "source_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970",
+      "csv_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970.csv",
+      "svg_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970.svg",
+      "png_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Developing countries"
+      ],
+      "y_column": "Prevalence of undernourishment in developing countries",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1970.0,
+        2015.0
+      ],
+      "y_range": [
+        0.0,
+        35.0
+      ],
+      "plot_w": 630.91,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Developing countries": 27
+      }
+    },
+    {
+      "slug": "public-trust-in-government",
+      "split": "dev",
+      "title": "Public trust in the United States government",
+      "source_url": "https://ourworldindata.org/grapher/public-trust-in-government",
+      "csv_url": "https://ourworldindata.org/grapher/public-trust-in-government.csv",
+      "svg_url": "https://ourworldindata.org/grapher/public-trust-in-government.svg",
+      "png_url": "https://ourworldindata.org/grapher/public-trust-in-government.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Trust in US government",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1958.0,
+        2025.0
+      ],
+      "y_range": [
+        0.0,
+        100.0
+      ],
+      "plot_w": 777.71,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 53
+      }
+    },
+    {
+      "slug": "reported-share-of-people-experiencing-homelessness",
+      "split": "dev",
+      "title": "Reported share of people experiencing homelessness",
+      "source_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness",
+      "csv_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness.csv",
+      "svg_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness.svg",
+      "png_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Share of people experiencing homelessness",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2010.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        0.2
+      ],
+      "plot_w": 665.88,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 12
+      }
+    },
+    {
+      "slug": "rubella-cases-in-the-united-states",
+      "split": "held-out",
+      "title": "Rubella cases in the United States",
+      "source_url": "https://ourworldindata.org/grapher/rubella-cases-in-the-united-states",
+      "csv_url": "https://ourworldindata.org/grapher/rubella-cases-in-the-united-states.csv",
+      "svg_url": "https://ourworldindata.org/grapher/rubella-cases-in-the-united-states.svg",
+      "png_url": "https://ourworldindata.org/grapher/rubella-cases-in-the-united-states.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "Rubella cases",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1966.0,
+        2022.0
+      ],
+      "y_range": [
+        0.0,
+        60000.0
+      ],
+      "plot_w": 661.15,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 57
+      }
+    },
+    {
+      "slug": "same-sex-marriage-country-count",
+      "split": "held-out",
+      "title": "Number of countries where same-sex marriage is legal",
+      "source_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count",
+      "csv_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count.csv",
+      "svg_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count.svg",
+      "png_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Legal",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2000.0,
+        2025.0
+      ],
+      "y_range": [
+        0.0,
+        40.0
+      ],
+      "plot_w": 796.34,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 26
+      }
+    },
+    {
+      "slug": "share-of-agriculture-in-total-employment",
+      "split": "held-out",
+      "title": "Share of agriculture in total employment",
+      "source_url": "https://ourworldindata.org/grapher/share-of-agriculture-in-total-employment",
+      "csv_url": "https://ourworldindata.org/grapher/share-of-agriculture-in-total-employment.csv",
+      "svg_url": "https://ourworldindata.org/grapher/share-of-agriculture-in-total-employment.svg",
+      "png_url": "https://ourworldindata.org/grapher/share-of-agriculture-in-total-employment.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Ethiopia"
+      ],
+      "y_column": "Share of employment in agriculture (Herrendorf et al. and GGDC-10 data)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1961.0,
+        2011.0
+      ],
+      "y_range": [
+        0.0,
+        100.0
+      ],
+      "plot_w": 700.98,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Ethiopia": 51
+      }
+    },
+    {
+      "slug": "share-of-the-workforce-employed-in-the-coal-industry-united-kingdom",
+      "split": "dev",
+      "title": "Share of the workforce employed in the coal industry, United Kingdom",
+      "source_url": "https://ourworldindata.org/grapher/share-of-the-workforce-employed-in-the-coal-industry-united-kingdom",
+      "csv_url": "https://ourworldindata.org/grapher/share-of-the-workforce-employed-in-the-coal-industry-united-kingdom.csv",
+      "svg_url": "https://ourworldindata.org/grapher/share-of-the-workforce-employed-in-the-coal-industry-united-kingdom.svg",
+      "png_url": "https://ourworldindata.org/grapher/share-of-the-workforce-employed-in-the-coal-industry-united-kingdom.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Percentage of workforce in coal industry",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1873.0,
+        2019.0
+      ],
+      "y_range": [
+        0.0,
+        6.0
+      ],
+      "plot_w": 668.44,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 109
+      }
+    },
+    {
+      "slug": "southern-white-rhinos",
+      "split": "held-out",
+      "title": "Southern white rhino population",
+      "source_url": "https://ourworldindata.org/grapher/southern-white-rhinos",
+      "csv_url": "https://ourworldindata.org/grapher/southern-white-rhinos.csv",
+      "svg_url": "https://ourworldindata.org/grapher/southern-white-rhinos.svg",
+      "png_url": "https://ourworldindata.org/grapher/southern-white-rhinos.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Southern White Rhino",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1895.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        25000.0
+      ],
+      "plot_w": 704.35,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 18
+      }
+    },
+    {
+      "slug": "stomach-cancer-death-rate",
+      "split": "dev",
+      "title": "Stomach cancer death rate",
+      "source_url": "https://ourworldindata.org/grapher/stomach-cancer-death-rate",
+      "csv_url": "https://ourworldindata.org/grapher/stomach-cancer-death-rate.csv",
+      "svg_url": "https://ourworldindata.org/grapher/stomach-cancer-death-rate.svg",
+      "png_url": "https://ourworldindata.org/grapher/stomach-cancer-death-rate.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "France",
+        "United States",
+        "Switzerland",
+        "Chile",
+        "Japan",
+        "Spain"
+      ],
+      "y_column": "Age-standardized death rate from stomach cancer per 100,000 people",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1950.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        70.0
+      ],
+      "plot_w": 687.75,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "France": 74,
+        "United States": 73,
+        "Switzerland": 73,
+        "Chile": 69,
+        "Japan": 74,
+        "Spain": 73
+      }
+    },
+    {
+      "slug": "stratospheric-chorine-concentrations",
+      "split": "dev",
+      "title": "Stratospheric chlorine concentrations projections",
+      "source_url": "https://ourworldindata.org/grapher/stratospheric-chorine-concentrations",
+      "csv_url": "https://ourworldindata.org/grapher/stratospheric-chorine-concentrations.csv",
+      "svg_url": "https://ourworldindata.org/grapher/stratospheric-chorine-concentrations.svg",
+      "png_url": "https://ourworldindata.org/grapher/stratospheric-chorine-concentrations.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Antarctic",
+        "Arctic",
+        "Global"
+      ],
+      "y_column": "Equivalent stratospheric chorine (ESC) (1960 = 0)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1960.0,
+        2100.0
+      ],
+      "y_range": [
+        0.0,
+        6.0
+      ],
+      "plot_w": 721.9,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Antarctic": 29,
+        "Arctic": 29,
+        "Global": 29
+      }
+    },
+    {
+      "slug": "stratospheric-ozone-concentration-projections",
+      "split": "dev",
+      "title": "Stratospheric ozone concentration projections",
+      "source_url": "https://ourworldindata.org/grapher/stratospheric-ozone-concentration-projections",
+      "csv_url": "https://ourworldindata.org/grapher/stratospheric-ozone-concentration-projections.csv",
+      "svg_url": "https://ourworldindata.org/grapher/stratospheric-ozone-concentration-projections.svg",
+      "png_url": "https://ourworldindata.org/grapher/stratospheric-ozone-concentration-projections.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Antarctic",
+        "Arctic",
+        "Global"
+      ],
+      "y_column": "Ozone concentration (1960 = 0)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1960.0,
+        2100.0
+      ],
+      "y_range": [
+        -140.0,
+        40.0
+      ],
+      "plot_w": 701.24,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Antarctic": 29,
+        "Arctic": 29,
+        "Global": 29
+      }
+    },
+    {
+      "slug": "supercomputer-power-flops",
+      "split": "dev",
+      "title": "Computational capacity of the fastest supercomputers",
+      "source_url": "https://ourworldindata.org/grapher/supercomputer-power-flops",
+      "csv_url": "https://ourworldindata.org/grapher/supercomputer-power-flops.csv",
+      "svg_url": "https://ourworldindata.org/grapher/supercomputer-power-flops.svg",
+      "png_url": "https://ourworldindata.org/grapher/supercomputer-power-flops.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Computational capacity of the fastest supercomputer",
+      "x_scale": "linear",
+      "y_scale": "log10",
+      "x_range": [
+        1993.0,
+        2025.0
+      ],
+      "y_range": [
+        1000.0,
+        1000000000.0
+      ],
+      "plot_w": 697.25,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 27
+      }
+    },
+    {
+      "slug": "the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018",
+      "split": "dev",
+      "title": "The amount of cod caught in the Grand Banks (North Atlantic) fisheries",
+      "source_url": "https://ourworldindata.org/grapher/the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018",
+      "csv_url": "https://ourworldindata.org/grapher/the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018.csv",
+      "svg_url": "https://ourworldindata.org/grapher/the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018.svg",
+      "png_url": "https://ourworldindata.org/grapher/the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Grand Banks (North Atlantic) fisheries - Cod landings (tonnes)"
+      ],
+      "y_column": "Cod landings (tonnes)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1851.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        800000.0
+      ],
+      "plot_w": 500.77,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Grand Banks (North Atlantic) fisheries - Cod landings (tonnes)": 171
+      }
+    },
+    {
+      "slug": "the-growth-of-government-in-the-uk",
+      "split": "dev",
+      "title": "The growth of government",
+      "source_url": "https://ourworldindata.org/grapher/the-growth-of-government-in-the-uk",
+      "csv_url": "https://ourworldindata.org/grapher/the-growth-of-government-in-the-uk.csv",
+      "svg_url": "https://ourworldindata.org/grapher/the-growth-of-government-in-the-uk.svg",
+      "png_url": "https://ourworldindata.org/grapher/the-growth-of-government-in-the-uk.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Total tax revenue (% of GDP)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1500.0,
+        2021.0
+      ],
+      "y_range": [
+        0.0,
+        45.0
+      ],
+      "plot_w": 660.61,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 522
+      }
+    },
+    {
+      "slug": "the-number-of-reported-paralytic-polio-cases",
+      "split": "held-out",
+      "title": "Reported cases of paralytic polio",
+      "source_url": "https://ourworldindata.org/grapher/the-number-of-reported-paralytic-polio-cases",
+      "csv_url": "https://ourworldindata.org/grapher/the-number-of-reported-paralytic-polio-cases.csv",
+      "svg_url": "https://ourworldindata.org/grapher/the-number-of-reported-paralytic-polio-cases.svg",
+      "png_url": "https://ourworldindata.org/grapher/the-number-of-reported-paralytic-polio-cases.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Total polio cases",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1980.0,
+        2023.0
+      ],
+      "y_range": [
+        0.0,
+        70000.0
+      ],
+      "plot_w": 704.35,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 44
+      }
+    },
+    {
+      "slug": "total-agricultural-land-use-per-person",
+      "split": "dev",
+      "title": "Agricultural land use per person",
+      "source_url": "https://ourworldindata.org/grapher/total-agricultural-land-use-per-person",
+      "csv_url": "https://ourworldindata.org/grapher/total-agricultural-land-use-per-person.csv",
+      "svg_url": "https://ourworldindata.org/grapher/total-agricultural-land-use-per-person.svg",
+      "png_url": "https://ourworldindata.org/grapher/total-agricultural-land-use-per-person.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Land use (per capita): Agriculture",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        0.0,
+        2025.0
+      ],
+      "y_range": [
+        0.0,
+        1.8
+      ],
+      "plot_w": 709.89,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 118
+      }
+    },
+    {
+      "slug": "tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv",
+      "split": "held-out",
+      "title": "Tuberculosis death rate in people without HIV",
+      "source_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv",
+      "csv_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv.csv",
+      "svg_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv.svg",
+      "png_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Deaths due to tuberculosis among HIV-negative people (per 100 000 population)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2000.0,
+        2024.0
+      ],
+      "y_range": [
+        0.0,
+        35.0
+      ],
+      "plot_w": 730.95,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 25
+      }
+    },
+    {
+      "slug": "uk-gdp-growth-19572016",
+      "split": "held-out",
+      "title": "GDP growth",
+      "source_url": "https://ourworldindata.org/grapher/uk-gdp-growth-19572016",
+      "csv_url": "https://ourworldindata.org/grapher/uk-gdp-growth-19572016.csv",
+      "svg_url": "https://ourworldindata.org/grapher/uk-gdp-growth-19572016.svg",
+      "png_url": "https://ourworldindata.org/grapher/uk-gdp-growth-19572016.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "GDP growth (%)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1957.0,
+        2020.0
+      ],
+      "y_range": [
+        -10.0,
+        8.0
+      ],
+      "plot_w": 655.61,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 64
+      }
+    },
+    {
+      "slug": "uk-government-debt-as-a-percentage-of-gdp-17272016",
+      "split": "held-out",
+      "title": "UK government debt as a percentage of GDP",
+      "source_url": "https://ourworldindata.org/grapher/uk-government-debt-as-a-percentage-of-gdp-17272016",
+      "csv_url": "https://ourworldindata.org/grapher/uk-government-debt-as-a-percentage-of-gdp-17272016.csv",
+      "svg_url": "https://ourworldindata.org/grapher/uk-government-debt-as-a-percentage-of-gdp-17272016.svg",
+      "png_url": "https://ourworldindata.org/grapher/uk-government-debt-as-a-percentage-of-gdp-17272016.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "UK government debt (% of nominal GDP)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1727.0,
+        2020.0
+      ],
+      "y_range": [
+        0.0,
+        250.0
+      ],
+      "plot_w": 652.7800000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 294
+      }
+    },
+    {
+      "slug": "uk-inflation-rate-19892019",
+      "split": "held-out",
+      "title": "Inflation rate",
+      "source_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019",
+      "csv_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019.csv",
+      "svg_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019.svg",
+      "png_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "CPI Inflation (%)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1989.0,
+        2020.0
+      ],
+      "y_range": [
+        0.0,
+        8.0
+      ],
+      "plot_w": 668.44,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 32
+      }
+    },
+    {
+      "slug": "uk-unemployment-rate-19712017",
+      "split": "dev",
+      "title": "Unemployment rate",
+      "source_url": "https://ourworldindata.org/grapher/uk-unemployment-rate-19712017",
+      "csv_url": "https://ourworldindata.org/grapher/uk-unemployment-rate-19712017.csv",
+      "svg_url": "https://ourworldindata.org/grapher/uk-unemployment-rate-19712017.svg",
+      "png_url": "https://ourworldindata.org/grapher/uk-unemployment-rate-19712017.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Unemployment rate (%)",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1971.0,
+        2020.0
+      ],
+      "y_range": [
+        0.0,
+        12.0
+      ],
+      "plot_w": 660.61,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 50
+      }
+    },
+    {
+      "slug": "un-projection-of-annual-infant-deaths",
+      "split": "dev",
+      "title": "Number of infants who die before age 1",
+      "source_url": "https://ourworldindata.org/grapher/un-projection-of-annual-infant-deaths",
+      "csv_url": "https://ourworldindata.org/grapher/un-projection-of-annual-infant-deaths.csv",
+      "svg_url": "https://ourworldindata.org/grapher/un-projection-of-annual-infant-deaths.svg",
+      "png_url": "https://ourworldindata.org/grapher/un-projection-of-annual-infant-deaths.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "World"
+      ],
+      "y_column": "Number of infants who die before age 1",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        2024.0,
+        2100.0
+      ],
+      "y_range": [
+        0.0,
+        3500000.0
+      ],
+      "plot_w": 684.91,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "World": 77
+      }
+    },
+    {
+      "slug": "wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000",
+      "split": "held-out",
+      "title": "Wage of craftsmen relative to that of laborers in England",
+      "source_url": "https://ourworldindata.org/grapher/wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000",
+      "csv_url": "https://ourworldindata.org/grapher/wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000.csv",
+      "svg_url": "https://ourworldindata.org/grapher/wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000.svg",
+      "png_url": "https://ourworldindata.org/grapher/wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Relative wages"
+      ],
+      "y_column": "Relative wages of craftsmen to laborers, 1200-2000 (Clark (2005))",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1200.0,
+        2000.0
+      ],
+      "y_range": [
+        1.0,
+        2.2
+      ],
+      "plot_w": 793.1,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Relative wages": 78
+      }
+    },
+    {
+      "slug": "wages-relative-to-the-cost-of-capital",
+      "split": "held-out",
+      "title": "Wages relative to the cost of capital (late sixteenth to the early nineteenth century)",
+      "source_url": "https://ourworldindata.org/grapher/wages-relative-to-the-cost-of-capital",
+      "csv_url": "https://ourworldindata.org/grapher/wages-relative-to-the-cost-of-capital.csv",
+      "svg_url": "https://ourworldindata.org/grapher/wages-relative-to-the-cost-of-capital.svg",
+      "png_url": "https://ourworldindata.org/grapher/wages-relative-to-the-cost-of-capital.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "France",
+        "United Kingdom"
+      ],
+      "y_column": "Wages relative to the cost of capital",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1582.0,
+        1827.0
+      ],
+      "y_range": [
+        0.0,
+        1.8
+      ],
+      "plot_w": 668.1700000000001,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "France": 246,
+        "United Kingdom": 246
+      }
+    },
+    {
+      "slug": "what-percentage-of-the-us-public-approves-of-working-wives",
+      "split": "held-out",
+      "title": "What percentage of the US public approves of working wives?",
+      "source_url": "https://ourworldindata.org/grapher/what-percentage-of-the-us-public-approves-of-working-wives",
+      "csv_url": "https://ourworldindata.org/grapher/what-percentage-of-the-us-public-approves-of-working-wives.csv",
+      "svg_url": "https://ourworldindata.org/grapher/what-percentage-of-the-us-public-approves-of-working-wives.svg",
+      "png_url": "https://ourworldindata.org/grapher/what-percentage-of-the-us-public-approves-of-working-wives.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United States"
+      ],
+      "y_column": "% Approve of wife working if husband can support (OWID (2017))",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1936.0,
+        1998.0
+      ],
+      "y_range": [
+        0.0,
+        100.0
+      ],
+      "plot_w": 669.12,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United States": 21
+      }
+    },
+    {
+      "slug": "wildlife-exports",
+      "split": "held-out",
+      "title": "Global wildlife exports",
+      "source_url": "https://ourworldindata.org/grapher/wildlife-exports",
+      "csv_url": "https://ourworldindata.org/grapher/wildlife-exports.csv",
+      "svg_url": "https://ourworldindata.org/grapher/wildlife-exports.svg",
+      "png_url": "https://ourworldindata.org/grapher/wildlife-exports.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "Amphibians",
+        "Birds",
+        "Fish",
+        "Mammals",
+        "Reptiles",
+        "Invertebrates"
+      ],
+      "y_column": "Wildlife exports",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1975.0,
+        2014.0
+      ],
+      "y_range": [
+        0.0,
+        8000000.0
+      ],
+      "plot_w": 653.99,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "Amphibians": 38,
+        "Birds": 40,
+        "Fish": 37,
+        "Mammals": 40,
+        "Reptiles": 40,
+        "Invertebrates": 37
+      }
+    },
+    {
+      "slug": "working-hours-uk-millennium",
+      "split": "dev",
+      "title": "Average annual working hours per worker",
+      "source_url": "https://ourworldindata.org/grapher/working-hours-uk-millennium",
+      "csv_url": "https://ourworldindata.org/grapher/working-hours-uk-millennium.csv",
+      "svg_url": "https://ourworldindata.org/grapher/working-hours-uk-millennium.svg",
+      "png_url": "https://ourworldindata.org/grapher/working-hours-uk-millennium.png",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Our World in Data",
+      "entities": [
+        "United Kingdom"
+      ],
+      "y_column": "Annual Average Working Hours Adjusted Composite Series",
+      "x_scale": "linear",
+      "y_scale": "linear",
+      "x_range": [
+        1260.0,
+        2016.0
+      ],
+      "y_range": [
+        1000.0,
+        3500.0
+      ],
+      "plot_w": 777.57,
+      "png_size": [
+        850,
+        600
+      ],
+      "n_points": {
+        "United Kingdom": 757
+      }
+    }
+  ]
+}

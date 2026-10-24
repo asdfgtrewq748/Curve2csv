@@ -54,9 +54,38 @@ def _min_de00(centers: NDArray[np.float64]) -> float:
     return best
 
 
+def _centroids_apart(
+    labels: NDArray[np.int32],
+    positions: NDArray[np.float64] | None,
+    minimum: float = 8.0,
+) -> bool:
+    """True when two color clusters sit on different parts of the figure.
+
+    Shades of one stroke have almost the same centroid. Two lines do not.
+    """
+
+    if positions is None or len(positions) != len(labels):
+        return True
+    centroids: list[NDArray[np.float64]] = []
+    for label in np.unique(labels):
+        selected = positions[labels == label]
+        if selected.size == 0:
+            continue
+        centroids.append(selected.mean(axis=0))
+    if len(centroids) < 2:
+        return False
+    nearest = 1e9
+    for i in range(len(centroids)):
+        for j in range(i + 1, len(centroids)):
+            delta = centroids[i] - centroids[j]
+            nearest = min(nearest, float(np.hypot(delta[0], delta[1])))
+    return nearest >= minimum
+
+
 def _choose_centers(
     samples: NDArray[np.float64],
     cfg: PipelineConfig,
+    positions: NDArray[np.float64] | None = None,
 ) -> tuple[NDArray[np.float64], bool]:
     rng = np.random.Generator(np.random.PCG64(cfg.kmeans_seed))
     best_centers = samples.mean(axis=0, keepdims=True)
@@ -66,7 +95,14 @@ def _choose_centers(
     for k in range(1, max_k + 1):
         centers, labels = _kmeans(samples, k, rng)
         if k > 1 and _min_de00(centers) < cfg.min_series_delta_e:
-            if _min_de00(centers) < cfg.ambiguous_delta_e:
+            # Keep the coarser clustering. A rejected extra split marks the
+            # series ambiguous only when those inks are also far apart in the
+            # image (two strokes). Anti-aliased shades of one stroke are not.
+            if (
+                len(best_centers) < 2
+                and _min_de00(centers) < cfg.ambiguous_delta_e
+                and _centroids_apart(labels, positions)
+            ):
                 ambiguous = True
             break
         counts = np.bincount(labels, minlength=k)
@@ -113,11 +149,13 @@ def separate_series(
     if ys_c.size < 10:
         return []
     samples = lab[ys_c, xs_c]
+    positions = np.stack([xs_c, ys_c], axis=1).astype(np.float64)
     if samples.shape[0] > 8000:
         rng = np.random.Generator(np.random.PCG64(cfg.kmeans_seed))
         pick = rng.choice(samples.shape[0], size=8000, replace=False)
         samples = samples[pick]
-    centers, ambiguous = _choose_centers(samples, cfg)
+        positions = positions[pick]
+    centers, ambiguous = _choose_centers(samples, cfg, positions)
     # Assign the full foreground, not only the ridge, so markers and bar fills survive.
     ys, xs = np.nonzero(masks.foreground)
     pixels = lab[ys, xs]

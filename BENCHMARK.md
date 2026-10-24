@@ -176,3 +176,25 @@
 - 只引用 `results/*.json` 中的实测值，并注明数据集（synth/real）、版本、切分和 commit。
 - 合成集与真实集的结果分开呈现，**不得用合成集数字代表真实论文表现**。
 - 局限（失败类别、弃权率）与优点一起列出。`scripts/check_claims.py` 会扫描 README 和文档中的数字，与结果文件比对。
+
+## 9. v1 真实图（`owid-grapher-v1`）
+
+来源是 Our World in Data 的 grapher 导出，不是人工描点。收录规则在评分之前定死，不看提取是否成功：
+
+- 图类型：grapher 的第一个 `chartTypes` 是 `LineChart` 或 `ScatterPlot`。没有该字段时，SVG 里不能出现 `Areas` 或 `Bars`。堆叠面积和条形图不进入集合。
+- 输入图像：该图的 PNG（出版页面上的栅格）。
+- 系列真值：同页 CSV，只保留图上 `selectedEntityNames` 的 1–6 条系列（与提取器 `max_series` 相同），并且年份和数值落在 SVG 刻度范围内。1–3 条在目录抽样里大约只占三分之一，凑不满 100 张，所以上限在评分前改成 6。
+- 轴范围和 linear/log：同页 SVG 里 `<text>` 的刻度文字和坐标。这与 PNG 上的 OCR 无关。log 轴在 log10 空间算误差。
+- 许可：CC BY 4.0（https://creativecommons.org/licenses/by/4.0/）。PNG 可以再分发，放在 `benchmarks/real/figures/`。每张图的 URL 记在 `benchmarks/real/gt/<slug>.json`。
+
+切分在评分之前冻结：`int(sha256(slug).hexdigest(), 16) % 5 < 2` 为 dev，其余为 held-out。改提取器只看 dev。
+
+一张图算正确，当且仅当下面三条同时成立：
+
+1. 去掉 flag 或空坐标之后仍有点的预测系列数，等于真值系列数。
+2. 用 NRMSE 做 Hungarian 配对后，每个系列的 `curve_nrmse_range ≤ 2`（占轴量程的百分比）。
+3. 每个系列的 `x_coverage ≥ 0.90`。
+
+x 方向在真值系列自己的 x 范围内均匀取 200 个点。某点算对齐，当最近的预测点与它的 x 距离不超过 1 个像素（像素宽度用 SVG 两端刻度的跨度）。NRMSE 只在对齐的点上计算，缺失点不进入误差。`x_coverage` 是这些采样点里、y 误差也 ≤ 2% 量程的比例。flag 或空坐标的点在评分前删除，所以它们降低 coverage，不记成误差。
+
+直线参数误差：真值在轴空间里线性拟合 R² ≥ 0.98 时，报告斜率相对误差和截距占 y 量程的比例。它不是通过条件。实测写在 `benchmarks/results/real-v1.json`，按 dev、held-out、全体分开。

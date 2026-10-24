@@ -119,6 +119,21 @@ def _runs(rows: np.ndarray) -> list[np.ndarray]:
     return list(np.split(rows, splits))
 
 
+def column_is_occluded(
+    gray: np.ndarray | None,
+    bbox: tuple[int, int, int, int],
+    px: float,
+) -> bool:
+    """True when the plot column is mostly dark, which is an occluder not a stroke."""
+
+    if gray is None or gray.ndim != 2:
+        return False
+    _x0, y0, _x1, y1 = bbox
+    col = int(np.clip(round(px - 0.5), 0, gray.shape[1] - 1))
+    band = gray[max(0, y0) : max(0, y1), col]
+    return bool(band.size) and float(np.mean(band < 200)) > 0.45
+
+
 def extract_curve(
     series_mask: SeriesMask,
     area: PlotArea,
@@ -127,6 +142,7 @@ def extract_curve(
     config: PipelineConfig | None = None,
     *,
     color_hex: str | None = None,
+    gray: np.ndarray | None = None,
     other_mask: np.ndarray | None = None,
 ) -> Series:
     cfg = config or PipelineConfig()
@@ -181,7 +197,6 @@ def extract_curve(
     other_dist = None
     if other_mask is not None and np.any(other_mask):
         other_dist = cv2.distanceTransform((~other_mask).astype(np.uint8), cv2.DIST_L2, 3)
-    grid = masks.grid
 
     def close_gap(col: int) -> None:
         nonlocal gap_start
@@ -238,18 +253,21 @@ def extract_curve(
         if other_dist is not None:
             iy = int(np.clip(round(py - 0.5), 0, other_dist.shape[0] - 1))
             ix = int(np.clip(round(px - 0.5), 0, other_dist.shape[1] - 1))
-            if float(other_dist[iy, ix]) <= 8.0:
+            # A parallel series a few pixels away is still this stroke.
+            # Only the overlapping fringe of a crossing is ambiguous.
+            if float(other_dist[iy, ix]) <= 2.0:
                 flags |= PointFlag.AMBIGUOUS_SERIES
         if 0 <= int(py) < text_dist.shape[0] and text_dist[int(py), int(px)] <= 1.5:
             flags |= PointFlag.NEAR_TEXT
-        if (
-            0 <= int(py) < grid.shape[0]
-            and grid[int(np.clip(py, 0, grid.shape[0] - 1)), int(np.clip(px, 0, grid.shape[1] - 1))]
-        ):
-            flags |= PointFlag.NEAR_GRID
+        # The sample comes from a chromatic series mask, so a gridline crossing
+        # it is still the stroke. Gray grid ink never enters this mask.
         if col <= x0 + 1 or col >= x1 - 2:
             flags |= PointFlag.EDGE_OF_PLOT
-        if float(chosen.size) > 2.5 * thin_width:
+        # Steep strokes are tall in one column and are kept. Flag only a
+        # column that is still above the skip threshold (several runs share it).
+        if float(chosen.size) > cfg.thick_factor * est_width:
+            flags |= PointFlag.THICK_SEGMENT
+        if column_is_occluded(gray, area.bbox, px):
             flags |= PointFlag.THICK_SEGMENT
         confidence = 0.93
         if series_mask.separation_score < cfg.min_series_delta_e:

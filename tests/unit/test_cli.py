@@ -63,7 +63,9 @@ def test_extract_subcommand_uses_axis_limits(tmp_path: Path) -> None:
     assert code == 0
     assert (out / "fig.csv").is_file()
     assert (out / "fig.overlay.png").is_file()
-    assert main(["extract", str(image_path), "-o", str(out)]) == 2
+    blank = tmp_path / "blank.png"
+    save_image(blank, np.full((80, 80, 3), 255, dtype=np.uint8))
+    assert main(["extract", str(blank), "-o", str(out)]) == 2
 
 
 def test_cli_rejects_bad_input(tmp_path: Path) -> None:

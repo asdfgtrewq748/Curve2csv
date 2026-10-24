@@ -65,6 +65,19 @@ def run_pipeline(
     t0 = time.perf_counter()
     area = detect_plot_area(loaded.rgb, cfg)
     timings["plot_area"] = (time.perf_counter() - t0) * 1000.0
+    # Spine detection is unchanged when it succeeds. Charts whose axes are
+    # lighter than the ink threshold (Our World in Data grapher exports, for
+    # example) fall through to tick-label positions. That path needs RapidOCR;
+    # without it the result stays an abstain and typed endpoints still work.
+    framed_axes: AxesOverride | None = None
+    if isinstance(area, Abstain) and axes is None:
+        from curve2csv.ocr.read import read_frame
+
+        t0 = time.perf_counter()
+        framed = read_frame(loaded.rgb, cfg)
+        timings["ocr"] = (time.perf_counter() - t0) * 1000.0
+        if framed is not None:
+            area, framed_axes = framed
     if isinstance(area, Abstain):
         abstentions.append(area)
         calibration: dict[str, AxisCalibration | Abstain] = {
@@ -86,6 +99,21 @@ def run_pipeline(
 
     t0 = time.perf_counter()
     plane = None
+    if axes is None and framed_axes is not None:
+        axes = framed_axes
+    elif axes is None:
+        from curve2csv.ocr.read import read_axes, read_frame
+
+        axes = read_axes(loaded.rgb, area, cfg)
+        # A detected box that does not line up with the labels (a footer rule
+        # or a short interior line) is replaced by the label frame. Callers
+        # that pass axes, including the synthetic benchmark, never reach this.
+        if axes is None:
+            framed = read_frame(loaded.rgb, cfg)
+            if framed is not None:
+                area, axes = framed
+        timings["ocr"] = (time.perf_counter() - t0) * 1000.0
+        t0 = time.perf_counter()
     if axes is None:
         calibration = {
             "x": Abstain("calibrate", "no_ticks"),
@@ -124,10 +152,11 @@ def run_pipeline(
     for index, mask in enumerate(separated):
         kind = classify_mask(mask.mask, area.bbox)
         color = lab_to_hex(mask.color_lab) if mask.color_lab is not None else None
+        gray = loaded.rgb.mean(axis=2)
         if kind == "bar":
-            extracted = extract_bar(mask, area, plane, cfg, color_hex=color)
+            extracted = extract_bar(mask, area, plane, cfg, color_hex=color, gray=gray)
         elif kind == "scatter":
-            extracted = extract_scatter(mask, area, plane, cfg, color_hex=color)
+            extracted = extract_scatter(mask, area, plane, cfg, color_hex=color, gray=gray)
         else:
             other: np.ndarray | None = None
             for other_index, other_mask in enumerate(separated_masks):
@@ -139,7 +168,14 @@ def run_pipeline(
                     else np.logical_or(other, other_mask)
                 )
             extracted = extract_curve(
-                mask, area, plane, masks, cfg, color_hex=color, other_mask=other
+                mask,
+                area,
+                plane,
+                masks,
+                cfg,
+                color_hex=color,
+                other_mask=other,
+                gray=gray,
             )
         if extracted.points:
             series.append(extracted)

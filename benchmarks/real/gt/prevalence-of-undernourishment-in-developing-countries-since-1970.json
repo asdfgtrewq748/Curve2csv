@@ -1,0 +1,143 @@
+{
+  "slug": "prevalence-of-undernourishment-in-developing-countries-since-1970",
+  "split": "held-out",
+  "title": "Share of people who are undernourished in developing countries",
+  "source_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970",
+  "csv_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970.csv",
+  "svg_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970.svg",
+  "png_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "Developing countries"
+  ],
+  "y_column": "Prevalence of undernourishment in developing countries",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1970.0,
+    2015.0
+  ],
+  "y_range": [
+    0.0,
+    35.0
+  ],
+  "plot_w": 630.91,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "Developing countries": [
+      [
+        1970.0,
+        34.75
+      ],
+      [
+        1980.0,
+        26.5
+      ],
+      [
+        1991.0,
+        23.3
+      ],
+      [
+        1992.0,
+        23.1
+      ],
+      [
+        1993.0,
+        22.7
+      ],
+      [
+        1994.0,
+        22.1
+      ],
+      [
+        1995.0,
+        21.2
+      ],
+      [
+        1996.0,
+        20.4
+      ],
+      [
+        1997.0,
+        19.7
+      ],
+      [
+        1998.0,
+        19.1
+      ],
+      [
+        1999.0,
+        18.6
+      ],
+      [
+        2000.0,
+        18.3
+      ],
+      [
+        2001.0,
+        18.2
+      ],
+      [
+        2002.0,
+        18.2
+      ],
+      [
+        2003.0,
+        18.3
+      ],
+      [
+        2004.0,
+        18.2
+      ],
+      [
+        2005.0,
+        17.9
+      ],
+      [
+        2006.0,
+        17.3
+      ],
+      [
+        2007.0,
+        16.5
+      ],
+      [
+        2008.0,
+        15.7
+      ],
+      [
+        2009.0,
+        15.0
+      ],
+      [
+        2010.0,
+        14.5
+      ],
+      [
+        2011.0,
+        14.1
+      ],
+      [
+        2012.0,
+        13.7
+      ],
+      [
+        2013.0,
+        13.4
+      ],
+      [
+        2014.0,
+        13.1
+      ],
+      [
+        2015.0,
+        12.9
+      ]
+    ]
+  }
+}

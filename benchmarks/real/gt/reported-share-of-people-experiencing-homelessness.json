@@ -1,0 +1,83 @@
+{
+  "slug": "reported-share-of-people-experiencing-homelessness",
+  "split": "dev",
+  "title": "Reported share of people experiencing homelessness",
+  "source_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness",
+  "csv_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness.csv",
+  "svg_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness.svg",
+  "png_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "United States"
+  ],
+  "y_column": "Share of people experiencing homelessness",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    2010.0,
+    2023.0
+  ],
+  "y_range": [
+    0.0,
+    0.2
+  ],
+  "plot_w": 665.88,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "United States": [
+      [
+        2011.0,
+        0.20065795
+      ],
+      [
+        2012.0,
+        0.19847924
+      ],
+      [
+        2013.0,
+        0.18723284
+      ],
+      [
+        2014.0,
+        0.18167363
+      ],
+      [
+        2015.0,
+        0.17606466
+      ],
+      [
+        2016.0,
+        0.17021853
+      ],
+      [
+        2017.0,
+        0.17031816
+      ],
+      [
+        2018.0,
+        0.16914485
+      ],
+      [
+        2019.0,
+        0.1729099
+      ],
+      [
+        2020.0,
+        0.17509678
+      ],
+      [
+        2022.0,
+        0.1747632
+      ],
+      [
+        2023.0,
+        0.1922788
+      ]
+    ]
+  }
+}

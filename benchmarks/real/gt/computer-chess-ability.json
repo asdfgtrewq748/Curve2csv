@@ -1,0 +1,175 @@
+{
+  "slug": "computer-chess-ability",
+  "split": "dev",
+  "title": "Highest chess rating ever achieved by computers",
+  "source_url": "https://ourworldindata.org/grapher/computer-chess-ability",
+  "csv_url": "https://ourworldindata.org/grapher/computer-chess-ability.csv",
+  "svg_url": "https://ourworldindata.org/grapher/computer-chess-ability.svg",
+  "png_url": "https://ourworldindata.org/grapher/computer-chess-ability.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "Computer chess engine"
+  ],
+  "y_column": "Elo rating",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1985.0,
+    2023.0
+  ],
+  "y_range": [
+    0.0,
+    3500.0
+  ],
+  "plot_w": 777.57,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "Computer chess engine": [
+      [
+        1985.0,
+        2016.0
+      ],
+      [
+        1986.0,
+        2079.0
+      ],
+      [
+        1987.0,
+        2119.0
+      ],
+      [
+        1988.0,
+        2148.0
+      ],
+      [
+        1989.0,
+        2219.0
+      ],
+      [
+        1990.0,
+        2263.0
+      ],
+      [
+        1991.0,
+        2263.0
+      ],
+      [
+        1992.0,
+        2320.0
+      ],
+      [
+        1993.0,
+        2321.0
+      ],
+      [
+        1994.0,
+        2321.0
+      ],
+      [
+        1995.0,
+        2427.0
+      ],
+      [
+        1996.0,
+        2430.0
+      ],
+      [
+        1997.0,
+        2853.0
+      ],
+      [
+        1998.0,
+        2853.0
+      ],
+      [
+        1999.0,
+        2853.0
+      ],
+      [
+        2000.0,
+        2853.0
+      ],
+      [
+        2001.0,
+        2853.0
+      ],
+      [
+        2002.0,
+        2853.0
+      ],
+      [
+        2003.0,
+        2853.0
+      ],
+      [
+        2004.0,
+        2853.0
+      ],
+      [
+        2005.0,
+        2853.0
+      ],
+      [
+        2006.0,
+        2871.0
+      ],
+      [
+        2007.0,
+        3236.0
+      ],
+      [
+        2008.0,
+        3237.0
+      ],
+      [
+        2009.0,
+        3237.0
+      ],
+      [
+        2010.0,
+        3237.0
+      ],
+      [
+        2011.0,
+        3237.0
+      ],
+      [
+        2012.0,
+        3250.0
+      ],
+      [
+        2013.0,
+        3259.0
+      ],
+      [
+        2014.0,
+        3331.0
+      ],
+      [
+        2015.0,
+        3381.0
+      ],
+      [
+        2016.0,
+        3411.0
+      ],
+      [
+        2017.0,
+        3460.0
+      ],
+      [
+        2018.0,
+        3528.0
+      ],
+      [
+        2019.0,
+        3529.0
+      ]
+    ]
+  }
+}

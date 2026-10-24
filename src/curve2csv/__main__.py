@@ -10,7 +10,7 @@ from pathlib import Path
 
 from curve2csv.api import extract, extract_with_limits
 from curve2csv.errors import InputError
-from curve2csv.types import AxesOverride, AxisScale, TickInput
+from curve2csv.types import AxesOverride, AxisCalibration, AxisScale, ExtractionResult, TickInput
 
 
 def _load_axes(path: Path) -> AxesOverride:
@@ -49,6 +49,10 @@ def _load_axes(path: Path) -> AxesOverride:
     )
 
 
+def _calibrated(result: ExtractionResult) -> bool:
+    return all(isinstance(result.calibration.get(name), AxisCalibration) for name in ("x", "y"))
+
+
 def _run_extract(
     image: Path,
     out: Path,
@@ -72,7 +76,11 @@ def _run_extract(
                 out=out,
             )
         else:
-            raise InputError("pass --axes or all of --xmin --xmax --ymin --ymax")
+            result = extract(image, out=out)
+            if not _calibrated(result):
+                raise InputError(
+                    "tick labels were not read. Pass --axes or --xmin/--xmax/--ymin/--ymax."
+                )
     except InputError as exc:
         logging.error("%s", exc)
         return 2
@@ -121,12 +129,6 @@ def _extract_command(argv: list[str]) -> int:
         assert args.xmin is not None and args.xmax is not None
         assert args.ymin is not None and args.ymax is not None
         limits = {"xmin": args.xmin, "xmax": args.xmax, "ymin": args.ymin, "ymax": args.ymax}
-    if args.axes is None and limits is None:
-        logging.error(
-            "no axis source. Pass --axes, or --xmin/--xmax/--ymin/--ymax. "
-            "Tick-label OCR is not bundled; labels are not read automatically."
-        )
-        return 2
     return _run_extract(args.image, args.out, args.axes, limits, args.x_log, args.y_log)
 
 

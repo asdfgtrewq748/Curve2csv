@@ -1,0 +1,111 @@
+{
+  "slug": "annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar",
+  "split": "held-out",
+  "title": "People receiving antiretroviral therapy through PEPFAR",
+  "source_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar",
+  "csv_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar.csv",
+  "svg_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar.svg",
+  "png_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "Number of people receiving antiretroviral therapy through PEPFAR",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    2004.0,
+    2023.0
+  ],
+  "y_range": [
+    0.0,
+    20000000.0
+  ],
+  "plot_w": 688.15,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        2004.0,
+        66550.0
+      ],
+      [
+        2005.0,
+        249197.0
+      ],
+      [
+        2006.0,
+        541479.0
+      ],
+      [
+        2007.0,
+        1091674.0
+      ],
+      [
+        2008.0,
+        1743673.0
+      ],
+      [
+        2009.0,
+        2485318.0
+      ],
+      [
+        2010.0,
+        3213625.0
+      ],
+      [
+        2011.0,
+        3905366.0
+      ],
+      [
+        2012.0,
+        5143017.0
+      ],
+      [
+        2013.0,
+        6840937.0
+      ],
+      [
+        2014.0,
+        7935472.0
+      ],
+      [
+        2015.0,
+        9626309.0
+      ],
+      [
+        2016.0,
+        11769293.0
+      ],
+      [
+        2017.0,
+        13097524.0
+      ],
+      [
+        2018.0,
+        14607399.0
+      ],
+      [
+        2019.0,
+        15499223.0
+      ],
+      [
+        2020.0,
+        17176312.0
+      ],
+      [
+        2021.0,
+        18981855.0
+      ],
+      [
+        2022.0,
+        20166110.0
+      ]
+    ]
+  }
+}

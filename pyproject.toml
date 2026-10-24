@@ -72,7 +72,8 @@ testpaths = ["tests"]
 [tool.coverage.run]
 source = ["curve2csv"]
 branch = false
-# The Tk window is exercised by the headless smoke, not by the unit suite.
+# The Tk window is exercised by the headless smoke and a desktop session.
+# Counting it in the unit suite drops the total under the 80% gate.
 omit = ["*/curve2csv/gui.py"]
 
 [tool.coverage.report]

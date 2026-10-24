@@ -33,11 +33,11 @@ python -m curve2csv extract IMG -o DIR --axes axes.json
 python -m curve2csv extract IMG -o DIR --xmin 0 --xmax 1 --ymin 0 --ymax 1
 ```
 
-`axes.json` is `{"x": {"ticks": [{"px", "py", "value"}]}, "y": {...}}`. `--x-log` and `--y-log` mark an endpoint pair as log10. With neither `--axes` nor all four limits, the command exits 2. This build does not read tick labels.
+`axes.json` is `{"x": {"ticks": [{"px", "py", "value"}]}, "y": {...}}`. `--x-log` and `--y-log` mark an endpoint pair as log10. With neither `--axes` nor the four limits, `extract` reads tick labels with RapidOCR (the `ocr` extra) and calibrates a linear or log10 axis when the labels agree. If the labels are not read, the command exits 2. Typed endpoints remain the fallback.
 
 ## Desktop window
 
-With no arguments, `curve2csv` opens a window (Tkinter): open an image or one PDF page, click two corners to crop, type the axis endpoints, extract, rename a series label, and export the CSV, JSON, and overlay. `pip install -e ".[gui]"` adds PDF rendering (`pypdfium2`) and drag-and-drop (`tkinterdnd2`). Tick labels are still typed, not recognized.
+With no arguments, `curve2csv` opens a window (Tkinter): open an image or one PDF page, click two corners to crop, read tick labels (or type the endpoints), extract, rename a series label, and export the CSV, JSON, and overlay. `pip install -e ".[gui,ocr]"` adds PDF rendering (`pypdfium2`), drag-and-drop (`tkinterdnd2`), and RapidOCR. The Windows build collects the ONNX models into `curve2csv-windows-exe`.
 
 A packaged Windows build is produced on `windows-latest` and uploaded as `curve2csv-windows-exe` (`dist/curve2csv/curve2csv.exe` plus the libraries beside it). The workflow runs:
 
@@ -82,7 +82,7 @@ python -m benchmarks.report benchmarks/results/M1.json > benchmarks/results/M1.m
 make bench-smoke
 ```
 
-调试入口：`python -m curve2csv IMG --axes axes.json --out DIR`，或 `python -m curve2csv extract IMG -o DIR --xmin 0 --xmax 1 --ymin 0 --ymax 1`。没有刻度文件、也没有四个端点时退出码为 2。无参数时打开桌面窗口。`curve2csv --headless-smoke IMAGE -o DIR` 不打开窗口并打印 `SMOKE_OK`。Windows 可执行文件由 GitHub Actions 上传为 `curve2csv-windows-exe`。没有 macOS 应用。
+调试入口：`python -m curve2csv IMG --axes axes.json --out DIR`，或 `python -m curve2csv extract IMG -o DIR --xmin 0 --xmax 1 --ymin 0 --ymax 1`。桌面和命令行在安装 `ocr` 额外依赖后会用 RapidOCR 读线性或 log10 刻度；读不到时刻度时退出码为 2，仍可手填端点。无参数时打开桌面窗口。`curve2csv --headless-smoke IMAGE -o DIR` 不打开窗口并打印 `SMOKE_OK`。Windows 可执行文件由 GitHub Actions 上传为 `curve2csv-windows-exe`，其中包含 OCR 模型。没有 macOS 应用。
 
 Android 调试包在 `android/`，用 Chaquopy 17 和 Python 3.10 打包（OpenCV 的 Android 轮子只有 3.10 的 4.5.1.48）。`minSdk` 为 24。拍照或从相册选取、点两下裁剪、手填坐标端点、导出 CSV。设备上不带 OCR：Chaquopy 索引没有 onnxruntime 的 Android 轮子，所以不假装识别刻度文字，改由使用者填写端点。GitHub Actions 产物名为 `curve2csv-debug-apk`。
 

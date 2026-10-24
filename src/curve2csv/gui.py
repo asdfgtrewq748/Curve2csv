@@ -10,11 +10,11 @@ from typing import cast
 import numpy as np
 from PIL import Image, ImageTk
 
-from curve2csv.api import extract_with_limits
+from curve2csv.api import extract, extract_with_limits
 from curve2csv.errors import InputError
 from curve2csv.io.image import load_image
 from curve2csv.io.labels import rename_series_label
-from curve2csv.types import AxisScale
+from curve2csv.types import Abstain, AxisCalibration, AxisScale, ExtractionResult
 
 _PREVIEW = 640
 
@@ -55,6 +55,7 @@ class App:
         self.ymax = tk.StringVar(value="1")
         self.x_log = tk.BooleanVar(value=False)
         self.y_log = tk.BooleanVar(value=False)
+        self.read_labels = tk.BooleanVar(value=True)
         self.page = tk.StringVar(value="1")
         self.status = tk.StringVar(value="Open an image or a PDF page. Tick labels are not read.")
         self.series_id = tk.StringVar()
@@ -80,6 +81,7 @@ class App:
             ttk.Entry(axes, textvariable=var, width=8).pack(side=tk.LEFT, padx=(2, 8))
         ttk.Checkbutton(axes, text="x log10", variable=self.x_log).pack(side=tk.LEFT)
         ttk.Checkbutton(axes, text="y log10", variable=self.y_log).pack(side=tk.LEFT, padx=8)
+        ttk.Checkbutton(axes, text="Read tick labels", variable=self.read_labels).pack(side=tk.LEFT)
 
         body = ttk.Frame(root, padding=8)
         body.pack(fill=tk.BOTH, expand=True)
@@ -184,6 +186,23 @@ class App:
         if self.image_path is None:
             self.status.set("Open a figure first.")
             return
+        out = _cache_dir() / "extract"
+        if self.read_labels.get():
+            try:
+                result = extract(self.image_path, out=out)
+            except InputError as exc:
+                self.status.set(str(exc))
+                return
+            if _both_axes(result):
+                self._fill_limits(result)
+                self.read_labels.set(False)
+                self._show_result(
+                    result,
+                    out,
+                    "Tick labels were read. Edit the endpoints and extract again to override them. ",
+                )
+                return
+            self.status.set("Tick labels were not read. Using the typed endpoints.")
         try:
             xmin = float(self.xmin.get())
             xmax = float(self.xmax.get())
@@ -192,7 +211,6 @@ class App:
         except ValueError:
             self.status.set("Axis endpoints must be numbers.")
             return
-        out = _cache_dir() / "extract"
         try:
             result = extract_with_limits(
                 self.image_path,
@@ -207,6 +225,33 @@ class App:
         except InputError as exc:
             self.status.set(str(exc))
             return
+        self._show_result(result, out, "")
+
+    def _fill_limits(self, result: ExtractionResult) -> None:
+        area = result.plot_area
+        mapper = result.mapper
+        if isinstance(area, Abstain) or mapper is None:
+            return
+        x0, y0, x1, y1 = area.bbox
+        bottom_left = mapper.pixel_to_data(float(x0), float(y1))
+        bottom_right = mapper.pixel_to_data(float(x1), float(y1))
+        top_left = mapper.pixel_to_data(float(x0), float(y0))
+        if bottom_left is None or bottom_right is None or top_left is None:
+            return
+        self.xmin.set(f"{bottom_left[0]:.6g}")
+        self.xmax.set(f"{bottom_right[0]:.6g}")
+        self.ymin.set(f"{bottom_left[1]:.6g}")
+        self.ymax.set(f"{top_left[1]:.6g}")
+        x_cal = result.calibration.get("x")
+        y_cal = result.calibration.get("y")
+        if isinstance(x_cal, AxisCalibration):
+            self.x_log.set(x_cal.scale is AxisScale.LOG10)
+        if isinstance(y_cal, AxisCalibration):
+            self.y_log.set(y_cal.scale is AxisScale.LOG10)
+
+    def _show_result(self, result: ExtractionResult, out: Path, prefix: str) -> None:
+        if self.image_path is None:
+            return
         stem = self.image_path.stem
         self.csv_path = out / f"{stem}.csv"
         self.json_path = out / f"{stem}.json"
@@ -218,7 +263,7 @@ class App:
         points = sum(len(series.points) for series in result.series)
         ids = ", ".join(series.series_id for series in result.series) or "none"
         self.status.set(
-            f"{len(result.series)} series, {points} points. "
+            f"{prefix}{len(result.series)} series, {points} points. "
             f"Ids: {ids}. Change the endpoints and extract again, or rename a series."
         )
 
@@ -253,6 +298,10 @@ class App:
         if overlay.is_file():
             (dest / overlay.name).write_bytes(overlay.read_bytes())
         self.status.set(f"Wrote CSV, JSON, and overlay into {dest}.")
+
+
+def _both_axes(result: ExtractionResult) -> bool:
+    return all(isinstance(result.calibration.get(name), AxisCalibration) for name in ("x", "y"))
 
 
 def _cache_dir() -> Path:

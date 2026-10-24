@@ -1,0 +1,131 @@
+{
+  "slug": "land-use-agriculture-longterm",
+  "split": "held-out",
+  "title": "Land used for agriculture",
+  "source_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm",
+  "csv_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm.csv",
+  "svg_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm.svg",
+  "png_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "agriculture_ha",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1780.0,
+    2010.0
+  ],
+  "y_range": [
+    0.0,
+    5000000000.0
+  ],
+  "plot_w": 681.6700000000001,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        1780.0,
+        806634940.0
+      ],
+      [
+        1790.0,
+        839333700.0
+      ],
+      [
+        1800.0,
+        864982600.0
+      ],
+      [
+        1810.0,
+        913418750.0
+      ],
+      [
+        1820.0,
+        956142000.0
+      ],
+      [
+        1830.0,
+        1023010240.0
+      ],
+      [
+        1840.0,
+        1095588000.0
+      ],
+      [
+        1850.0,
+        1194047600.0
+      ],
+      [
+        1860.0,
+        1287196300.0
+      ],
+      [
+        1870.0,
+        1384396300.0
+      ],
+      [
+        1880.0,
+        1561029500.0
+      ],
+      [
+        1890.0,
+        1786349300.0
+      ],
+      [
+        1900.0,
+        2001648600.0
+      ],
+      [
+        1910.0,
+        2291023600.0
+      ],
+      [
+        1920.0,
+        2583933200.0
+      ],
+      [
+        1930.0,
+        2837154600.0
+      ],
+      [
+        1940.0,
+        3153664800.0
+      ],
+      [
+        1950.0,
+        3408203500.0
+      ],
+      [
+        1960.0,
+        4086471400.0
+      ],
+      [
+        1970.0,
+        4126445800.0
+      ],
+      [
+        1980.0,
+        4178267000.0
+      ],
+      [
+        1990.0,
+        4284508700.0
+      ],
+      [
+        2000.0,
+        4246539800.0
+      ],
+      [
+        2010.0,
+        4202158800.0
+      ]
+    ]
+  }
+}

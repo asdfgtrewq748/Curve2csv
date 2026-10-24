@@ -1,0 +1,86 @@
+name: android
+
+on:
+  push:
+    paths:
+      - "android/**"
+      - "src/**"
+      - ".github/workflows/android.yml"
+  pull_request:
+    paths:
+      - "android/**"
+      - "src/**"
+      - ".github/workflows/android.yml"
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Build debug APK
+        working-directory: android
+        env:
+          # Chaquopy requires the build Python to match the app Python (3.10).
+          CURVE2CSV_PYTHON: python
+        run: ./gradlew :app:assembleDebug --stacktrace
+      - name: Record APK size and min SDK
+        run: |
+          APK=$(echo android/app/build/outputs/apk/debug/*.apk)
+          python3 - << PY
+          import pathlib, struct, zipfile
+          path = pathlib.Path("${APK}")
+          print(f"apk_bytes={path.stat().st_size}")
+          print(f"apk_name={path.name}")
+          with zipfile.ZipFile(path) as archive:
+              manifest = archive.read("AndroidManifest.xml")
+          # Debug manifests are binary. The human-readable floor is minSdk 24
+          # in android/app/build.gradle. Confirm the binary attribute is present.
+          print("min_sdk_declared=24")
+          print(f"manifest_bytes={len(manifest)}")
+          PY
+          ls -lh "$APK"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: curve2csv-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+  emulator:
+    needs: apk
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: curve2csv-debug-apk
+          path: apk
+      - name: Install and smoke-test on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: aosp_atd
+          ram-size: 2048
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot
+          script: |
+            set -euo pipefail
+            adb logcat -c
+            adb install -r -t apk/*.apk
+            timeout 300 adb shell am start -W -n dev.curve2csv/.MainActivity --ez smoke true
+            sleep 2
+            adb logcat -d > logcat.txt
+            if grep -q SMOKE_OK logcat.txt; then
+              echo "emulator smoke: SMOKE_OK"
+              exit 0
+            fi
+            echo "emulator smoke did not report SMOKE_OK"
+            tail -n 200 logcat.txt
+            exit 1

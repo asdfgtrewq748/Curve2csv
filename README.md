@@ -25,13 +25,21 @@ python -m benchmarks.report benchmarks/results/M1.json > benchmarks/results/M1.m
 make bench-smoke   # CI: generate the smoke split, evaluate, compare with baseline/smoke.json
 ```
 
-Debug one figure with caller-supplied ticks:
+Debug one figure with caller-supplied ticks, or with the four axis endpoints:
 
 ```bash
 python -m curve2csv IMG --axes axes.json --out DIR
+python -m curve2csv extract IMG -o DIR --axes axes.json
+python -m curve2csv extract IMG -o DIR --xmin 0 --xmax 1 --ymin 0 --ymax 1
 ```
 
-`axes.json` is `{"x": {"ticks": [{"px", "py", "value"}]}, "y": {...}}`.
+`axes.json` is `{"x": {"ticks": [{"px", "py", "value"}]}, "y": {...}}`. `--x-log` and `--y-log` mark an endpoint pair as log10. With neither `--axes` nor all four limits, the command exits 2. This build does not read tick labels.
+
+## Android
+
+The debug app lives in `android/`. It is a Chaquopy 17 project (Python 3.10) because that is the combination that produced an APK: the Chaquopy Android index has an OpenCV 4.5.1.48 wheel for CPython 3.10, and none for 3.11+. NumPy is 1.26.2 and Pillow is 11.0.0, the newest wheels on that index. `minSdk` is 24. Build with `./gradlew :app:assembleDebug` from `android/` (the host Python must be 3.10; set `CURVE2CSV_PYTHON` if `python3.10` is not on `PATH`). GitHub Actions uploads `curve2csv-debug-apk`.
+
+On device the flow is: take a photo or pick an image, tap two corners to crop, type the axis endpoints, extract, then share the CSV. Processing stays on the device and uses the same Python package. Tick-label OCR is not in the APK. RapidOCR needs onnxruntime, and that index has no Android wheel for it. The fallback is typed endpoints on the detected plot box, not a guessed scale.
 
 ## Layout
 
@@ -62,6 +70,8 @@ python -m benchmarks.report benchmarks/results/M1.json > benchmarks/results/M1.m
 make bench-smoke
 ```
 
-调试入口：`python -m curve2csv IMG --axes axes.json --out DIR`。
+调试入口：`python -m curve2csv IMG --axes axes.json --out DIR`，或 `python -m curve2csv extract IMG -o DIR --xmin 0 --xmax 1 --ymin 0 --ymax 1`。没有刻度文件、也没有四个端点时退出码为 2。
+
+Android 调试包在 `android/`，用 Chaquopy 17 和 Python 3.10 打包（OpenCV 的 Android 轮子只有 3.10 的 4.5.1.48）。`minSdk` 为 24。拍照或从相册选取、点两下裁剪、手填坐标端点、导出 CSV。设备上不带 OCR：Chaquopy 索引没有 onnxruntime 的 Android 轮子，所以不假装识别刻度文字，改由使用者填写端点。GitHub Actions 产物名为 `curve2csv-debug-apk`。
 
 设计说明见 `ARCHITECTURE.md`、`BENCHMARK.md`、`ROADMAP.md`。许可证为 MIT。

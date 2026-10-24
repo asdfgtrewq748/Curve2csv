@@ -17,6 +17,7 @@ data/
 *.jpg
 !benchmarks/results/**/*.png
 !tests/golden/**/*.png
+!android/**/*.png
 .DS_Store
 .idea/
 .vscode/

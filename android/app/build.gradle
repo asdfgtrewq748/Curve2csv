@@ -1,0 +1,67 @@
+plugins {
+    id "com.android.application"
+    id "com.chaquo.python"
+}
+
+android {
+    namespace "dev.curve2csv"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "dev.curve2csv"
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName "0.1.0"
+        ndk {
+            // arm64-v8a: phones. x86_64: the emulator used in CI.
+            abiFilters "arm64-v8a", "x86_64"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+chaquopy {
+    defaultConfig {
+        // OpenCV's only current Android wheels are CPython 3.10 (4.5.1.48).
+        version "3.10"
+        // The build machine's Python minor version must match.
+        buildPython System.getenv("CURVE2CSV_PYTHON") ?: "python3.10"
+        pip {
+            // Versions that have Chaquopy Android wheels. scikit-image and
+            // onnxruntime do not, so Lab math is pure NumPy and OCR is manual.
+            // Chaquopy's Android index (pypi-13.1) has numpy 1.26.2, pillow
+            // 11.0.0, and opencv-python 4.5.1.48. It has no numpy 2.x,
+            // opencv-python-headless, or onnxruntime wheel.
+            install "numpy==1.26.2"
+            install "pillow==11.0.0"
+            install "opencv-python==4.5.1.48"
+        }
+    }
+    sourceSets {
+        getByName("main") {
+            srcDirs = ["src/main/python", "../../src"]
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "androidx.activity:activity:1.9.3"
+    // appcompat pulls kotlin-stdlib-jdk7/jdk8 1.6, which duplicate classes
+    // already inside kotlin-stdlib 1.8. The 1.8 artifacts are empty shims.
+    constraints {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22"
+    }
+}

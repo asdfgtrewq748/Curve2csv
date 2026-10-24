@@ -38,6 +38,34 @@ def test_cli_extracts(tmp_path: Path) -> None:
     assert (tmp_path / "out" / "fig.csv").is_file()
 
 
+def test_extract_subcommand_uses_axis_limits(tmp_path: Path) -> None:
+    x = np.linspace(0.0, 3.0, 40)
+    image, _axes = line_figure(x, [(np.sin(x), "#d62728")])
+    image_path = tmp_path / "fig.png"
+    save_image(image_path, image)
+    out = tmp_path / "out"
+    code = main(
+        [
+            "extract",
+            str(image_path),
+            "-o",
+            str(out),
+            "--xmin",
+            "0",
+            "--xmax",
+            "3",
+            "--ymin",
+            "-1.2",
+            "--ymax",
+            "1.2",
+        ]
+    )
+    assert code == 0
+    assert (out / "fig.csv").is_file()
+    assert (out / "fig.overlay.png").is_file()
+    assert main(["extract", str(image_path), "-o", str(out)]) == 2
+
+
 def test_cli_rejects_bad_input(tmp_path: Path) -> None:
     axes_path = tmp_path / "axes.json"
     axes_path.write_text("[]", encoding="utf-8")

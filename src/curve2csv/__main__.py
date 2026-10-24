@@ -8,7 +8,7 @@ import logging
 import sys
 from pathlib import Path
 
-from curve2csv.api import extract
+from curve2csv.api import extract, extract_with_limits
 from curve2csv.errors import InputError
 from curve2csv.types import AxesOverride, AxisScale, TickInput
 
@@ -49,7 +49,38 @@ def _load_axes(path: Path) -> AxesOverride:
     )
 
 
-def main(argv: list[str] | None = None) -> int:
+def _run_extract(
+    image: Path,
+    out: Path,
+    axes_path: Path | None,
+    limits: dict[str, float] | None,
+    x_log: bool,
+    y_log: bool,
+) -> int:
+    try:
+        if axes_path is not None:
+            result = extract(image, axes=_load_axes(axes_path), out=out)
+        elif limits is not None:
+            result = extract_with_limits(
+                image,
+                xmin=limits["xmin"],
+                xmax=limits["xmax"],
+                ymin=limits["ymin"],
+                ymax=limits["ymax"],
+                x_scale=AxisScale.LOG10 if x_log else AxisScale.LINEAR,
+                y_scale=AxisScale.LOG10 if y_log else AxisScale.LINEAR,
+                out=out,
+            )
+        else:
+            raise InputError("pass --axes or all of --xmin --xmax --ymin --ymax")
+    except InputError as exc:
+        logging.error("%s", exc)
+        return 2
+    logging.info("series=%d confidence=%.3f", len(result.series), result.image_confidence)
+    return 0
+
+
+def _legacy(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(prog="curve2csv", description="Digitize a chart image.")
     parser.add_argument("image", type=Path)
     parser.add_argument("--axes", type=Path, required=True, help="JSON tick pairs (px, py, value)")
@@ -59,14 +90,51 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(
         level=logging.INFO if args.v else logging.WARNING, format="%(levelname)s %(message)s"
     )
-    try:
-        axes = _load_axes(args.axes)
-        result = extract(args.image, axes=axes, out=args.out)
-    except InputError as exc:
-        logging.error("%s", exc)
+    return _run_extract(args.image, args.out, args.axes, None, False, False)
+
+
+def _extract_command(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(
+        prog="curve2csv extract",
+        description="Digitize one figure into CSV, JSON, and a QA overlay.",
+    )
+    parser.add_argument("image", type=Path)
+    parser.add_argument("-o", "--out", type=Path, required=True)
+    parser.add_argument("--axes", type=Path, help="JSON tick pairs (px, py, value)")
+    parser.add_argument("--xmin", type=float)
+    parser.add_argument("--xmax", type=float)
+    parser.add_argument("--ymin", type=float)
+    parser.add_argument("--ymax", type=float)
+    parser.add_argument("--x-log", action="store_true")
+    parser.add_argument("--y-log", action="store_true")
+    parser.add_argument("-v", action="count", default=0)
+    args = parser.parse_args(argv)
+    logging.basicConfig(
+        level=logging.INFO if args.v else logging.WARNING, format="%(levelname)s %(message)s"
+    )
+    limits = None
+    named = (args.xmin, args.xmax, args.ymin, args.ymax)
+    if any(value is not None for value in named):
+        if any(value is None for value in named):
+            logging.error("axis limits need --xmin, --xmax, --ymin, and --ymax together")
+            return 2
+        assert args.xmin is not None and args.xmax is not None
+        assert args.ymin is not None and args.ymax is not None
+        limits = {"xmin": args.xmin, "xmax": args.xmax, "ymin": args.ymin, "ymax": args.ymax}
+    if args.axes is None and limits is None:
+        logging.error(
+            "no axis source. Pass --axes, or --xmin/--xmax/--ymin/--ymax. "
+            "On-device OCR is not bundled; tick labels are not read automatically."
+        )
         return 2
-    logging.info("series=%d confidence=%.3f", len(result.series), result.image_confidence)
-    return 0
+    return _run_extract(args.image, args.out, args.axes, limits, args.x_log, args.y_log)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = list(sys.argv[1:] if argv is None else argv)
+    if args and args[0] == "extract":
+        return _extract_command(args[1:])
+    return _legacy(args)
 
 
 if __name__ == "__main__":

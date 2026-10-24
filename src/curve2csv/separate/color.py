@@ -5,8 +5,8 @@ from __future__ import annotations
 import cv2
 import numpy as np
 from numpy.typing import NDArray
-from skimage.color import deltaE_ciede2000, lab2rgb, rgb2lab
 
+from curve2csv.color_math import deltaE_ciede2000, lab2rgb, rgb2lab
 from curve2csv.config import PipelineConfig
 from curve2csv.types import Masks, SeriesMask
 

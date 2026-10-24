@@ -70,18 +70,11 @@ jobs:
           target: aosp_atd
           ram-size: 2048
           emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot
-          # The runner invokes this script with /bin/sh (dash), which has no pipefail.
+          # android-emulator-runner executes each line in its own /bin/sh,
+          # so a multi-line if is a syntax error. Chaquopy's first launch is
+          # slow on an emulator without KVM; poll logcat instead of am start -W.
           script: |
-            set -eu
             adb logcat -c
             adb install -r -t apk/*.apk
-            timeout 300 adb shell am start -W -n dev.curve2csv/.MainActivity --ez smoke true
-            sleep 2
-            adb logcat -d > logcat.txt
-            if grep -q SMOKE_OK logcat.txt; then
-              echo "emulator smoke: SMOKE_OK"
-              exit 0
-            fi
-            echo "emulator smoke did not report SMOKE_OK"
-            tail -n 200 logcat.txt
-            exit 1
+            adb shell am start -n dev.curve2csv/.MainActivity --ez smoke true
+            i=0; while [ "$i" -lt 18 ]; do i=$((i+1)); sleep 10; adb logcat -d > logcat.txt; if grep -q SMOKE_OK logcat.txt; then echo "emulator smoke: SMOKE_OK"; exit 0; fi; if grep -q SMOKE_FAIL logcat.txt; then echo "emulator smoke: SMOKE_FAIL"; tail -n 200 logcat.txt; exit 1; fi; done; echo "emulator smoke did not report SMOKE_OK"; tail -n 200 logcat.txt; exit 1

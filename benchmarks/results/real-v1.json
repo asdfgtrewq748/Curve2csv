@@ -1,6 +1,6 @@
 {
   "dataset": "owid-grapher-v1",
-  "commit": "f4525c0364e8e1fc49b5fe0d25fc4d33cd70b61d",
+  "commit": "0f70d8480c87e983fff10d91b2d89cf36d9d4e8c",
   "python": "3.12.3",
   "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
   "split_requested": "all",

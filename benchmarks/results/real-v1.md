@@ -1,6 +1,6 @@
 # Real-figure results (owid-grapher-v1)
 
-Commit `bb6f43955ea8eed74694fedcb49ed6e7e64664e1`. Python 3.12.3.
+Commit `06d996523d67ca9dcb8fad5806f14c731ed45097`. Python 3.12.3.
 
 A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90. Flagged points are excluded before scoring.
 

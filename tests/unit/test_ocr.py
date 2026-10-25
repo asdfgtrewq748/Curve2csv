@@ -7,7 +7,14 @@ import pytest
 
 from curve2csv.api import extract
 from curve2csv.ocr.parse import choose_axis, parse_label
-from curve2csv.ocr.read import _expand_glued_years, _labels_present, _merge_words, _Word
+from curve2csv.ocr.read import (
+    _expand_glued_years,
+    _labels_present,
+    _merge_words,
+    _raise_top_along_stroke,
+    _span_from_labels,
+    _Word,
+)
 from curve2csv.types import AxisCalibration, AxisScale
 
 
@@ -66,6 +73,33 @@ def test_missing_axis_row_asks_for_a_margin_pass() -> None:
     extra = [_Word("6", 0.9, 20.0, 110.0, 16.0, 24.0, 104.0, 116.0)]
     merged = _merge_words(years, extra + years[:1])
     assert [word.text for word in merged] == ["1980", "2000", "6"]
+
+
+def test_short_spine_does_not_shrink_the_frame() -> None:
+    # Labels span the axis. A darker piece of the series covers only the right
+    # half. The frame keeps the labels and may grow to a longer spine.
+    left, right = _span_from_labels(
+        87.0,
+        753.0,
+        spine_left=461.0,
+        spine_right=769.0,
+        y_axis=69.0,
+    )
+    assert left == 69.0
+    assert right == 769.0
+    left, right = _span_from_labels(80.0, 700.0)
+    assert (left, right) == (80.0, 700.0)
+
+
+def test_stroke_above_the_top_tick_raises_the_frame() -> None:
+    rgb = np.full((200, 200, 3), 255, dtype=np.uint8)
+    rgb[90:160, 98:102] = (76, 106, 156)
+    # A logo above a gap must not pull the frame up to itself.
+    rgb[10:18, 40:48] = (76, 106, 156)
+    raised = _raise_top_along_stroke(rgb, 40.0, 160.0, 120.0, 50.0)
+    assert raised == 90.0
+    untouched = _raise_top_along_stroke(rgb, 40.0, 160.0, 170.0, 40.0)
+    assert untouched == 170.0
 
 
 def test_linear_ticks_stay_linear() -> None:

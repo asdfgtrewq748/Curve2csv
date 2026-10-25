@@ -175,8 +175,6 @@ def extract_curve(
     else:
         est_width = float(np.median(crop.sum(axis=0)[covered_cols]))
     est_width = max(1.0, est_width)
-    # A low percentile of the per-column run, used only to flag blobs. It does
-    # not decide which pixels are kept.
     run_sizes: list[int] = []
     for col in range(x0, x1):
         col_rows = np.flatnonzero(mask[y0:y1, col])
@@ -193,6 +191,7 @@ def extract_curve(
     gap_runs: list[tuple[int, int]] = []
     gap_start: int | None = None
     last_py: float | None = None
+    prev_rows: np.ndarray | None = None
     text_dist = cv2.distanceTransform((~masks.text).astype(np.uint8), cv2.DIST_L2, 3)
     other_dist = None
     if other_mask is not None and np.any(other_mask):
@@ -213,8 +212,15 @@ def extract_curve(
         runs = _runs(rows)
         runs.sort(key=lambda run: int(run.size), reverse=True)
         chosen = runs[0]
-        if float(chosen.size) > cfg.thick_factor * est_width and len(runs) == 1:
-            # A near-vertical segment has no single y. Leave it as a gap.
+        connected = False
+        if prev_rows is not None and prev_rows.size and chosen.size:
+            # A steep stroke moves farther than its thickness between columns.
+            row_lo = int(prev_rows[0]) - 8
+            row_hi = int(prev_rows[-1]) + 8
+            connected = bool(np.any((chosen >= row_lo) & (chosen <= row_hi)))
+        # A tall blob that does not touch the previous column is not the stroke.
+        # A steep stroke stays connected, and its center is the sample.
+        if float(chosen.size) > cfg.thick_factor * est_width and len(runs) == 1 and not connected:
             if gap_start is None:
                 gap_start = col
             continue
@@ -224,22 +230,23 @@ def extract_curve(
         py = float(np.average(weights_rows, weights=chroma_w) + 0.5)
         px = float(col) + 0.5
         # A thick column that jumps away from the stroke is a step riser or a
-        # legend swatch, not a sample of the curve.
-        if (
-            last_py is not None
-            and abs(py - last_py) > max(8.0, 3.0 * est_width)
-            and float(chosen.size) > 2.2 * est_width
-        ):
+        # legend swatch, not a sample of the curve. A steep stroke stays
+        # connected and moves by about its own thickness, so its center is kept.
+        # A step riser is also connected, but its center sits far from the
+        # previous sample; that midpoint is not a value on the curve.
+        delta_py = abs(py - last_py) if last_py is not None else 0.0
+        jump = last_py is not None and delta_py > max(8.0, 3.0 * est_width)
+        if jump and float(chosen.size) > 2.2 * est_width and (not connected or delta_py > 36.0):
             if gap_start is None:
                 gap_start = col
             continue
         last_py = py
+        prev_rows = chosen
         data = mapper.pixel_to_data(px, py)
         flags = PointFlag.NONE
-        if series_mask.ambiguous:
-            flags |= PointFlag.AMBIGUOUS_SERIES
-        # Two ridges in one column (a crossing, a marker, or a loop) do not
-        # have one y. Keep the longer ridge and mark the sample ambiguous.
+        # A merged color is still one stroke. Flagging every point erases it
+        # from the scored output. A second ridge far from this one, or ink that
+        # sits on another series, has no single y.
         if len(runs) > 1:
             chosen_center = float(np.mean(chosen) + y0 + 0.5)
             split = max(16.0, 4.0 * thin_width)
@@ -248,13 +255,9 @@ def extract_curve(
                 if abs(center - chosen_center) > split:
                     flags |= PointFlag.AMBIGUOUS_SERIES
                     break
-        # A ridge sitting on another series is the fringe of a crossing, not a
-        # clean sample. Keep the value and mark it ambiguous.
         if other_dist is not None:
             iy = int(np.clip(round(py - 0.5), 0, other_dist.shape[0] - 1))
             ix = int(np.clip(round(px - 0.5), 0, other_dist.shape[1] - 1))
-            # A parallel series a few pixels away is still this stroke.
-            # Only the overlapping fringe of a crossing is ambiguous.
             if float(other_dist[iy, ix]) <= 2.0:
                 flags |= PointFlag.AMBIGUOUS_SERIES
         if 0 <= int(py) < text_dist.shape[0] and text_dist[int(py), int(px)] <= 1.5:
@@ -263,9 +266,9 @@ def extract_curve(
         # it is still the stroke. Gray grid ink never enters this mask.
         if col <= x0 + 1 or col >= x1 - 2:
             flags |= PointFlag.EDGE_OF_PLOT
-        # Steep strokes are tall in one column and are kept. Flag only a
-        # column that is still above the skip threshold (several runs share it).
-        if float(chosen.size) > cfg.thick_factor * est_width:
+        # A connected steep stroke has one center. Flag a tall column only when
+        # several runs share it.
+        if float(chosen.size) > cfg.thick_factor * est_width and len(runs) > 1:
             flags |= PointFlag.THICK_SEGMENT
         if column_is_occluded(gray, area.bbox, px):
             flags |= PointFlag.THICK_SEGMENT

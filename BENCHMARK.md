@@ -198,3 +198,5 @@
 x 方向在真值系列自己的 x 范围内均匀取 200 个点。某点算对齐，当最近的预测点与它的 x 距离不超过 1 个像素（像素宽度用 SVG 两端刻度的跨度）。NRMSE 只在对齐的点上计算，缺失点不进入误差。`x_coverage` 是这些采样点里、y 误差也 ≤ 2% 量程的比例。flag 或空坐标的点在评分前删除，所以它们降低 coverage，不记成误差。
 
 直线参数误差：真值在轴空间里线性拟合 R² ≥ 0.98 时，报告斜率相对误差和截距占 y 量程的比例。它不是通过条件。实测写在 `benchmarks/results/real-v1.json`，按 dev、held-out、全体分开。
+
+同一规则下的实测（Python 3.12.3）：修正前 held-out 27/61（44.3%）、全体 52/110（47.3%）；修正绘图框和陡段之后 held-out 38/61（62.3%）、全体 69/110（62.7%）。90% 目标未达到。held-out 剩余失败是 series_count 7、nrmse_and_coverage 7、x_coverage 6。smoke 的 `fabrication_count` 仍是 46，硬门禁仍是 0。

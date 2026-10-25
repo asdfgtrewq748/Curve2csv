@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import cv2
 import numpy as np
 
+from curve2csv.color_math import rgb2lab
 from curve2csv.config import PipelineConfig
 from curve2csv.ocr.parse import _base, choose_axis, parse_label
 from curve2csv.types import AxesOverride, AxisScale, PlotArea, TickInput
@@ -360,10 +361,91 @@ def _bottom_spine(
     return found
 
 
+def _raise_top_along_stroke(
+    rgb: np.ndarray,
+    left: float,
+    right: float,
+    top: float,
+    spacing: float,
+) -> float:
+    """Follow a stroke that continues above the highest y tick.
+
+    Grapher leaves unlabeled headroom above the top gridline, and the line is
+    real ink there. The walk stops at the first gap, so a title or logo above
+    that gap is not pulled into the frame.
+    """
+
+    if rgb.ndim != 3 or rgb.shape[2] < 3:
+        return top
+    lab = rgb2lab(rgb[:, :, :3])
+    chroma = np.sqrt(lab[:, :, 1] ** 2 + lab[:, :, 2] ** 2)
+    height, width = chroma.shape
+    x0 = max(0, int(np.floor(left)))
+    x1 = min(width, int(np.ceil(right)))
+    if x1 - x0 < 10:
+        return top
+    cap = max(0, int(round(top - min(max(spacing, 8.0), 80.0))))
+    start = min(height - 1, max(0, int(round(top))))
+
+    def cols_at(row: int) -> np.ndarray:
+        if row < 0 or row >= height:
+            return np.zeros(0, dtype=np.int32)
+        return np.flatnonzero(chroma[row, x0:x1] >= 12.0).astype(np.int32)
+
+    prev = cols_at(start)
+    if prev.size == 0 or prev.size > 80:
+        return top
+    new_top = float(start)
+    gap = 0
+    for row in range(start - 1, cap - 1, -1):
+        cols = cols_at(row)
+        if cols.size == 0 or cols.size > 80:
+            gap += 1
+            if gap >= 3:
+                break
+            continue
+        delta = cols.astype(np.int32)[:, None] - prev.astype(np.int32)[None, :]
+        if bool(np.any(np.abs(delta) <= 8)):
+            new_top = float(row)
+            prev = cols
+            gap = 0
+        else:
+            gap += 1
+            if gap >= 3:
+                break
+    return new_top
+
+
 def _snap(position: float, target: float, limit: float = 48.0) -> float:
     if abs(position - target) <= limit:
         return target
     return position
+
+
+def _span_from_labels(
+    label_left: float,
+    label_right: float,
+    *,
+    spine_left: float | None = None,
+    spine_right: float | None = None,
+    y_axis: float | None = None,
+) -> tuple[float, float]:
+    """Plot width from every reliable edge, never from the shortest one.
+
+    A dark piece of the series sitting on a light axis is a short horizontal
+    run. Using that run as the only width cuts the frame off inside the ticks
+    that were actually read.
+    """
+
+    left = [label_left]
+    right = [label_right]
+    if y_axis is not None:
+        left.append(y_axis)
+    if spine_left is not None:
+        left.append(spine_left)
+    if spine_right is not None:
+        right.append(spine_right)
+    return min(left), max(right)
 
 
 def read_frame(
@@ -440,26 +522,31 @@ def read_frame(
         max(pos for pos, _value in x_pairs),
         max(18.0, 1.6 * spacing),
     )
+    label_left = min(pos for pos, _value in x_pairs)
+    label_right = max(pos for pos, _value in x_pairs)
     if spine is not None:
         _spine_y, spine_left, spine_right = spine
-        leftmost = min(pos for pos, _value in x_pairs)
-        rightmost = max(pos for pos, _value in x_pairs)
         snapped: list[tuple[float, float]] = []
         for pos, value in x_pairs:
-            if pos == leftmost:
+            if pos == label_left:
                 snapped.append((_snap(pos, spine_left), value))
-            elif pos == rightmost:
+            elif pos == label_right:
                 snapped.append((_snap(pos, spine_right), value))
             else:
                 snapped.append((pos, value))
         x_pairs = snapped
-        left, right = spine_left, spine_right
+        left, right = _span_from_labels(
+            label_left,
+            label_right,
+            spine_left=spine_left,
+            spine_right=spine_right,
+        )
         bottom = float(spine[0])
     else:
-        left = min(pos for pos, _value in x_pairs)
-        right = max(pos for pos, _value in x_pairs)
+        left, right = _span_from_labels(label_left, label_right)
         bottom = max(pos for pos, _value in y_pairs)
     top = min(pos for pos, _value in y_pairs)
+    top = _raise_top_along_stroke(rgb, left, right, top, spacing)
     if right - left < 30.0 or bottom - top < 30.0:
         return None
     # Pad past the stroke. The foreground mask insets by one pixel, and a

@@ -199,4 +199,4 @@ x 方向在真值系列自己的 x 范围内均匀取 200 个点。某点算对�
 
 直线参数误差：真值在轴空间里线性拟合 R² ≥ 0.98 时，报告斜率相对误差和截距占 y 量程的比例。它不是通过条件。实测写在 `benchmarks/results/real-v1.json`，按 dev、held-out、全体分开。
 
-同一规则下的实测（Python 3.12.3）：修正前 held-out 27/61（44.3%）、全体 52/110（47.3%）；修正绘图框和陡段之后 held-out 38/61（62.3%）、全体 69/110（62.7%）。90% 目标未达到。held-out 剩余失败是 series_count 7、nrmse_and_coverage 7、x_coverage 6。smoke 的 `fabrication_count` 仍是 46，硬门禁仍是 0。
+同一规则下的实测（Python 3.12.3）：修正前 held-out 27/61（44.3%）、全体 52/110（47.3%）；修正绘图框和陡段之后 held-out 38/61（62.3%）、全体 69/110（62.7%）。把同一笔画的抗锯齿色边并回该笔画之后，held-out 39/61（63.9%）、全体 70/110（63.6%），dev 仍是 31/49（63.3%）。90% 目标未达到。held-out 剩余失败是 x_coverage 8、nrmse_and_coverage 7、series_count 4。`global-smallpox-cases`、`diphtheria-cases-in-the-united-states`、`rubella-cases-in-the-united-states` 的中位有符号误差约为 0，但有一段年份的描线与已发布 CSV 相差数十像素，这些图保持失败，不按 CSV 改几何。smoke 的 `fabrication_count` 仍是 46，硬门禁仍是 0。

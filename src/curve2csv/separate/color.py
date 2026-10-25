@@ -135,6 +135,97 @@ def _core_pixels(
     return np.asarray(core, dtype=bool)
 
 
+def _column_centers(mask: NDArray[np.bool_]) -> tuple[NDArray[np.int32], NDArray[np.float64]]:
+    ys, xs = np.nonzero(mask)
+    if xs.size == 0:
+        return np.zeros(0, dtype=np.int32), np.zeros(0, dtype=np.float64)
+    order = np.argsort(xs, kind="mergesort")
+    xs = xs[order]
+    ys = ys[order]
+    breaks = np.flatnonzero(np.diff(xs)) + 1
+    groups = np.split(ys, breaks)
+    cols = xs[np.r_[0, breaks]]
+    centers = np.array([float(np.median(group)) for group in groups], dtype=np.float64)
+    return cols.astype(np.int32), centers
+
+
+def _same_stroke(left: SeriesMask, right: SeriesMask) -> bool:
+    """True when two masks are the core and the fringe of one stroke.
+
+    Distinct lines sit many pixels apart. Anti-aliased shades of one stroke
+    share columns and stay within a couple of pixels.
+    """
+
+    de = float(
+        deltaE_ciede2000(
+            np.asarray(left.color_lab, dtype=np.float64)[None, None, :],
+            np.asarray(right.color_lab, dtype=np.float64)[None, None, :],
+        )[0, 0]
+    )
+    if de > 17.0:
+        return False
+    cols_a, cen_a = _column_centers(left.mask)
+    cols_b, cen_b = _column_centers(right.mask)
+    if cols_a.size == 0 or cols_b.size == 0:
+        return False
+    shared_a = np.isin(cols_a, cols_b)
+    if int(shared_a.sum()) < 40:
+        return False
+    lookup = {int(col): float(center) for col, center in zip(cols_b, cen_b, strict=True)}
+    delta = np.array(
+        [
+            abs(float(center) - lookup[int(col)])
+            for col, center in zip(cols_a[shared_a], cen_a[shared_a], strict=True)
+        ],
+        dtype=np.float64,
+    )
+    shorter = min(int(cols_a.size), int(cols_b.size))
+    if delta.size < 0.4 * shorter:
+        return False
+    return float(np.median(delta)) <= 2.5 and float(np.percentile(delta, 90)) <= 7.0
+
+
+def _merge_stroke_shades(series: list[SeriesMask]) -> list[SeriesMask]:
+    if len(series) < 2:
+        return series
+    parent = list(range(len(series)))
+
+    def find(index: int) -> int:
+        while parent[index] != index:
+            parent[index] = parent[parent[index]]
+            index = parent[index]
+        return index
+
+    for i in range(len(series)):
+        for j in range(i + 1, len(series)):
+            if _same_stroke(series[i], series[j]):
+                parent[find(i)] = find(j)
+    groups: dict[int, list[int]] = {}
+    for index in range(len(series)):
+        groups.setdefault(find(index), []).append(index)
+    merged: list[SeriesMask] = []
+    for indexes in groups.values():
+        if len(indexes) == 1:
+            merged.append(series[indexes[0]])
+            continue
+        primary = max(indexes, key=lambda item: int(series[item].mask.sum()))
+        mask = np.zeros_like(series[primary].mask)
+        for item in indexes:
+            mask |= series[item].mask
+        base = series[primary]
+        merged.append(
+            SeriesMask(
+                series_id=base.series_id,
+                color_lab=base.color_lab,
+                style=base.style,
+                mask=mask,
+                separation_score=base.separation_score,
+                ambiguous=base.ambiguous,
+            )
+        )
+    return merged
+
+
 def separate_series(
     rgb: np.ndarray,
     masks: Masks,
@@ -183,4 +274,4 @@ def separate_series(
                 ambiguous=ambiguous or de_margin < cfg.ambiguous_delta_e,
             )
         )
-    return series
+    return _merge_stroke_shades(series)

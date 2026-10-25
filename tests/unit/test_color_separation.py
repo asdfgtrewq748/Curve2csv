@@ -33,6 +33,22 @@ def test_three_tab10_colors_become_three_series() -> None:
     assert len(series) == 3
 
 
+def test_stroke_and_its_fringe_are_one_series() -> None:
+    image = np.full((160, 240, 3), 255, dtype=np.uint8)
+    image[20, 15:225] = 0
+    image[140, 15:225] = 0
+    image[20:141, 15] = 0
+    image[20:141, 224] = 0
+    # Core and a lighter fringe on the same stroke, plus one other line.
+    image[50:52, 30:210] = (177, 53, 7)
+    image[52:54, 30:210] = (199, 109, 76)
+    image[90:92, 30:210] = (76, 106, 156)
+    area = PlotArea(bbox=(15, 20, 224, 140), x_axis_px=140.0, y_axis_px=15.0, score=1.0)
+    masks = build_masks(image, area, PipelineConfig())
+    series = separate_series(image, masks, PipelineConfig())
+    assert len(series) == 2
+
+
 def test_close_colors_merge_or_stay_pure() -> None:
     first = (176, 48, 48)
     second = (180, 52, 50)

@@ -1,14 +1,14 @@
 # Real-figure results (owid-grapher-v1)
 
-Commit `0f70d8480c87e983fff10d91b2d89cf36d9d4e8c`. Python 3.12.3.
+Commit `bb6f43955ea8eed74694fedcb49ed6e7e64664e1`. Python 3.12.3.
 
 A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90. Flagged points are excluded before scoring.
 
 | split | n | correct | accuracy |
 |---|---:|---:|---:|
 | dev | 49 | 31 | 63.27% |
-| held-out | 61 | 38 | 62.30% |
-| all | 110 | 69 | 62.73% |
+| held-out | 61 | 39 | 63.93% |
+| all | 110 | 70 | 63.64% |
 
 Parameter error is the worst relative slope error on series whose ground truth is a straight line (R² ≥ 0.98) in axis space. It is not part of the pass rule. Median over figures where a fit applies:
 
@@ -47,7 +47,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | deaths-and-disappearances-during-migration | held-out | yes | ok | 1 | 1 | 0.257 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration |
 | deaths-from-aids-un | dev | yes | ok | 1 | 1 | 1.414 | 0.910 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-from-aids-un |
 | deaths-from-smallpox-in-london | dev | no | nrmse_and_coverage | 1 | 1 | 2.808 | 0.630 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-from-smallpox-in-london |
-| difference-in-female-and-male-life-expectancy-at-age-45 | held-out | no | series_count | 4 | 5 | 1.272 | 0.030 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45 |
+| difference-in-female-and-male-life-expectancy-at-age-45 | held-out | no | x_coverage | 4 | 4 | 0.943 | 0.030 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45 |
 | different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk | dev | yes | ok | 2 | 2 | 0.097 | 0.910 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk |
 | diphtheria-cases-in-the-united-states | held-out | no | nrmse_and_coverage | 1 | 1 | 3.646 | 0.835 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/diphtheria-cases-in-the-united-states |
 | electric-car-stocks | dev | no | x_coverage | 4 | 4 | 0.600 | 0.050 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/electric-car-stocks |
@@ -56,7 +56,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | fatal-airliner-accidents-per-million-flights | held-out | yes | ok | 1 | 1 | 0.232 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/fatal-airliner-accidents-per-million-flights |
 | fatality-rates-due-to-lightning-in-the-us | dev | yes | ok | 1 | 1 | 0.498 | 0.995 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/fatality-rates-due-to-lightning-in-the-us |
 | fertilizer-total-use | dev | yes | ok | 1 | 1 | 0.146 | 0.945 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/fertilizer-total-use |
-| fish-catch-uk | held-out | no | series_count | 2 | 4 | 0.994 | 0.400 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/fish-catch-uk |
+| fish-catch-uk | held-out | yes | ok | 2 | 2 | 0.592 | 0.955 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/fish-catch-uk |
 | fish-discards | dev | yes | ok | 1 | 1 | 0.208 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/fish-discards |
 | foreign-born-population-of-the-united-states | dev | no | no_calibration | 1 | 0 | n/a | n/a | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states |
 | global-commodity-prices-19602019 | held-out | yes | ok | 1 | 1 | 0.285 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/global-commodity-prices-19602019 |
@@ -77,7 +77,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | labor-force-participation-rate-of-men-65-years-and-older-in-the-usa | held-out | yes | ok | 1 | 1 | 0.202 | 0.995 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/labor-force-participation-rate-of-men-65-years-and-older-in-the-usa |
 | labor-productivity-agriculture-sweden | dev | yes | ok | 1 | 1 | 0.259 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/labor-productivity-agriculture-sweden |
 | labor-productivity-per-hour | dev | yes | ok | 1 | 1 | 0.142 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/labor-productivity-per-hour |
-| land-natural-share | held-out | no | series_count | 4 | 5 | 0.208 | 0.115 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/land-natural-share |
+| land-natural-share | held-out | no | x_coverage | 4 | 4 | 0.208 | 0.115 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/land-natural-share |
 | land-use-agriculture-longterm | held-out | yes | ok | 1 | 1 | 0.073 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/land-use-agriculture-longterm |
 | long-term-cod-catch | held-out | yes | ok | 1 | 1 | 0.858 | 0.915 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/long-term-cod-catch |
 | macroplastics-in-ocean | dev | no | series_count | 3 | 2 | 0.129 | 0.245 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/macroplastics-in-ocean |
@@ -94,7 +94,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | number-of-child-deaths-unwpp | held-out | yes | ok | 1 | 1 | 0.128 | 1.000 | 0.003 | 0.061 | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-child-deaths-unwpp |
 | number-of-countries-having-implemented-a-vat | dev | yes | ok | 1 | 1 | 0.085 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-countries-having-implemented-a-vat |
 | number-of-natural-disaster-events | held-out | yes | ok | 1 | 1 | 0.489 | 0.990 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-natural-disaster-events |
-| number-of-patents-through-the-industrial-revolution | dev | no | series_count | 3 | 4 | 5.097 | 0.050 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution |
+| number-of-patents-through-the-industrial-revolution | dev | no | nrmse_and_coverage | 3 | 3 | 4.023 | 0.050 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution |
 | number-un-peacekeeping-missions | held-out | yes | ok | 1 | 1 | 1.243 | 0.975 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-un-peacekeeping-missions |
 | ozone-depleting-substance-emissions | dev | yes | ok | 2 | 2 | 0.140 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/ozone-depleting-substance-emissions |
 | ozone-depleting-substances-index | held-out | yes | ok | 1 | 1 | 0.184 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/ozone-depleting-substances-index |

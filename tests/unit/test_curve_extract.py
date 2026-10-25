@@ -6,7 +6,21 @@ import numpy as np
 from tests.helpers import line_figure
 
 from curve2csv.api import extract
+from curve2csv.extract.curve import _component_mask
 from curve2csv.types import PointFlag
+
+
+def test_line_component_keeps_the_stroke_and_drops_a_swatch() -> None:
+    mask = np.zeros((80, 200), dtype=bool)
+    mask[40:44, 20:160] = True
+    mask[40:43, 162:198] = True
+    mask[48:50, 80:94] = True
+    mask[10:16, 30:38] = True
+    cleaned = _component_mask(mask, (0, 0, 200, 80), kind="line")
+    assert int(cleaned[40:44, 20:160].sum()) > 0
+    assert int(cleaned[40:43, 162:198].sum()) > 0
+    assert int(cleaned[48:50, 80:94].sum()) == 0
+    assert int(cleaned[10:16, 30:38].sum()) == 0
 
 
 def test_sine_nrmse_and_occluded_gap() -> None:

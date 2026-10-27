@@ -60,10 +60,14 @@ def _run_extract(
     limits: dict[str, float] | None,
     x_log: bool,
     y_log: bool,
+    extractor: str = "rules",
 ) -> int:
+    from curve2csv.config import PipelineConfig
+
+    config = PipelineConfig(extractor=extractor) if extractor != "rules" else None
     try:
         if axes_path is not None:
-            result = extract(image, axes=_load_axes(axes_path), out=out)
+            result = extract(image, axes=_load_axes(axes_path), out=out, config=config)
         elif limits is not None:
             result = extract_with_limits(
                 image,
@@ -74,9 +78,10 @@ def _run_extract(
                 x_scale=AxisScale.LOG10 if x_log else AxisScale.LINEAR,
                 y_scale=AxisScale.LOG10 if y_log else AxisScale.LINEAR,
                 out=out,
+                config=config,
             )
         else:
-            result = extract(image, out=out)
+            result = extract(image, out=out, config=config)
             if not _calibrated(result):
                 raise InputError(
                     "tick labels were not read. Pass --axes or --xmin/--xmax/--ymin/--ymax."
@@ -115,6 +120,7 @@ def _extract_command(argv: list[str]) -> int:
     parser.add_argument("--ymax", type=float)
     parser.add_argument("--x-log", action="store_true")
     parser.add_argument("--y-log", action="store_true")
+    parser.add_argument("--extractor", choices=("rules", "learned"), default="rules")
     parser.add_argument("-v", action="count", default=0)
     args = parser.parse_args(argv)
     logging.basicConfig(
@@ -129,7 +135,9 @@ def _extract_command(argv: list[str]) -> int:
         assert args.xmin is not None and args.xmax is not None
         assert args.ymin is not None and args.ymax is not None
         limits = {"xmin": args.xmin, "xmax": args.xmax, "ymin": args.ymin, "ymax": args.ymax}
-    return _run_extract(args.image, args.out, args.axes, limits, args.x_log, args.y_log)
+    return _run_extract(
+        args.image, args.out, args.axes, limits, args.x_log, args.y_log, args.extractor
+    )
 
 
 def _headless_smoke(argv: list[str]) -> int:

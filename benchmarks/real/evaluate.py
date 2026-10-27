@@ -19,6 +19,7 @@ import numpy as np
 
 from benchmarks.real.metrics import score_figure, valid_xy
 from curve2csv.api import extract
+from curve2csv.config import PipelineConfig
 from curve2csv.types import AxisCalibration
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -38,13 +39,15 @@ def _fmt(value: float | None, digits: int = 3) -> str:
     return f"{value:.{digits}f}"
 
 
-def _one(gt_path: Path, image_path: Path) -> dict[str, Any]:
+def _one(gt_path: Path, image_path: Path, extractor: str) -> dict[str, Any]:
     document = json.loads(gt_path.read_text(encoding="utf-8"))
     started = time.perf_counter()
-    result = extract(image_path)
+    result = extract(image_path, config=PipelineConfig(extractor=extractor))
     elapsed = time.perf_counter() - started
     x_cal = result.calibration.get("x")
     y_cal = result.calibration.get("y")
+    timings = result.diagnostics.get("timings_ms")
+    separate_ms = timings.get("separate") if isinstance(timings, dict) else None
     row: dict[str, Any] = {
         "slug": document["slug"],
         "split": document["split"],
@@ -52,6 +55,8 @@ def _one(gt_path: Path, image_path: Path) -> dict[str, Any]:
         "source_url": document["source_url"],
         "license": document["license"],
         "runtime_s": elapsed,
+        "extractor": str(result.diagnostics.get("extractor", extractor)),
+        "separate_ms": separate_ms,
         "x_scale_gt": document["x_scale"],
         "y_scale_gt": document["y_scale"],
         "x_scale_pred": x_cal.scale.value if isinstance(x_cal, AxisCalibration) else None,
@@ -113,6 +118,7 @@ def _markdown(payload: dict[str, Any]) -> str:
         "# Real-figure results (owid-grapher-v1)",
         "",
         f"Commit `{payload['commit']}`. Python {payload['python']}.",
+        f"Extractor `{payload.get('extractor', 'rules')}`.",
         "",
         "A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90. Flagged points are excluded before scoring.",
         "",
@@ -166,6 +172,7 @@ def _markdown(payload: dict[str, Any]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=("dev", "held-out", "all"), default="all")
+    parser.add_argument("--extractor", choices=("rules", "learned"), default="rules")
     parser.add_argument("--out", type=Path, default=ROOT / "benchmarks" / "results")
     args = parser.parse_args()
     manifest = json.loads((REAL / "manifest.json").read_text(encoding="utf-8"))
@@ -175,7 +182,7 @@ def main() -> None:
     rows: list[dict[str, Any]] = []
     for index, item in enumerate(selected, start=1):
         slug = item["slug"]
-        row = _one(REAL / "gt" / f"{slug}.json", REAL / "figures" / f"{slug}.png")
+        row = _one(REAL / "gt" / f"{slug}.json", REAL / "figures" / f"{slug}.png", args.extractor)
         rows.append(row)
         print(
             f"{index:3d}/{len(selected)} {row['split']:8s} "
@@ -190,6 +197,9 @@ def main() -> None:
         "python": platform.python_version(),
         "platform": platform.platform(),
         "split_requested": args.split,
+        "extractor": args.extractor,
+        "learned_threshold": PipelineConfig().learned_threshold,
+        "learned_tau": PipelineConfig().learned_tau,
         "split_rule": manifest["split_rule"],
         "summary": {
             "dev": _rate(dev_rows),

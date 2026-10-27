@@ -1,10 +1,13 @@
 {
   "dataset": "owid-grapher-v1",
-  "commit": "df055035169b741e2eb030133b5a17838351160a",
+  "commit": "e7dc53d441e66675c2dcbc057d18e32348a3c068",
   "python": "3.12.3",
   "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
   "split_requested": "all",
   "split_rule": "dev if int(sha256(slug).hexdigest(), 16) % 5 < 2 else held-out",
+  "runtime_s_mean": 1.026049353827313,
+  "runtime_s_median": 0.9591481665001993,
+  "bridged_count": 59,
   "summary": {
     "dev": {
       "n": 49,
@@ -17,8 +20,8 @@
         "series_count": 2
       },
       "n_with_parameter_fit": 2,
-      "median_slope_rel_err": 0.013596045479992668,
-      "median_intercept_err_range": 0.8521269755806238
+      "median_slope_rel_err": 0.011290637737466499,
+      "median_intercept_err_range": 0.8088283115472722
     },
     "held-out": {
       "n": 61,
@@ -45,8 +48,52 @@
         "series_count": 6
       },
       "n_with_parameter_fit": 4,
-      "median_slope_rel_err": 0.006867692316652685,
-      "median_intercept_err_range": 0.10487346796969635
+      "median_slope_rel_err": 0.004563984551643568,
+      "median_intercept_err_range": 0.06157480393634473
+    }
+  },
+  "summary_with_bridge": {
+    "dev": {
+      "n": 49,
+      "n_correct": 32,
+      "accuracy": 0.6530612244897959,
+      "failure_reasons": {
+        "nrmse_and_coverage": 6,
+        "x_coverage": 7,
+        "no_calibration": 2,
+        "series_count": 2
+      },
+      "n_with_parameter_fit": 2,
+      "median_slope_rel_err": 0.011290637737466499,
+      "median_intercept_err_range": 0.8088283115472722
+    },
+    "held-out": {
+      "n": 61,
+      "n_correct": 39,
+      "accuracy": 0.639344262295082,
+      "failure_reasons": {
+        "x_coverage": 8,
+        "no_calibration": 3,
+        "series_count": 4,
+        "nrmse_and_coverage": 7
+      },
+      "n_with_parameter_fit": 2,
+      "median_slope_rel_err": 0.004563984551643568,
+      "median_intercept_err_range": 0.05181322975404416
+    },
+    "all": {
+      "n": 110,
+      "n_correct": 71,
+      "accuracy": 0.6454545454545455,
+      "failure_reasons": {
+        "nrmse_and_coverage": 13,
+        "x_coverage": 15,
+        "no_calibration": 5,
+        "series_count": 6
+      },
+      "n_with_parameter_fit": 4,
+      "median_slope_rel_err": 0.004563984551643568,
+      "median_intercept_err_range": 0.06157480393634473
     }
   },
   "figures": [
@@ -56,7 +103,7 @@
       "title": "Air passengers per fatality",
       "source_url": "https://ourworldindata.org/grapher/air-passengers-per-fatality",
       "license": "CC BY 4.0",
-      "runtime_s": 1.2208544320001238,
+      "runtime_s": 1.5896872980010812,
       "x_scale_gt": "linear",
       "y_scale_gt": "log10",
       "x_scale_pred": "log10",
@@ -65,18 +112,27 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 6.740563137403886,
+      "worst_nrmse": 6.819918977306778,
       "worst_coverage": 0.52,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 6.740563137403886,
+          "nrmse": 6.819918977306778,
           "x_coverage": 0.52
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 6.819918977306778,
+        "worst_coverage": 0.52
+      }
     },
     {
       "slug": "annual-fish-catch-taxa",
@@ -84,7 +140,7 @@
       "title": "Annual fish catch relative to mean catch",
       "source_url": "https://ourworldindata.org/grapher/annual-fish-catch-taxa",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1683054069999343,
+      "runtime_s": 1.3860985930004972,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -93,42 +149,51 @@
       "reason": "x_coverage",
       "n_gt": 5,
       "n_pred": 5,
-      "worst_nrmse": 0.4037151206648997,
-      "worst_coverage": 0.61,
+      "worst_nrmse": 0.39672851152027555,
+      "worst_coverage": 0.635,
       "pairs": [
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.21876899601724967,
-          "x_coverage": 0.815
+          "nrmse": 0.16753297411866083,
+          "x_coverage": 0.955
         },
         {
           "pred": 1,
           "gt": 0,
-          "nrmse": 0.24447701239622568,
-          "x_coverage": 0.705
+          "nrmse": 0.17863569999198078,
+          "x_coverage": 0.88
         },
         {
           "pred": 2,
           "gt": 3,
-          "nrmse": 0.24295521625116986,
-          "x_coverage": 0.61
+          "nrmse": 0.22813525716926822,
+          "x_coverage": 0.635
         },
         {
           "pred": 3,
           "gt": 2,
-          "nrmse": 0.4037151206648997,
-          "x_coverage": 0.86
+          "nrmse": 0.39672851152027555,
+          "x_coverage": 0.88
         },
         {
           "pred": 4,
           "gt": 4,
-          "nrmse": 0.20192348729368104,
-          "x_coverage": 0.785
+          "nrmse": 0.19956042919327255,
+          "x_coverage": 0.82
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 17,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 5,
+        "n_pred": 5,
+        "worst_nrmse": 0.41844195902514536,
+        "worst_coverage": 0.635
+      }
     },
     {
       "slug": "annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar",
@@ -136,7 +201,7 @@
       "title": "People receiving antiretroviral therapy through PEPFAR",
       "source_url": "https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0000387130003219,
+      "runtime_s": 1.1362117730004684,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -156,7 +221,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.222140625338247,
+        "worst_coverage": 0.995
+      }
     },
     {
       "slug": "annual-patents-invention-united-states-1790",
@@ -164,7 +238,7 @@
       "title": "Invention patents granted annually in the United States since 1790",
       "source_url": "https://ourworldindata.org/grapher/annual-patents-invention-united-states-1790",
       "license": "CC BY 4.0",
-      "runtime_s": 0.772182020999935,
+      "runtime_s": 0.7527342849989509,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -184,7 +258,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.5605799406821637,
+        "worst_coverage": 0.96
+      }
     },
     {
       "slug": "arable-land-pin",
@@ -192,7 +275,7 @@
       "title": "Arable land needed to produce a fixed quantity of crops",
       "source_url": "https://ourworldindata.org/grapher/arable-land-pin",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1592178809996767,
+      "runtime_s": 1.2201365719993191,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -212,7 +295,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.11146511359707252,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "arctic-sea-ice-coverage-19352014",
@@ -220,7 +312,7 @@
       "title": "Arctic sea ice coverage",
       "source_url": "https://ourworldindata.org/grapher/arctic-sea-ice-coverage-19352014",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9262867489997006,
+      "runtime_s": 1.0136740899997676,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -240,7 +332,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.39469263344825595,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "aviation-fatalities-per-million-passengers",
@@ -248,7 +349,7 @@
       "title": "Global aviation fatalities per million passengers",
       "source_url": "https://ourworldindata.org/grapher/aviation-fatalities-per-million-passengers",
       "license": "CC BY 4.0",
-      "runtime_s": 1.6045622609999555,
+      "runtime_s": 1.6161233250004443,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -268,7 +369,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.2737962343337109,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "banana-yields",
@@ -276,7 +386,7 @@
       "title": "Banana yields",
       "source_url": "https://ourworldindata.org/grapher/banana-yields",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8185712200001944,
+      "runtime_s": 0.926317965000635,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -285,30 +395,39 @@
       "reason": "x_coverage",
       "n_gt": 3,
       "n_pred": 3,
-      "worst_nrmse": 0.518826509795553,
-      "worst_coverage": 0.485,
+      "worst_nrmse": 0.4935464215711539,
+      "worst_coverage": 0.555,
       "pairs": [
         {
           "pred": 0,
           "gt": 2,
-          "nrmse": 0.518826509795553,
+          "nrmse": 0.4935464215711539,
           "x_coverage": 0.66
         },
         {
           "pred": 1,
           "gt": 0,
-          "nrmse": 0.2934303005540547,
-          "x_coverage": 0.995
+          "nrmse": 0.27206645897278153,
+          "x_coverage": 1.0
         },
         {
           "pred": 2,
           "gt": 1,
-          "nrmse": 0.19320212882014517,
-          "x_coverage": 0.485
+          "nrmse": 0.19457786120041037,
+          "x_coverage": 0.555
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 2,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 3,
+        "n_pred": 3,
+        "worst_nrmse": 0.4935464215711539,
+        "worst_coverage": 0.555
+      }
     },
     {
       "slug": "bean-yields",
@@ -316,7 +435,7 @@
       "title": "Bean yields",
       "source_url": "https://ourworldindata.org/grapher/bean-yields",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1475734509995164,
+      "runtime_s": 1.2725433979994705,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -326,7 +445,7 @@
       "n_gt": 4,
       "n_pred": 4,
       "worst_nrmse": 0.17118383450804242,
-      "worst_coverage": 0.665,
+      "worst_coverage": 0.72,
       "pairs": [
         {
           "pred": 0,
@@ -343,18 +462,27 @@
         {
           "pred": 2,
           "gt": 3,
-          "nrmse": 0.14987896812864443,
-          "x_coverage": 0.665
+          "nrmse": 0.14504808327960184,
+          "x_coverage": 0.72
         },
         {
           "pred": 3,
           "gt": 0,
-          "nrmse": 0.1420966525779674,
-          "x_coverage": 0.995
+          "nrmse": 0.14263101343324158,
+          "x_coverage": 1.0
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 4,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 4,
+        "n_pred": 4,
+        "worst_nrmse": 0.17118383450804242,
+        "worst_coverage": 0.725
+      }
     },
     {
       "slug": "biomass-fish-stocks-taxa",
@@ -362,7 +490,7 @@
       "title": "Health of fish stocks by fish group",
       "source_url": "https://ourworldindata.org/grapher/biomass-fish-stocks-taxa",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9832739840003342,
+      "runtime_s": 0.961586019000606,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -382,7 +510,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.10787442755960695,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "breast-cancer-death-rate-in-women",
@@ -390,7 +527,7 @@
       "title": "Breast cancer death rate in women",
       "source_url": "https://ourworldindata.org/grapher/breast-cancer-death-rate-in-women",
       "license": "CC BY 4.0",
-      "runtime_s": 1.8126830159999372,
+      "runtime_s": 1.9399472969998897,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -399,8 +536,8 @@
       "reason": "x_coverage",
       "n_gt": 6,
       "n_pred": 6,
-      "worst_nrmse": 0.16097853289079905,
-      "worst_coverage": 0.535,
+      "worst_nrmse": 0.16073934696916442,
+      "worst_coverage": 0.62,
       "pairs": [
         {
           "pred": 0,
@@ -411,36 +548,45 @@
         {
           "pred": 1,
           "gt": 0,
-          "nrmse": 0.08350053412235757,
-          "x_coverage": 0.875
+          "nrmse": 0.08266172952455567,
+          "x_coverage": 0.9
         },
         {
           "pred": 2,
           "gt": 4,
-          "nrmse": 0.16097853289079905,
-          "x_coverage": 0.875
+          "nrmse": 0.11135286295827651,
+          "x_coverage": 0.96
         },
         {
           "pred": 3,
           "gt": 2,
-          "nrmse": 0.1135314463788846,
-          "x_coverage": 0.535
+          "nrmse": 0.10299189233825583,
+          "x_coverage": 0.62
         },
         {
           "pred": 4,
           "gt": 3,
-          "nrmse": 0.08628618740906495,
-          "x_coverage": 0.81
+          "nrmse": 0.0885095349880809,
+          "x_coverage": 0.88
         },
         {
           "pred": 5,
           "gt": 5,
-          "nrmse": 0.15728234248206555,
-          "x_coverage": 0.655
+          "nrmse": 0.16073934696916442,
+          "x_coverage": 0.68
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 3,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 6,
+        "n_pred": 6,
+        "worst_nrmse": 0.16073934696916442,
+        "worst_coverage": 0.62
+      }
     },
     {
       "slug": "cases-of-paralytic-polio-from-wild-polioviruses",
@@ -448,7 +594,7 @@
       "title": "Reported cases of paralytic polio from wild polioviruses",
       "source_url": "https://ourworldindata.org/grapher/cases-of-paralytic-polio-from-wild-polioviruses",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1688864009993267,
+      "runtime_s": 1.092155140999239,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": null,
@@ -460,7 +606,16 @@
       "worst_nrmse": null,
       "worst_coverage": null,
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "no_calibration",
+        "n_gt": 5,
+        "n_pred": 0,
+        "worst_nrmse": null,
+        "worst_coverage": null
+      }
     },
     {
       "slug": "cashew-nut-yields",
@@ -468,7 +623,7 @@
       "title": "Cashew nut yields",
       "source_url": "https://ourworldindata.org/grapher/cashew-nut-yields",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8587740590000976,
+      "runtime_s": 1.0070997219991114,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -483,7 +638,7 @@
         {
           "pred": 0,
           "gt": 2,
-          "nrmse": 3.3151456497482643,
+          "nrmse": 3.3619522099742096,
           "x_coverage": 0.69
         },
         {
@@ -495,12 +650,21 @@
         {
           "pred": 2,
           "gt": 1,
-          "nrmse": 6.8990733756159175,
-          "x_coverage": 0.43
+          "nrmse": 7.020883509390299,
+          "x_coverage": 0.425
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "series_count",
+        "n_gt": 4,
+        "n_pred": 3,
+        "worst_nrmse": 7.61793969607515,
+        "worst_coverage": 0.005
+      }
     },
     {
       "slug": "cholera-case-fatality-rate",
@@ -508,7 +672,7 @@
       "title": "Cholera case-fatality rate",
       "source_url": "https://ourworldindata.org/grapher/cholera-case-fatality-rate",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7860803670000678,
+      "runtime_s": 0.9457768370011763,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -517,18 +681,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.6321499212505644,
-      "worst_coverage": 0.97,
+      "worst_nrmse": 0.661365966102167,
+      "worst_coverage": 0.95,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.6321499212505644,
-          "x_coverage": 0.97
+          "nrmse": 0.661365966102167,
+          "x_coverage": 0.95
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.661365966102167,
+        "worst_coverage": 0.95
+      }
     },
     {
       "slug": "co2-long-term-concentration",
@@ -536,7 +709,7 @@
       "title": "Carbon dioxide concentration in the atmosphere",
       "source_url": "https://ourworldindata.org/grapher/co2-long-term-concentration",
       "license": "CC BY 4.0",
-      "runtime_s": 2.6621341250001933,
+      "runtime_s": 2.457674217999738,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": null,
@@ -548,7 +721,16 @@
       "worst_nrmse": null,
       "worst_coverage": null,
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "no_calibration",
+        "n_gt": 1,
+        "n_pred": 0,
+        "worst_nrmse": null,
+        "worst_coverage": null
+      }
     },
     {
       "slug": "coal-output-per-worker-in-the-united-kingdom",
@@ -556,7 +738,7 @@
       "title": "Coal output per worker in the United Kingdom",
       "source_url": "https://ourworldindata.org/grapher/coal-output-per-worker-in-the-united-kingdom",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7733957909995297,
+      "runtime_s": 0.8189825709996512,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -565,18 +747,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.5585611341043397,
-      "worst_coverage": 0.975,
+      "worst_nrmse": 0.3690693822986425,
+      "worst_coverage": 0.965,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.5585611341043397,
-          "x_coverage": 0.975
+          "nrmse": 0.3690693822986425,
+          "x_coverage": 0.965
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.3690693822986425,
+        "worst_coverage": 0.965
+      }
     },
     {
       "slug": "cohort-fertility-rate",
@@ -584,7 +775,7 @@
       "title": "Completed cohort fertility rate: births per woman",
       "source_url": "https://ourworldindata.org/grapher/cohort-fertility-rate",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0729807939997045,
+      "runtime_s": 1.1935725749990524,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -593,48 +784,57 @@
       "reason": "x_coverage",
       "n_gt": 6,
       "n_pred": 6,
-      "worst_nrmse": 0.27224809041220055,
-      "worst_coverage": 0.41,
+      "worst_nrmse": 0.24495096341971076,
+      "worst_coverage": 0.645,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.27224809041220055,
-          "x_coverage": 0.41
+          "nrmse": 0.24495096341971076,
+          "x_coverage": 0.645
         },
         {
           "pred": 1,
           "gt": 5,
-          "nrmse": 0.1317692828163846,
-          "x_coverage": 0.77
+          "nrmse": 0.13850226002744961,
+          "x_coverage": 0.815
         },
         {
           "pred": 2,
           "gt": 1,
-          "nrmse": 0.1047411843830258,
-          "x_coverage": 0.885
+          "nrmse": 0.11420118991953088,
+          "x_coverage": 0.96
         },
         {
           "pred": 3,
           "gt": 4,
-          "nrmse": 0.09280224043695132,
-          "x_coverage": 0.595
+          "nrmse": 0.09114318042044102,
+          "x_coverage": 0.655
         },
         {
           "pred": 4,
           "gt": 2,
-          "nrmse": 0.1622858501352005,
-          "x_coverage": 0.755
+          "nrmse": 0.14462427263387007,
+          "x_coverage": 1.0
         },
         {
           "pred": 5,
           "gt": 3,
-          "nrmse": 0.06704758633423404,
-          "x_coverage": 0.55
+          "nrmse": 0.07048353451637583,
+          "x_coverage": 0.76
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 3,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 6,
+        "n_pred": 6,
+        "worst_nrmse": 0.24495096341971076,
+        "worst_coverage": 0.645
+      }
     },
     {
       "slug": "computer-chess-ability",
@@ -642,7 +842,7 @@
       "title": "Highest chess rating ever achieved by computers",
       "source_url": "https://ourworldindata.org/grapher/computer-chess-ability",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8498672329997135,
+      "runtime_s": 0.9567103139997926,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -662,7 +862,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.12312565866295427,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009",
@@ -670,7 +879,7 @@
       "title": "Cost of generating electricity (new capacity) using photovoltaic cells in the US",
       "source_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009",
       "license": "CC BY 4.0",
-      "runtime_s": 1.6062888259993997,
+      "runtime_s": 1.7555554589998792,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -690,7 +899,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.4909271759767729,
+        "worst_coverage": 0.975
+      }
     },
     {
       "slug": "countries-with-a-signed-bilateral-investment-treaty",
@@ -698,7 +916,7 @@
       "title": "Countries with a signed bilateral investment treaty",
       "source_url": "https://ourworldindata.org/grapher/countries-with-a-signed-bilateral-investment-treaty",
       "license": "CC BY 4.0",
-      "runtime_s": 0.987744369000211,
+      "runtime_s": 1.0790367239987972,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -724,7 +942,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 2,
+        "n_pred": 2,
+        "worst_nrmse": 0.25458568023657413,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "countries-with-an-inforce-bilateral-investment-treaty",
@@ -732,7 +959,7 @@
       "title": "Countries with an in-force bilateral investment treaty",
       "source_url": "https://ourworldindata.org/grapher/countries-with-an-inforce-bilateral-investment-treaty",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0006307640005616,
+      "runtime_s": 1.089561221000622,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -758,7 +985,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 2,
+        "n_pred": 2,
+        "worst_nrmse": 0.37215268209778923,
+        "worst_coverage": 0.955
+      }
     },
     {
       "slug": "crude-death-rate-hmd",
@@ -766,7 +1002,7 @@
       "title": "Crude death rate",
       "source_url": "https://ourworldindata.org/grapher/crude-death-rate-hmd",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8645279709999159,
+      "runtime_s": 0.9662979389995598,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -799,18 +1035,27 @@
         {
           "pred": 3,
           "gt": 3,
-          "nrmse": 0.18477443719324063,
-          "x_coverage": 0.755
+          "nrmse": 0.187973879118824,
+          "x_coverage": 0.765
         },
         {
           "pred": 4,
           "gt": 0,
-          "nrmse": 0.1685721239735806,
-          "x_coverage": 0.5
+          "nrmse": 0.2922129730786117,
+          "x_coverage": 1.0
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 5,
+        "n_pred": 5,
+        "worst_nrmse": 2.7121413019645644,
+        "worst_coverage": 0.09
+      }
     },
     {
       "slug": "cumulative-space-visits",
@@ -818,7 +1063,7 @@
       "title": "Cumulative number of human visits to space",
       "source_url": "https://ourworldindata.org/grapher/cumulative-space-visits",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1144016079997527,
+      "runtime_s": 1.2038200099996175,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -827,20 +1072,20 @@
       "reason": "x_coverage",
       "n_gt": 4,
       "n_pred": 4,
-      "worst_nrmse": 0.6143377287288196,
+      "worst_nrmse": 0.5970234808675385,
       "worst_coverage": 0.075,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.6143377287288196,
-          "x_coverage": 0.93
+          "nrmse": 0.5970234808675385,
+          "x_coverage": 0.985
         },
         {
           "pred": 1,
           "gt": 1,
-          "nrmse": 0.4685162474339169,
-          "x_coverage": 0.875
+          "nrmse": 0.4494032701630046,
+          "x_coverage": 0.965
         },
         {
           "pred": 2,
@@ -851,12 +1096,21 @@
         {
           "pred": 3,
           "gt": 2,
-          "nrmse": 0.08012784733894895,
-          "x_coverage": 0.94
+          "nrmse": 0.08186218438750782,
+          "x_coverage": 0.975
         }
       ],
       "slope_rel_err": 0.005819287927170565,
-      "intercept_err_range": 0.04242629196585247
+      "intercept_err_range": 0.04242629196585247,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 4,
+        "n_pred": 4,
+        "worst_nrmse": 0.5970234808675385,
+        "worst_coverage": 0.075
+      }
     },
     {
       "slug": "daily-per-capita-caloric-supply",
@@ -864,7 +1118,7 @@
       "title": "Daily supply of calories per person",
       "source_url": "https://ourworldindata.org/grapher/daily-per-capita-caloric-supply",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0795424230000208,
+      "runtime_s": 1.0045321859997784,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -873,18 +1127,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.19779766201246557,
-      "worst_coverage": 1.0,
+      "worst_nrmse": 0.3483785331966879,
+      "worst_coverage": 0.99,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.19779766201246557,
-          "x_coverage": 1.0
+          "nrmse": 0.3483785331966879,
+          "x_coverage": 0.99
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.3483785331966879,
+        "worst_coverage": 0.99
+      }
     },
     {
       "slug": "deaths-and-disappearances-during-migration",
@@ -892,7 +1155,7 @@
       "title": "Recorded deaths and disappearances during migration",
       "source_url": "https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration",
       "license": "CC BY 4.0",
-      "runtime_s": 0.79328505400008,
+      "runtime_s": 0.7682718639989616,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -912,7 +1175,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.25721930977245255,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "deaths-from-aids-un",
@@ -920,7 +1192,7 @@
       "title": "HIV/AIDS deaths",
       "source_url": "https://ourworldindata.org/grapher/deaths-from-aids-un",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6365135989999544,
+      "runtime_s": 0.6285588090013334,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -940,7 +1212,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 1.4136395381756464,
+        "worst_coverage": 0.91
+      }
     },
     {
       "slug": "deaths-from-smallpox-in-london",
@@ -948,7 +1229,7 @@
       "title": "Smallpox deaths as a share of all deaths in London",
       "source_url": "https://ourworldindata.org/grapher/deaths-from-smallpox-in-london",
       "license": "CC BY 4.0",
-      "runtime_s": 2.1302729469998667,
+      "runtime_s": 2.118865206999544,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -957,18 +1238,27 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 2.808303632561226,
-      "worst_coverage": 0.63,
+      "worst_nrmse": 3.038940847206597,
+      "worst_coverage": 0.5,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 2.808303632561226,
-          "x_coverage": 0.63
+          "nrmse": 3.038940847206597,
+          "x_coverage": 0.5
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 3.038940847206597,
+        "worst_coverage": 0.5
+      }
     },
     {
       "slug": "difference-in-female-and-male-life-expectancy-at-age-45",
@@ -976,7 +1266,7 @@
       "title": "Sex gap in life expectancy at age 45",
       "source_url": "https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1625555970003916,
+      "runtime_s": 1.1471553049996146,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -986,25 +1276,25 @@
       "n_gt": 4,
       "n_pred": 4,
       "worst_nrmse": 0.9425222941371334,
-      "worst_coverage": 0.245,
+      "worst_coverage": 0.39,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.3853147804855908,
-          "x_coverage": 0.245
+          "nrmse": 0.5529266118252274,
+          "x_coverage": 0.39
         },
         {
           "pred": 1,
           "gt": 2,
-          "nrmse": 0.4336599227279346,
-          "x_coverage": 0.775
+          "nrmse": 0.43370085221030075,
+          "x_coverage": 0.825
         },
         {
           "pred": 2,
           "gt": 1,
-          "nrmse": 0.5001294066373236,
-          "x_coverage": 0.78
+          "nrmse": 0.5138181904458271,
+          "x_coverage": 0.915
         },
         {
           "pred": 3,
@@ -1014,7 +1304,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 4,
+        "n_pred": 4,
+        "worst_nrmse": 0.9425222941371334,
+        "worst_coverage": 0.39
+      }
     },
     {
       "slug": "different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk",
@@ -1022,7 +1321,7 @@
       "title": "Different ways of pushing down the wage-setting curve: the Netherlands and the UK",
       "source_url": "https://ourworldindata.org/grapher/different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9061815949999072,
+      "runtime_s": 0.9513153479983885,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1031,24 +1330,33 @@
       "reason": "ok",
       "n_gt": 2,
       "n_pred": 2,
-      "worst_nrmse": 0.09672496626904292,
-      "worst_coverage": 0.91,
+      "worst_nrmse": 0.10592788699157332,
+      "worst_coverage": 0.935,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.0848754747947598,
-          "x_coverage": 0.98
+          "nrmse": 0.08518761838891833,
+          "x_coverage": 1.0
         },
         {
           "pred": 1,
           "gt": 1,
-          "nrmse": 0.09672496626904292,
-          "x_coverage": 0.91
+          "nrmse": 0.10592788699157332,
+          "x_coverage": 0.935
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 2,
+        "n_pred": 2,
+        "worst_nrmse": 0.10592788699157332,
+        "worst_coverage": 0.935
+      }
     },
     {
       "slug": "diphtheria-cases-in-the-united-states",
@@ -1056,7 +1364,7 @@
       "title": "Diphtheria cases in the United States",
       "source_url": "https://ourworldindata.org/grapher/diphtheria-cases-in-the-united-states",
       "license": "CC BY 4.0",
-      "runtime_s": 0.811549426000056,
+      "runtime_s": 0.8249188170011621,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1076,7 +1384,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 3.6456762453405824,
+        "worst_coverage": 0.835
+      }
     },
     {
       "slug": "electric-car-stocks",
@@ -1084,7 +1401,7 @@
       "title": "Electric car stocks",
       "source_url": "https://ourworldindata.org/grapher/electric-car-stocks",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1385043910004242,
+      "runtime_s": 1.1667409490000864,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1093,36 +1410,45 @@
       "reason": "x_coverage",
       "n_gt": 4,
       "n_pred": 4,
-      "worst_nrmse": 0.5995660457107602,
-      "worst_coverage": 0.15,
+      "worst_nrmse": 0.562879947299069,
+      "worst_coverage": 0.38,
       "pairs": [
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.5995660457107602,
-          "x_coverage": 0.73
+          "nrmse": 0.562879947299069,
+          "x_coverage": 0.83
         },
         {
           "pred": 1,
           "gt": 2,
-          "nrmse": 0.43881925510283365,
-          "x_coverage": 0.55
+          "nrmse": 0.4224686683231247,
+          "x_coverage": 0.595
         },
         {
           "pred": 2,
           "gt": 3,
-          "nrmse": 0.13017764080433228,
-          "x_coverage": 0.335
+          "nrmse": 0.14347286009581103,
+          "x_coverage": 0.465
         },
         {
           "pred": 3,
           "gt": 0,
-          "nrmse": 0.1219453728079368,
-          "x_coverage": 0.15
+          "nrmse": 0.09300257207358509,
+          "x_coverage": 0.38
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 4,
+        "n_pred": 4,
+        "worst_nrmse": 0.562879947299069,
+        "worst_coverage": 0.38
+      }
     },
     {
       "slug": "electricity-air-conditioning",
@@ -1130,7 +1456,7 @@
       "title": "Global electricity use for air conditioning",
       "source_url": "https://ourworldindata.org/grapher/electricity-air-conditioning",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6299537750001036,
+      "runtime_s": 0.644481387000269,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1150,7 +1476,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.07887907060205575,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "employment-in-the-coal-industry-in-the-united-kingdom",
@@ -1158,7 +1493,7 @@
       "title": "Employment in the coal industry in the United Kingdom",
       "source_url": "https://ourworldindata.org/grapher/employment-in-the-coal-industry-in-the-united-kingdom",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7724583810004333,
+      "runtime_s": 0.8122125190002407,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1178,7 +1513,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.5184151654675294,
+        "worst_coverage": 0.99
+      }
     },
     {
       "slug": "fatal-airliner-accidents-per-million-flights",
@@ -1186,7 +1530,7 @@
       "title": "Fatal airliner accidents per million commercial flights",
       "source_url": "https://ourworldindata.org/grapher/fatal-airliner-accidents-per-million-flights",
       "license": "CC BY 4.0",
-      "runtime_s": 1.8032556600001044,
+      "runtime_s": 1.7670161080004618,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1206,7 +1550,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.23189593960986007,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "fatality-rates-due-to-lightning-in-the-us",
@@ -1214,7 +1567,7 @@
       "title": "Fatality rates due to lightning in the US",
       "source_url": "https://ourworldindata.org/grapher/fatality-rates-due-to-lightning-in-the-us",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0133487470002365,
+      "runtime_s": 1.0389640320008766,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1223,18 +1576,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.4981652448278351,
+      "worst_nrmse": 0.4658851191623676,
       "worst_coverage": 0.995,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.4981652448278351,
+          "nrmse": 0.4658851191623676,
           "x_coverage": 0.995
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.4658851191623676,
+        "worst_coverage": 0.995
+      }
     },
     {
       "slug": "fertilizer-total-use",
@@ -1242,7 +1604,7 @@
       "title": "Fertilizer consumption",
       "source_url": "https://ourworldindata.org/grapher/fertilizer-total-use",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6510192700006883,
+      "runtime_s": 0.6909004480003205,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1262,7 +1624,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.14625967202909787,
+        "worst_coverage": 0.945
+      }
     },
     {
       "slug": "fish-catch-uk",
@@ -1270,7 +1641,7 @@
       "title": "Fish catch in the United Kingdom",
       "source_url": "https://ourworldindata.org/grapher/fish-catch-uk",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0116690159993595,
+      "runtime_s": 1.1411064760013687,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1279,24 +1650,33 @@
       "reason": "ok",
       "n_gt": 2,
       "n_pred": 2,
-      "worst_nrmse": 0.591517496138892,
-      "worst_coverage": 0.955,
+      "worst_nrmse": 0.5950250366052333,
+      "worst_coverage": 0.96,
       "pairs": [
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.591517496138892,
-          "x_coverage": 0.955
+          "nrmse": 0.5950250366052333,
+          "x_coverage": 0.96
         },
         {
           "pred": 1,
           "gt": 0,
-          "nrmse": 0.42821582860020446,
-          "x_coverage": 0.965
+          "nrmse": 0.3548256949319308,
+          "x_coverage": 0.98
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 2,
+        "n_pred": 2,
+        "worst_nrmse": 0.5950250366052333,
+        "worst_coverage": 0.96
+      }
     },
     {
       "slug": "fish-discards",
@@ -1304,7 +1684,7 @@
       "title": "Fish discards",
       "source_url": "https://ourworldindata.org/grapher/fish-discards",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8991376479998507,
+      "runtime_s": 1.025947025998903,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1324,7 +1704,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.20766786337265355,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "foreign-born-population-of-the-united-states",
@@ -1332,7 +1721,7 @@
       "title": "Foreign-born population of the United States",
       "source_url": "https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8304210240003158,
+      "runtime_s": 0.7857859550003923,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": null,
@@ -1344,7 +1733,16 @@
       "worst_nrmse": null,
       "worst_coverage": null,
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "no_calibration",
+        "n_gt": 1,
+        "n_pred": 0,
+        "worst_nrmse": null,
+        "worst_coverage": null
+      }
     },
     {
       "slug": "global-commodity-prices-19602019",
@@ -1352,7 +1750,7 @@
       "title": "Global commodity prices",
       "source_url": "https://ourworldindata.org/grapher/global-commodity-prices-19602019",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0130931589992542,
+      "runtime_s": 1.1012135800010583,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1372,7 +1770,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.28533279043807946,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "global-death-rate-in-violent-political-conflicts-over-the-long-run",
@@ -1380,7 +1787,7 @@
       "title": "Global death rate in violent political conflicts over the long run",
       "source_url": "https://ourworldindata.org/grapher/global-death-rate-in-violent-political-conflicts-over-the-long-run",
       "license": "CC BY 4.0",
-      "runtime_s": 1.6547460710007726,
+      "runtime_s": 1.246599685999172,
       "x_scale_gt": "linear",
       "y_scale_gt": "log10",
       "x_scale_pred": "linear",
@@ -1389,18 +1796,27 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 13.83578243372722,
+      "worst_nrmse": 12.627448171113917,
       "worst_coverage": 0.23,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 13.83578243372722,
+          "nrmse": 12.627448171113917,
           "x_coverage": 0.23
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 12.627448171113917,
+        "worst_coverage": 0.23
+      }
     },
     {
       "slug": "global-deaths-in-violent-political-conflicts-over-the-long-run",
@@ -1408,7 +1824,7 @@
       "title": "Global deaths in violent political conflicts over the long run",
       "source_url": "https://ourworldindata.org/grapher/global-deaths-in-violent-political-conflicts-over-the-long-run",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7302345769994645,
+      "runtime_s": 0.8200434129994392,
       "x_scale_gt": "linear",
       "y_scale_gt": "log10",
       "x_scale_pred": "linear",
@@ -1417,18 +1833,27 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 10.810289961259963,
+      "worst_nrmse": 10.65655124855235,
       "worst_coverage": 0.24,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 10.810289961259963,
+          "nrmse": 10.65655124855235,
           "x_coverage": 0.24
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 10.65655124855235,
+        "worst_coverage": 0.24
+      }
     },
     {
       "slug": "global-plastics-production",
@@ -1436,7 +1861,7 @@
       "title": "Global plastics production",
       "source_url": "https://ourworldindata.org/grapher/global-plastics-production",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6148754910000207,
+      "runtime_s": 0.6770331330008048,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1456,7 +1881,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.1136200085692311,
+        "worst_coverage": 0.995
+      }
     },
     {
       "slug": "global-smallpox-cases",
@@ -1464,7 +1898,7 @@
       "title": "Smallpox cases reported worldwide",
       "source_url": "https://ourworldindata.org/grapher/global-smallpox-cases",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7285262410005089,
+      "runtime_s": 0.7582054279992008,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1473,18 +1907,27 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 6.251078017405698,
-      "worst_coverage": 0.66,
+      "worst_nrmse": 6.1452376924233745,
+      "worst_coverage": 0.655,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 6.251078017405698,
-          "x_coverage": 0.66
+          "nrmse": 6.1452376924233745,
+          "x_coverage": 0.655
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 6.1452376924233745,
+        "worst_coverage": 0.655
+      }
     },
     {
       "slug": "growth-of-global-trade",
@@ -1492,7 +1935,7 @@
       "title": "Growth of global trade",
       "source_url": "https://ourworldindata.org/grapher/growth-of-global-trade",
       "license": "CC BY 4.0",
-      "runtime_s": 1.4010174489994824,
+      "runtime_s": 1.3835703749991808,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1512,7 +1955,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 1.5268094924644906,
+        "worst_coverage": 0.87
+      }
     },
     {
       "slug": "heat-wave-index-usa",
@@ -1520,7 +1972,7 @@
       "title": "Annual Heat Wave Index in the United States",
       "source_url": "https://ourworldindata.org/grapher/heat-wave-index-usa",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0310113670002465,
+      "runtime_s": 1.0384892509991914,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1529,18 +1981,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 1.3041350272823238,
-      "worst_coverage": 0.905,
+      "worst_nrmse": 1.0353898206684409,
+      "worst_coverage": 0.91,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 1.3041350272823238,
-          "x_coverage": 0.905
+          "nrmse": 1.0353898206684409,
+          "x_coverage": 0.91
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 1.0353898206684409,
+        "worst_coverage": 0.91
+      }
     },
     {
       "slug": "hepb3-number-unvaccinated",
@@ -1548,7 +2009,7 @@
       "title": "Number of one-year-olds who are not fully vaccinated against hepatitis B",
       "source_url": "https://ourworldindata.org/grapher/hepb3-number-unvaccinated",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0254175919999398,
+      "runtime_s": 0.9087907160010218,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -1568,7 +2029,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.1705800352325366,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "homicide-rates-across-western-europe",
@@ -1576,7 +2046,7 @@
       "title": "Homicide rates over the long term",
       "source_url": "https://ourworldindata.org/grapher/homicide-rates-across-western-europe",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9653546549998282,
+      "runtime_s": 1.0052769870017073,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1586,7 +2056,7 @@
       "n_gt": 5,
       "n_pred": 5,
       "worst_nrmse": 9.795732043408885,
-      "worst_coverage": 0.36,
+      "worst_coverage": 0.385,
       "pairs": [
         {
           "pred": 0,
@@ -1597,30 +2067,39 @@
         {
           "pred": 1,
           "gt": 2,
-          "nrmse": 0.20694835282342333,
-          "x_coverage": 0.36
+          "nrmse": 0.2031908796640515,
+          "x_coverage": 0.385
         },
         {
           "pred": 2,
           "gt": 3,
-          "nrmse": 0.10251830320375653,
-          "x_coverage": 0.575
+          "nrmse": 0.10258025423373937,
+          "x_coverage": 0.605
         },
         {
           "pred": 3,
           "gt": 0,
-          "nrmse": 0.13032050588843985,
-          "x_coverage": 0.88
+          "nrmse": 0.13212746655102237,
+          "x_coverage": 1.0
         },
         {
           "pred": 4,
           "gt": 1,
-          "nrmse": 0.18177414455174412,
-          "x_coverage": 0.505
+          "nrmse": 0.16413907147048537,
+          "x_coverage": 0.87
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 2,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 5,
+        "n_pred": 5,
+        "worst_nrmse": 9.795732043408885,
+        "worst_coverage": 0.385
+      }
     },
     {
       "slug": "incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49",
@@ -1628,7 +2107,7 @@
       "title": "New infections of HIV per 1,000 people",
       "source_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49",
       "license": "CC BY 4.0",
-      "runtime_s": 0.5891897740002605,
+      "runtime_s": 0.6653012730002956,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1648,7 +2127,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.09684864604024239,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "india-government-debt-as-a-percentage-of-gdp-19802019",
@@ -1656,7 +2144,7 @@
       "title": "Government debt as a percentage of GDP in India",
       "source_url": "https://ourworldindata.org/grapher/india-government-debt-as-a-percentage-of-gdp-19802019",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8068014639993635,
+      "runtime_s": 0.8559031850018073,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -1676,7 +2164,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.9905441465767973,
+        "worst_coverage": 0.905
+      }
     },
     {
       "slug": "indian-rhinos",
@@ -1684,7 +2181,7 @@
       "title": "Indian rhino population",
       "source_url": "https://ourworldindata.org/grapher/indian-rhinos",
       "license": "CC BY 4.0",
-      "runtime_s": 1.3987709940001878,
+      "runtime_s": 1.3982977739997295,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1704,7 +2201,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.11234365925379411,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "international-capital-flows",
@@ -1712,7 +2218,7 @@
       "title": "International capital flows",
       "source_url": "https://ourworldindata.org/grapher/international-capital-flows",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9323020089996135,
+      "runtime_s": 0.9817860480015952,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1732,7 +2238,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.3273655720457794,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "interpersonal-trust-in-the-us",
@@ -1740,7 +2255,7 @@
       "title": "Interpersonal trust in the United States",
       "source_url": "https://ourworldindata.org/grapher/interpersonal-trust-in-the-us",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7462378029995307,
+      "runtime_s": 0.6843388620000042,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1760,7 +2275,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.1862190316921513,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "javan-rhinos",
@@ -1768,7 +2292,7 @@
       "title": "Javan rhino population",
       "source_url": "https://ourworldindata.org/grapher/javan-rhinos",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6781670070004111,
+      "runtime_s": 0.7361106610005663,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1788,7 +2312,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.16086281227998256,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "labor-force-participation-rate-of-men-65-years-and-older-in-the-usa",
@@ -1796,7 +2329,7 @@
       "title": "Labor force participation rate of men aged 65+ in the United States",
       "source_url": "https://ourworldindata.org/grapher/labor-force-participation-rate-of-men-65-years-and-older-in-the-usa",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9536537779995342,
+      "runtime_s": 0.926317793000635,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1816,7 +2349,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.20247272760717394,
+        "worst_coverage": 0.995
+      }
     },
     {
       "slug": "labor-productivity-agriculture-sweden",
@@ -1824,7 +2366,7 @@
       "title": "Labor productivity in agriculture (GDP/worker)",
       "source_url": "https://ourworldindata.org/grapher/labor-productivity-agriculture-sweden",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7472244489999866,
+      "runtime_s": 0.780923979000363,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1844,7 +2386,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.2587031049325912,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "labor-productivity-per-hour",
@@ -1852,7 +2403,7 @@
       "title": "Productivity per hour of work in the UK",
       "source_url": "https://ourworldindata.org/grapher/labor-productivity-per-hour",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8133921950002332,
+      "runtime_s": 0.7271974730010697,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1872,7 +2423,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.14239176348738838,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "land-natural-share",
@@ -1880,7 +2440,7 @@
       "title": "Share of land defined as natural habitat",
       "source_url": "https://ourworldindata.org/grapher/land-natural-share",
       "license": "CC BY 4.0",
-      "runtime_s": 1.0449611939993702,
+      "runtime_s": 1.064511324000705,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1895,20 +2455,20 @@
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.10084967776048089,
-          "x_coverage": 0.98
+          "nrmse": 0.10005201368569706,
+          "x_coverage": 1.0
         },
         {
           "pred": 1,
           "gt": 2,
-          "nrmse": 0.07732133108259365,
-          "x_coverage": 0.96
+          "nrmse": 0.07675724560748445,
+          "x_coverage": 0.995
         },
         {
           "pred": 2,
           "gt": 0,
-          "nrmse": 0.08285070075149888,
-          "x_coverage": 0.995
+          "nrmse": 0.08372929316170015,
+          "x_coverage": 1.0
         },
         {
           "pred": 3,
@@ -1918,7 +2478,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 5,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 4,
+        "n_pred": 4,
+        "worst_nrmse": 0.20763428563435035,
+        "worst_coverage": 0.115
+      }
     },
     {
       "slug": "land-use-agriculture-longterm",
@@ -1926,7 +2495,7 @@
       "title": "Land used for agriculture",
       "source_url": "https://ourworldindata.org/grapher/land-use-agriculture-longterm",
       "license": "CC BY 4.0",
-      "runtime_s": 0.671997010999803,
+      "runtime_s": 0.6433557140007906,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1946,7 +2515,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.07329488677718772,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "long-term-cod-catch",
@@ -1954,7 +2532,7 @@
       "title": "Five centuries of cod catches in Eastern Canada",
       "source_url": "https://ourworldindata.org/grapher/long-term-cod-catch",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9704528659995049,
+      "runtime_s": 0.975930836999396,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1963,18 +2541,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.8578993048369848,
-      "worst_coverage": 0.915,
+      "worst_nrmse": 0.7314094907899027,
+      "worst_coverage": 0.905,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.8578993048369848,
-          "x_coverage": 0.915
+          "nrmse": 0.7314094907899027,
+          "x_coverage": 0.905
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.7314094907899027,
+        "worst_coverage": 0.905
+      }
     },
     {
       "slug": "macroplastics-in-ocean",
@@ -1982,7 +2569,7 @@
       "title": "Macroplastics in the surface ocean",
       "source_url": "https://ourworldindata.org/grapher/macroplastics-in-ocean",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1386286910001218,
+      "runtime_s": 1.1947966709994944,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1991,24 +2578,33 @@
       "reason": "series_count",
       "n_gt": 3,
       "n_pred": 2,
-      "worst_nrmse": 0.12883986179766097,
-      "worst_coverage": 0.245,
+      "worst_nrmse": 0.1289250321751704,
+      "worst_coverage": 0.255,
       "pairs": [
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.08784816111435809,
-          "x_coverage": 0.245
+          "nrmse": 0.08672445929239257,
+          "x_coverage": 0.255
         },
         {
           "pred": 1,
           "gt": 0,
-          "nrmse": 0.12883986179766097,
-          "x_coverage": 0.99
+          "nrmse": 0.1289250321751704,
+          "x_coverage": 0.995
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "series_count",
+        "n_gt": 3,
+        "n_pred": 2,
+        "worst_nrmse": 0.1289250321751704,
+        "worst_coverage": 0.255
+      }
     },
     {
       "slug": "maize-production",
@@ -2016,7 +2612,7 @@
       "title": "Corn production",
       "source_url": "https://ourworldindata.org/grapher/maize-production",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9242997780002042,
+      "runtime_s": 0.9983103470003698,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2026,7 +2622,7 @@
       "n_gt": 5,
       "n_pred": 5,
       "worst_nrmse": 1.43026198166007,
-      "worst_coverage": 0.485,
+      "worst_coverage": 0.585,
       "pairs": [
         {
           "pred": 0,
@@ -2037,14 +2633,14 @@
         {
           "pred": 1,
           "gt": 1,
-          "nrmse": 0.1673771266482231,
-          "x_coverage": 0.985
+          "nrmse": 0.16652698803021482,
+          "x_coverage": 1.0
         },
         {
           "pred": 2,
           "gt": 3,
-          "nrmse": 0.15178026978779055,
-          "x_coverage": 0.485
+          "nrmse": 0.1356136496812121,
+          "x_coverage": 0.585
         },
         {
           "pred": 3,
@@ -2060,7 +2656,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 3,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 5,
+        "n_pred": 5,
+        "worst_nrmse": 1.43026198166007,
+        "worst_coverage": 0.585
+      }
     },
     {
       "slug": "marriage-rate-per-1000-inhabitants",
@@ -2068,7 +2673,7 @@
       "title": "Marriage rates",
       "source_url": "https://ourworldindata.org/grapher/marriage-rate-per-1000-inhabitants",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8120283409998592,
+      "runtime_s": 0.8730220729994471,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2077,36 +2682,45 @@
       "reason": "series_count",
       "n_gt": 5,
       "n_pred": 4,
-      "worst_nrmse": 1.5226435770382964,
-      "worst_coverage": 0.445,
+      "worst_nrmse": 3.8674165667054416,
+      "worst_coverage": 0.71,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 1.4156923025892014,
-          "x_coverage": 0.97
+          "nrmse": 1.405100662660734,
+          "x_coverage": 0.985
         },
         {
           "pred": 1,
           "gt": 3,
-          "nrmse": 0.11202883274040794,
-          "x_coverage": 0.825
+          "nrmse": 0.12961875422799748,
+          "x_coverage": 0.885
         },
         {
           "pred": 2,
-          "gt": 1,
-          "nrmse": 1.5226435770382964,
-          "x_coverage": 0.445
+          "gt": 4,
+          "nrmse": 3.8674165667054416,
+          "x_coverage": 0.71
         },
         {
           "pred": 3,
           "gt": 2,
-          "nrmse": 0.28573810142960476,
-          "x_coverage": 0.58
+          "nrmse": 0.2783797802845909,
+          "x_coverage": 0.75
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 4,
+      "with_bridge": {
+        "correct": false,
+        "reason": "series_count",
+        "n_gt": 5,
+        "n_pred": 4,
+        "worst_nrmse": 3.8674165667054416,
+        "worst_coverage": 0.71
+      }
     },
     {
       "slug": "material-footprint-per-capita",
@@ -2114,7 +2728,7 @@
       "title": "Material footprint per capita",
       "source_url": "https://ourworldindata.org/grapher/material-footprint-per-capita",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8233336919993235,
+      "runtime_s": 0.9114316510003846,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2134,7 +2748,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.06251317840519496,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "mention-of-the-word-capitalism-in-new-york-times-articles",
@@ -2142,7 +2765,7 @@
       "title": "Mention of the word \u2018capitalism\u2019 in New York Times articles",
       "source_url": "https://ourworldindata.org/grapher/mention-of-the-word-capitalism-in-new-york-times-articles",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8305688860000373,
+      "runtime_s": 0.9201735980004742,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2151,18 +2774,27 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 6.13285897948989,
-      "worst_coverage": 0.265,
+      "worst_nrmse": 5.982209740389532,
+      "worst_coverage": 0.255,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 6.13285897948989,
-          "x_coverage": 0.265
+          "nrmse": 5.982209740389532,
+          "x_coverage": 0.255
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 5.982209740389532,
+        "worst_coverage": 0.255
+      }
     },
     {
       "slug": "microplastics-in-ocean",
@@ -2170,7 +2802,7 @@
       "title": "Microplastics in the surface ocean",
       "source_url": "https://ourworldindata.org/grapher/microplastics-in-ocean",
       "license": "CC BY 4.0",
-      "runtime_s": 0.986680298000465,
+      "runtime_s": 1.001085019999664,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2179,24 +2811,33 @@
       "reason": "series_count",
       "n_gt": 3,
       "n_pred": 2,
-      "worst_nrmse": 0.31435365543204363,
-      "worst_coverage": 0.165,
+      "worst_nrmse": 0.2848585586779746,
+      "worst_coverage": 0.175,
       "pairs": [
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.31435365543204363,
-          "x_coverage": 0.165
+          "nrmse": 0.2848585586779746,
+          "x_coverage": 0.175
         },
         {
           "pred": 1,
           "gt": 0,
-          "nrmse": 0.20552745825849453,
-          "x_coverage": 0.99
+          "nrmse": 0.1925550523359447,
+          "x_coverage": 0.995
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "series_count",
+        "n_gt": 3,
+        "n_pred": 2,
+        "worst_nrmse": 0.2848585586779746,
+        "worst_coverage": 0.175
+      }
     },
     {
       "slug": "natural-resource-rents",
@@ -2204,7 +2845,7 @@
       "title": "Total natural resource rents",
       "source_url": "https://ourworldindata.org/grapher/natural-resource-rents",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9260142180000912,
+      "runtime_s": 1.0072395719998894,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2224,7 +2865,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.3275688934286503,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "new-reported-cases-tetanus",
@@ -2232,7 +2882,7 @@
       "title": "Number of confirmed cases of tetanus",
       "source_url": "https://ourworldindata.org/grapher/new-reported-cases-tetanus",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7291309970005386,
+      "runtime_s": 0.788419751001129,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2252,7 +2902,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.20656982917802877,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "nitrous-oxide-long",
@@ -2260,7 +2919,7 @@
       "title": "Concentration of nitrous oxide in the atmosphere",
       "source_url": "https://ourworldindata.org/grapher/nitrous-oxide-long",
       "license": "CC BY 4.0",
-      "runtime_s": 2.449360237000292,
+      "runtime_s": 2.1339358980003453,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": null,
@@ -2272,7 +2931,16 @@
       "worst_nrmse": null,
       "worst_coverage": null,
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "no_calibration",
+        "n_gt": 1,
+        "n_pred": 0,
+        "worst_nrmse": null,
+        "worst_coverage": null
+      }
     },
     {
       "slug": "northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c",
@@ -2280,7 +2948,7 @@
       "title": "Northern hemisphere temperatures over the long run, deviation from 1951-1990 mean temperature",
       "source_url": "https://ourworldindata.org/grapher/northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1463859509995018,
+      "runtime_s": 1.0912970589997713,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": null,
@@ -2292,7 +2960,16 @@
       "worst_nrmse": null,
       "worst_coverage": null,
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "no_calibration",
+        "n_gt": 1,
+        "n_pred": 0,
+        "worst_nrmse": null,
+        "worst_coverage": null
+      }
     },
     {
       "slug": "northern-white-rhinos",
@@ -2300,7 +2977,7 @@
       "title": "Northern white rhino population",
       "source_url": "https://ourworldindata.org/grapher/northern-white-rhinos",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9534548989995528,
+      "runtime_s": 0.9723739999990357,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2320,7 +2997,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.4316611575520455,
+        "worst_coverage": 0.985
+      }
     },
     {
       "slug": "number-of-child-deaths-unwpp",
@@ -2328,7 +3014,7 @@
       "title": "Number of children who die before age 5",
       "source_url": "https://ourworldindata.org/grapher/number-of-child-deaths-unwpp",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6656274400002076,
+      "runtime_s": 0.6794913550002093,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2348,7 +3034,16 @@
         }
       ],
       "slope_rel_err": 0.003308681176116571,
-      "intercept_err_range": 0.06120016754223585
+      "intercept_err_range": 0.06120016754223585,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.127812524125501,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "number-of-countries-having-implemented-a-vat",
@@ -2356,7 +3051,7 @@
       "title": "Number of countries having implemented value added taxes",
       "source_url": "https://ourworldindata.org/grapher/number-of-countries-having-implemented-a-vat",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6545993059999091,
+      "runtime_s": 0.6754223719999572,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2376,7 +3071,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.08517809314306216,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "number-of-natural-disaster-events",
@@ -2384,7 +3088,7 @@
       "title": "Number of reported natural disaster events",
       "source_url": "https://ourworldindata.org/grapher/number-of-natural-disaster-events",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8831804450001073,
+      "runtime_s": 0.8437201239994465,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2393,18 +3097,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.48853899305168125,
-      "worst_coverage": 0.99,
+      "worst_nrmse": 0.33825223790795134,
+      "worst_coverage": 1.0,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.48853899305168125,
-          "x_coverage": 0.99
+          "nrmse": 0.33825223790795134,
+          "x_coverage": 1.0
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.33825223790795134,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "number-of-patents-through-the-industrial-revolution",
@@ -2412,7 +3125,7 @@
       "title": "Annual patents granted in Great Britain during the Industrial Revolution",
       "source_url": "https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution",
       "license": "CC BY 4.0",
-      "runtime_s": 1.57084820900036,
+      "runtime_s": 1.559734866999861,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2421,30 +3134,39 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 3,
       "n_pred": 3,
-      "worst_nrmse": 4.022975066425577,
-      "worst_coverage": 0.17,
+      "worst_nrmse": 3.7497867299019756,
+      "worst_coverage": 0.325,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 4.022975066425577,
-          "x_coverage": 0.695
+          "nrmse": 3.7497867299019756,
+          "x_coverage": 0.765
         },
         {
           "pred": 1,
           "gt": 2,
-          "nrmse": 2.8673212950735443,
-          "x_coverage": 0.21
+          "nrmse": 2.48677214677252,
+          "x_coverage": 0.325
         },
         {
           "pred": 2,
           "gt": 1,
-          "nrmse": 1.6231771273141449,
-          "x_coverage": 0.17
+          "nrmse": 0.937683795705343,
+          "x_coverage": 0.83
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 8,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 3,
+        "n_pred": 3,
+        "worst_nrmse": 3.7497867299019756,
+        "worst_coverage": 0.325
+      }
     },
     {
       "slug": "number-un-peacekeeping-missions",
@@ -2452,7 +3174,7 @@
       "title": "Number of active United Nations peacekeeping missions",
       "source_url": "https://ourworldindata.org/grapher/number-un-peacekeeping-missions",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6931935510001495,
+      "runtime_s": 0.6896793359992444,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2472,7 +3194,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 1.2433645394588375,
+        "worst_coverage": 0.975
+      }
     },
     {
       "slug": "ozone-depleting-substance-emissions",
@@ -2480,7 +3211,7 @@
       "title": "Ozone-depleting substance emissions",
       "source_url": "https://ourworldindata.org/grapher/ozone-depleting-substance-emissions",
       "license": "CC BY 4.0",
-      "runtime_s": 1.1894601240001066,
+      "runtime_s": 1.560775760000979,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2506,7 +3237,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 2,
+        "n_pred": 2,
+        "worst_nrmse": 0.14033233138165468,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "ozone-depleting-substances-index",
@@ -2514,7 +3254,7 @@
       "title": "Change in the consumption of ozone-depleting substances",
       "source_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9291220880004403,
+      "runtime_s": 0.9195243920003122,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2534,7 +3274,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.1838926906039307,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "palm-oil-production",
@@ -2542,7 +3291,7 @@
       "title": "Oil palm production",
       "source_url": "https://ourworldindata.org/grapher/palm-oil-production",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6502405219998764,
+      "runtime_s": 0.6670623319987499,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2562,7 +3311,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.15946965663125376,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "percentage-of-persons-without-health-insurance-coverage-us",
@@ -2570,7 +3328,7 @@
       "title": "Percentage of people without health insurance in the United States",
       "source_url": "https://ourworldindata.org/grapher/percentage-of-persons-without-health-insurance-coverage-us",
       "license": "CC BY 4.0",
-      "runtime_s": 1.2837516310000865,
+      "runtime_s": 1.308820360000027,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2590,7 +3348,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.12909082638466854,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "population-growth-rate",
@@ -2598,7 +3365,7 @@
       "title": "World population growth",
       "source_url": "https://ourworldindata.org/grapher/population-growth-rate",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6392930680003701,
+      "runtime_s": 0.6546160069992766,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2607,18 +3374,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 1.1393613835581993,
-      "worst_coverage": 0.91,
+      "worst_nrmse": 1.0804264431754231,
+      "worst_coverage": 0.92,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 1.1393613835581993,
-          "x_coverage": 0.91
+          "nrmse": 1.0804264431754231,
+          "x_coverage": 0.92
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 1.0804264431754231,
+        "worst_coverage": 0.92
+      }
     },
     {
       "slug": "population-of-england-millennium",
@@ -2626,7 +3402,7 @@
       "title": "Population of England over history",
       "source_url": "https://ourworldindata.org/grapher/population-of-england-millennium",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6261489300004541,
+      "runtime_s": 0.6678626029988664,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2646,7 +3422,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.15408845209694144,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "population-unwpp",
@@ -2654,7 +3439,7 @@
       "title": "Population",
       "source_url": "https://ourworldindata.org/grapher/population-unwpp",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7482590380004694,
+      "runtime_s": 0.8293207260012423,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2664,19 +3449,19 @@
       "n_gt": 3,
       "n_pred": 3,
       "worst_nrmse": 0.09544764578144058,
-      "worst_coverage": 0.97,
+      "worst_coverage": 0.99,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.06710591686635174,
-          "x_coverage": 0.995
+          "nrmse": 0.06758741116552448,
+          "x_coverage": 1.0
         },
         {
           "pred": 1,
           "gt": 1,
-          "nrmse": 0.07690351933910909,
-          "x_coverage": 0.97
+          "nrmse": 0.07832783817991068,
+          "x_coverage": 0.99
         },
         {
           "pred": 2,
@@ -2685,8 +3470,17 @@
           "x_coverage": 1.0
         }
       ],
-      "slope_rel_err": 0.007916096706134804,
-      "intercept_err_range": 0.14854676839715686
+      "slope_rel_err": 0.003305281221082465,
+      "intercept_err_range": 0.0619494403304536,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 3,
+        "n_pred": 3,
+        "worst_nrmse": 0.09544764578144058,
+        "worst_coverage": 0.99
+      }
     },
     {
       "slug": "prevalence-of-undernourishment-in-developing-countries-since-1970",
@@ -2694,7 +3488,7 @@
       "title": "Share of people who are undernourished in developing countries",
       "source_url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970",
       "license": "CC BY 4.0",
-      "runtime_s": 1.3711685750004108,
+      "runtime_s": 1.3484573639998416,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2714,7 +3508,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.09929010905790017,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "public-trust-in-government",
@@ -2722,7 +3525,7 @@
       "title": "Public trust in the United States government",
       "source_url": "https://ourworldindata.org/grapher/public-trust-in-government",
       "license": "CC BY 4.0",
-      "runtime_s": 0.5811119319996578,
+      "runtime_s": 0.6942323629991733,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -2742,7 +3545,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.5886979392992941,
+        "worst_coverage": 0.98
+      }
     },
     {
       "slug": "reported-share-of-people-experiencing-homelessness",
@@ -2750,7 +3562,7 @@
       "title": "Reported share of people experiencing homelessness",
       "source_url": "https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8328879389991926,
+      "runtime_s": 0.8104061630001524,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -2770,7 +3582,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.06919256591865501,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "rubella-cases-in-the-united-states",
@@ -2778,7 +3599,7 @@
       "title": "Rubella cases in the United States",
       "source_url": "https://ourworldindata.org/grapher/rubella-cases-in-the-united-states",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7286933779996616,
+      "runtime_s": 0.6956173159996979,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -2787,18 +3608,27 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 3.803010757779921,
+      "worst_nrmse": 3.0469017013261235,
       "worst_coverage": 0.8,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 3.803010757779921,
+          "nrmse": 3.0469017013261235,
           "x_coverage": 0.8
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 3.0469017013261235,
+        "worst_coverage": 0.8
+      }
     },
     {
       "slug": "same-sex-marriage-country-count",
@@ -2806,7 +3636,7 @@
       "title": "Number of countries where same-sex marriage is legal",
       "source_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7453355939996982,
+      "runtime_s": 0.7062795299989375,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2826,7 +3656,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 1.1412305278416242,
+        "worst_coverage": 0.53
+      }
     },
     {
       "slug": "share-of-agriculture-in-total-employment",
@@ -2834,7 +3673,7 @@
       "title": "Share of agriculture in total employment",
       "source_url": "https://ourworldindata.org/grapher/share-of-agriculture-in-total-employment",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7996673739999096,
+      "runtime_s": 0.7520886820002488,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2854,7 +3693,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.1063738111745231,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "share-of-the-workforce-employed-in-the-coal-industry-united-kingdom",
@@ -2862,7 +3710,7 @@
       "title": "Share of the workforce employed in the coal industry, United Kingdom",
       "source_url": "https://ourworldindata.org/grapher/share-of-the-workforce-employed-in-the-coal-industry-united-kingdom",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8167939889999616,
+      "runtime_s": 0.9403824559994973,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2871,18 +3719,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.408660268830333,
-      "worst_coverage": 0.99,
+      "worst_nrmse": 0.41944293838833424,
+      "worst_coverage": 0.995,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.408660268830333,
-          "x_coverage": 0.99
+          "nrmse": 0.41944293838833424,
+          "x_coverage": 0.995
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.41944293838833424,
+        "worst_coverage": 0.995
+      }
     },
     {
       "slug": "southern-white-rhinos",
@@ -2890,7 +3747,7 @@
       "title": "Southern white rhino population",
       "source_url": "https://ourworldindata.org/grapher/southern-white-rhinos",
       "license": "CC BY 4.0",
-      "runtime_s": 0.5566887800005134,
+      "runtime_s": 0.640759424000862,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2910,7 +3767,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.41354756027822154,
+        "worst_coverage": 0.99
+      }
     },
     {
       "slug": "stomach-cancer-death-rate",
@@ -2918,7 +3784,7 @@
       "title": "Stomach cancer death rate",
       "source_url": "https://ourworldindata.org/grapher/stomach-cancer-death-rate",
       "license": "CC BY 4.0",
-      "runtime_s": 1.8358769440001197,
+      "runtime_s": 1.891502426000443,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2927,38 +3793,38 @@
       "reason": "x_coverage",
       "n_gt": 6,
       "n_pred": 6,
-      "worst_nrmse": 0.1568453500405737,
-      "worst_coverage": 0.44,
+      "worst_nrmse": 0.1567261545329568,
+      "worst_coverage": 0.605,
       "pairs": [
         {
           "pred": 0,
           "gt": 4,
-          "nrmse": 0.11668311141758977,
-          "x_coverage": 0.645
+          "nrmse": 0.11737193525076844,
+          "x_coverage": 0.705
         },
         {
           "pred": 1,
           "gt": 3,
-          "nrmse": 0.1568453500405737,
-          "x_coverage": 0.97
+          "nrmse": 0.1567261545329568,
+          "x_coverage": 1.0
         },
         {
           "pred": 2,
           "gt": 2,
-          "nrmse": 0.13411986322387046,
-          "x_coverage": 0.44
+          "nrmse": 0.12496429917779024,
+          "x_coverage": 0.605
         },
         {
           "pred": 3,
           "gt": 5,
-          "nrmse": 0.09604984410397666,
-          "x_coverage": 0.945
+          "nrmse": 0.09778580649289507,
+          "x_coverage": 0.955
         },
         {
           "pred": 4,
           "gt": 0,
-          "nrmse": 0.09368798090602964,
-          "x_coverage": 0.825
+          "nrmse": 0.09935008328481115,
+          "x_coverage": 0.955
         },
         {
           "pred": 5,
@@ -2968,7 +3834,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 1,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 6,
+        "n_pred": 6,
+        "worst_nrmse": 0.1567261545329568,
+        "worst_coverage": 0.605
+      }
     },
     {
       "slug": "stratospheric-chorine-concentrations",
@@ -2976,7 +3851,7 @@
       "title": "Stratospheric chlorine concentrations projections",
       "source_url": "https://ourworldindata.org/grapher/stratospheric-chorine-concentrations",
       "license": "CC BY 4.0",
-      "runtime_s": 1.4980022240006292,
+      "runtime_s": 1.4725738850011112,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -2985,30 +3860,39 @@
       "reason": "x_coverage",
       "n_gt": 3,
       "n_pred": 3,
-      "worst_nrmse": 0.46474990829179236,
-      "worst_coverage": 0.77,
+      "worst_nrmse": 0.48814578245179346,
+      "worst_coverage": 0.855,
       "pairs": [
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.4370055124366288,
-          "x_coverage": 0.77
+          "nrmse": 0.46616238387428705,
+          "x_coverage": 0.855
         },
         {
           "pred": 1,
           "gt": 0,
-          "nrmse": 0.46474990829179236,
-          "x_coverage": 0.945
+          "nrmse": 0.48814578245179346,
+          "x_coverage": 0.99
         },
         {
           "pred": 2,
           "gt": 2,
-          "nrmse": 0.29853818794936265,
+          "nrmse": 0.3001708604435188,
           "x_coverage": 0.955
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "x_coverage",
+        "n_gt": 3,
+        "n_pred": 3,
+        "worst_nrmse": 0.48814578245179346,
+        "worst_coverage": 0.855
+      }
     },
     {
       "slug": "stratospheric-ozone-concentration-projections",
@@ -3016,7 +3900,7 @@
       "title": "Stratospheric ozone concentration projections",
       "source_url": "https://ourworldindata.org/grapher/stratospheric-ozone-concentration-projections",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9691195719997268,
+      "runtime_s": 1.148699167999439,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3025,14 +3909,14 @@
       "reason": "series_count",
       "n_gt": 3,
       "n_pred": 4,
-      "worst_nrmse": 1.4257103584789625,
+      "worst_nrmse": 1.422151550708501,
       "worst_coverage": 0.145,
       "pairs": [
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.29612315368320663,
-          "x_coverage": 0.185
+          "nrmse": 0.4264948460841072,
+          "x_coverage": 0.845
         },
         {
           "pred": 1,
@@ -3043,12 +3927,21 @@
         {
           "pred": 3,
           "gt": 0,
-          "nrmse": 1.4257103584789625,
-          "x_coverage": 0.8
+          "nrmse": 1.422151550708501,
+          "x_coverage": 0.805
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 1,
+      "with_bridge": {
+        "correct": false,
+        "reason": "series_count",
+        "n_gt": 3,
+        "n_pred": 4,
+        "worst_nrmse": 1.422151550708501,
+        "worst_coverage": 0.145
+      }
     },
     {
       "slug": "supercomputer-power-flops",
@@ -3056,7 +3949,7 @@
       "title": "Computational capacity of the fastest supercomputers",
       "source_url": "https://ourworldindata.org/grapher/supercomputer-power-flops",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6658982569997534,
+      "runtime_s": 0.7211265930000081,
       "x_scale_gt": "linear",
       "y_scale_gt": "log10",
       "x_scale_pred": "linear",
@@ -3076,7 +3969,16 @@
         }
       ],
       "slope_rel_err": 0.019275994253850532,
-      "intercept_err_range": 1.5557071827640907
+      "intercept_err_range": 1.5557071827640907,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 1.0650910811576835,
+        "worst_coverage": 0.925
+      }
     },
     {
       "slug": "the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018",
@@ -3084,7 +3986,7 @@
       "title": "The amount of cod caught in the Grand Banks (North Atlantic) fisheries",
       "source_url": "https://ourworldindata.org/grapher/the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8594746280004983,
+      "runtime_s": 0.8521611600008328,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3093,18 +3995,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 1.2071811590552801,
+      "worst_nrmse": 1.051407930961215,
       "worst_coverage": 0.95,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 1.2071811590552801,
+          "nrmse": 1.051407930961215,
           "x_coverage": 0.95
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 1.051407930961215,
+        "worst_coverage": 0.95
+      }
     },
     {
       "slug": "the-growth-of-government-in-the-uk",
@@ -3112,7 +4023,7 @@
       "title": "The growth of government",
       "source_url": "https://ourworldindata.org/grapher/the-growth-of-government-in-the-uk",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7612257850005335,
+      "runtime_s": 0.7515547170005448,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3121,18 +4032,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.5220832799692169,
-      "worst_coverage": 0.965,
+      "worst_nrmse": 0.5090057928109946,
+      "worst_coverage": 0.95,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.5220832799692169,
-          "x_coverage": 0.965
+          "nrmse": 0.5090057928109946,
+          "x_coverage": 0.95
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.5090057928109946,
+        "worst_coverage": 0.95
+      }
     },
     {
       "slug": "the-number-of-reported-paralytic-polio-cases",
@@ -3140,7 +4060,7 @@
       "title": "Reported cases of paralytic polio",
       "source_url": "https://ourworldindata.org/grapher/the-number-of-reported-paralytic-polio-cases",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6656124869996347,
+      "runtime_s": 0.6749645370000508,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3160,7 +4080,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.23632700446150953,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "total-agricultural-land-use-per-person",
@@ -3168,7 +4097,7 @@
       "title": "Agricultural land use per person",
       "source_url": "https://ourworldindata.org/grapher/total-agricultural-land-use-per-person",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8740025810002408,
+      "runtime_s": 0.9140910980004264,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3177,18 +4106,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.12737950390879368,
-      "worst_coverage": 0.99,
+      "worst_nrmse": 0.5200249134311388,
+      "worst_coverage": 0.965,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.12737950390879368,
-          "x_coverage": 0.99
+          "nrmse": 0.5200249134311388,
+          "x_coverage": 0.965
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.5200249134311388,
+        "worst_coverage": 0.965
+      }
     },
     {
       "slug": "tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv",
@@ -3196,7 +4134,7 @@
       "title": "Tuberculosis death rate in people without HIV",
       "source_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6804846920003911,
+      "runtime_s": 0.706723602999773,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -3216,7 +4154,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.08083796968338314,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "uk-gdp-growth-19572016",
@@ -3224,7 +4171,7 @@
       "title": "GDP growth",
       "source_url": "https://ourworldindata.org/grapher/uk-gdp-growth-19572016",
       "license": "CC BY 4.0",
-      "runtime_s": 0.89659086499978,
+      "runtime_s": 0.9926652780013683,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3233,18 +4180,27 @@
       "reason": "nrmse_and_coverage",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 7.239903560458444,
-      "worst_coverage": 0.465,
+      "worst_nrmse": 7.210889780388931,
+      "worst_coverage": 0.47,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 7.239903560458444,
-          "x_coverage": 0.465
+          "nrmse": 7.210889780388931,
+          "x_coverage": 0.47
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 7.210889780388931,
+        "worst_coverage": 0.47
+      }
     },
     {
       "slug": "uk-government-debt-as-a-percentage-of-gdp-17272016",
@@ -3252,7 +4208,7 @@
       "title": "UK government debt as a percentage of GDP",
       "source_url": "https://ourworldindata.org/grapher/uk-government-debt-as-a-percentage-of-gdp-17272016",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7995912129999851,
+      "runtime_s": 0.9886865159987792,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3261,18 +4217,27 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.7359255730766134,
-      "worst_coverage": 0.965,
+      "worst_nrmse": 0.6843722592252512,
+      "worst_coverage": 0.97,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.7359255730766134,
-          "x_coverage": 0.965
+          "nrmse": 0.6843722592252512,
+          "x_coverage": 0.97
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.6843722592252512,
+        "worst_coverage": 0.97
+      }
     },
     {
       "slug": "uk-inflation-rate-19892019",
@@ -3280,7 +4245,7 @@
       "title": "Inflation rate",
       "source_url": "https://ourworldindata.org/grapher/uk-inflation-rate-19892019",
       "license": "CC BY 4.0",
-      "runtime_s": 0.7201346589999957,
+      "runtime_s": 0.8659077029988111,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3300,7 +4265,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.2294735057831765,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "uk-unemployment-rate-19712017",
@@ -3308,7 +4282,7 @@
       "title": "Unemployment rate",
       "source_url": "https://ourworldindata.org/grapher/uk-unemployment-rate-19712017",
       "license": "CC BY 4.0",
-      "runtime_s": 0.6112688020002679,
+      "runtime_s": 0.6749219890007225,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3328,7 +4302,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.3117887387867524,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "un-projection-of-annual-infant-deaths",
@@ -3336,7 +4319,7 @@
       "title": "Number of infants who die before age 1",
       "source_url": "https://ourworldindata.org/grapher/un-projection-of-annual-infant-deaths",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8117733939998288,
+      "runtime_s": 0.8697720050004136,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3356,7 +4339,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.09261448803751865,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000",
@@ -3364,7 +4356,7 @@
       "title": "Wage of craftsmen relative to that of laborers in England",
       "source_url": "https://ourworldindata.org/grapher/wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000",
       "license": "CC BY 4.0",
-      "runtime_s": 0.8937142560007487,
+      "runtime_s": 0.8133438799995929,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3384,7 +4376,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 2.62930618674102,
+        "worst_coverage": 0.7
+      }
     },
     {
       "slug": "wages-relative-to-the-cost-of-capital",
@@ -3392,7 +4393,7 @@
       "title": "Wages relative to the cost of capital (late sixteenth to the early nineteenth century)",
       "source_url": "https://ourworldindata.org/grapher/wages-relative-to-the-cost-of-capital",
       "license": "CC BY 4.0",
-      "runtime_s": 0.9108746109995991,
+      "runtime_s": 0.9742957129983552,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3401,24 +4402,33 @@
       "reason": "ok",
       "n_gt": 2,
       "n_pred": 2,
-      "worst_nrmse": 0.15420812768018546,
-      "worst_coverage": 0.995,
+      "worst_nrmse": 0.15505117056915627,
+      "worst_coverage": 1.0,
       "pairs": [
         {
           "pred": 0,
           "gt": 1,
-          "nrmse": 0.15420812768018546,
-          "x_coverage": 0.995
+          "nrmse": 0.15505117056915627,
+          "x_coverage": 1.0
         },
         {
           "pred": 1,
           "gt": 0,
-          "nrmse": 0.11291100881786922,
+          "nrmse": 0.11289178604064969,
           "x_coverage": 1.0
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 1,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 2,
+        "n_pred": 2,
+        "worst_nrmse": 0.15505117056915627,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "what-percentage-of-the-us-public-approves-of-working-wives",
@@ -3426,7 +4436,7 @@
       "title": "What percentage of the US public approves of working wives?",
       "source_url": "https://ourworldindata.org/grapher/what-percentage-of-the-us-public-approves-of-working-wives",
       "license": "CC BY 4.0",
-      "runtime_s": 1.9110095849991922,
+      "runtime_s": 1.4959514149995812,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3446,7 +4456,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": true,
+        "reason": "ok",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 0.16278377318074408,
+        "worst_coverage": 1.0
+      }
     },
     {
       "slug": "wildlife-exports",
@@ -3454,7 +4473,7 @@
       "title": "Global wildlife exports",
       "source_url": "https://ourworldindata.org/grapher/wildlife-exports",
       "license": "CC BY 4.0",
-      "runtime_s": 1.2361544689993025,
+      "runtime_s": 1.1412869300002058,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3468,27 +4487,27 @@
       "pairs": [
         {
           "pred": 0,
-          "gt": 0,
-          "nrmse": 0.4628178165558522,
-          "x_coverage": 0.475
+          "gt": 2,
+          "nrmse": 8.74232294527676,
+          "x_coverage": 0.15
         },
         {
           "pred": 1,
           "gt": 3,
-          "nrmse": 4.8345543418359735,
+          "nrmse": 4.830195865079813,
           "x_coverage": 0.0
         },
         {
           "pred": 2,
-          "gt": 1,
-          "nrmse": 11.202183645888024,
-          "x_coverage": 0.02
+          "gt": 0,
+          "nrmse": 0.4372930390206609,
+          "x_coverage": 0.485
         },
         {
           "pred": 3,
-          "gt": 2,
-          "nrmse": 8.600697803538008,
-          "x_coverage": 0.025
+          "gt": 1,
+          "nrmse": 11.195146278617164,
+          "x_coverage": 0.02
         },
         {
           "pred": 4,
@@ -3498,7 +4517,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 5,
+      "with_bridge": {
+        "correct": false,
+        "reason": "series_count",
+        "n_gt": 6,
+        "n_pred": 5,
+        "worst_nrmse": 30.803377114839087,
+        "worst_coverage": 0.0
+      }
     },
     {
       "slug": "working-hours-uk-millennium",
@@ -3506,7 +4534,7 @@
       "title": "Average annual working hours per worker",
       "source_url": "https://ourworldindata.org/grapher/working-hours-uk-millennium",
       "license": "CC BY 4.0",
-      "runtime_s": 1.053475325999898,
+      "runtime_s": 1.101587859000574,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -3526,7 +4554,16 @@
         }
       ],
       "slope_rel_err": null,
-      "intercept_err_range": null
+      "intercept_err_range": null,
+      "bridged_count": 0,
+      "with_bridge": {
+        "correct": false,
+        "reason": "nrmse_and_coverage",
+        "n_gt": 1,
+        "n_pred": 1,
+        "worst_nrmse": 3.7487514774218895,
+        "worst_coverage": 0.73
+      }
     }
   ]
 }

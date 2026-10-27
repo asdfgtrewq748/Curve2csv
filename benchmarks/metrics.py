@@ -14,7 +14,7 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 from scipy.spatial import cKDTree
 
-from curve2csv.types import Abstain, ExtractionResult, PlotArea
+from curve2csv.types import Abstain, ExtractionResult, PlotArea, PointFlag
 
 UNMATCHED = 100.0
 
@@ -323,6 +323,17 @@ def score_sample(gt: dict[str, Any], result: ExtractionResult, runtime_s: float)
     false_point_rate = float(n_false / n_emitted) if n_emitted else 0.0
 
     fabrication = 0
+    bridged = 0
+    for item in result.series:
+        for point in item.points:
+            if (
+                PointFlag.INTERPOLATED in point.flags
+                and point.x is not None
+                and point.y is not None
+                and np.isfinite(point.x)
+                and np.isfinite(point.y)
+            ):
+                bridged += 1
     for i, j, _c in matched:
         series = gt_series[j]
         invisible = series.get("invisible_ranges") or []
@@ -366,6 +377,7 @@ def score_sample(gt: dict[str, Any], result: ExtractionResult, runtime_s: float)
         "scatter_f1": scatter_f1,
         "bar_rel_err": bar_rel,
         "fabrication_count": int(fabrication),
+        "bridged_count": int(bridged),
         "runtime_s": float(runtime_s),
         "n_points": int(point_conf.size),
         "point_confidence": point_conf,
@@ -588,6 +600,7 @@ def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "scatter_f1_median": _median(col(_subset(rows, "scatter/nonoverlap"), "scatter_f1")),
         "bar_rel_err_median": _median(col(_subset(rows, "bar"), "bar_rel_err")),
         "fabrication_count": int(sum(int(r["fabrication_count"]) for r in rows)),
+        "bridged_count": int(sum(int(r.get("bridged_count") or 0) for r in rows)),
         "completeness": _median(col(rows, "completeness"))
         if any("completeness" in r for r in rows)
         else 1.0,

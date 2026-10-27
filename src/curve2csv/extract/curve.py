@@ -1,4 +1,9 @@
-"""Column-wise centerline extraction. Missing columns become gaps; nothing is interpolated."""
+"""Column-wise centerline extraction.
+
+The path is a color-constrained dynamic program. A short hole is filled only
+when another series covers it; those points carry ``INTERPOLATED``. Every other
+missing column stays a gap.
+"""
 
 from __future__ import annotations
 
@@ -6,6 +11,7 @@ import cv2
 import numpy as np
 
 from curve2csv.config import PipelineConfig
+from curve2csv.extract.track import track_series
 from curve2csv.types import (
     DataPoint,
     Masks,
@@ -144,6 +150,7 @@ def extract_curve(
     color_hex: str | None = None,
     gray: np.ndarray | None = None,
     other_mask: np.ndarray | None = None,
+    lab_image: np.ndarray | None = None,
 ) -> Series:
     cfg = config or PipelineConfig()
     x0, y0, x1, y1 = area.bbox
@@ -188,87 +195,44 @@ def extract_curve(
     )
     thin_width = max(1.0, thin_width)
     points: list[DataPoint] = []
-    gap_runs: list[tuple[int, int]] = []
-    gap_start: int | None = None
-    last_py: float | None = None
-    prev_rows: np.ndarray | None = None
     text_dist = cv2.distanceTransform((~masks.text).astype(np.uint8), cv2.DIST_L2, 3)
-    other_dist = None
-    if other_mask is not None and np.any(other_mask):
-        other_dist = cv2.distanceTransform((~other_mask).astype(np.uint8), cv2.DIST_L2, 3)
-
-    def close_gap(col: int) -> None:
-        nonlocal gap_start
-        if gap_start is not None and col > gap_start:
-            gap_runs.append((gap_start, col))
-        gap_start = None
-
-    for col in range(x0, x1):
-        rows = np.flatnonzero(mask[y0:y1, col])
-        if rows.size == 0:
-            if gap_start is None:
-                gap_start = col
-            continue
-        runs = _runs(rows)
-        runs.sort(key=lambda run: int(run.size), reverse=True)
-        chosen = runs[0]
-        connected = False
-        if prev_rows is not None and prev_rows.size and chosen.size:
-            # A steep stroke moves farther than its thickness between columns.
-            row_lo = int(prev_rows[0]) - 8
-            row_hi = int(prev_rows[-1]) + 8
-            connected = bool(np.any((chosen >= row_lo) & (chosen <= row_hi)))
-        # A tall blob that does not touch the previous column is not the stroke.
-        # A steep stroke stays connected, and its center is the sample.
-        if float(chosen.size) > cfg.thick_factor * est_width and len(runs) == 1 and not connected:
-            if gap_start is None:
-                gap_start = col
-            continue
-        close_gap(col)
-        weights_rows = chosen + y0
-        chroma_w = np.ones(weights_rows.shape, dtype=np.float64)
-        py = float(np.average(weights_rows, weights=chroma_w) + 0.5)
-        px = float(col) + 0.5
-        # A thick column that jumps away from the stroke is a step riser or a
-        # legend swatch, not a sample of the curve. A steep stroke stays
-        # connected and moves by about its own thickness, so its center is kept.
-        # A step riser is also connected, but its center sits far from the
-        # previous sample; that midpoint is not a value on the curve.
-        delta_py = abs(py - last_py) if last_py is not None else 0.0
-        jump = last_py is not None and delta_py > max(8.0, 3.0 * est_width)
-        if jump and float(chosen.size) > 2.2 * est_width and (not connected or delta_py > 36.0):
-            if gap_start is None:
-                gap_start = col
-            continue
-        last_py = py
-        prev_rows = chosen
+    tracked = track_series(
+        mask,
+        area.bbox,
+        est_width=est_width,
+        thin_width=thin_width,
+        color_lab=series_mask.color_lab,
+        lab_image=lab_image,
+        other_mask=other_mask,
+    )
+    for node in tracked:
+        px = float(node.col) + 0.5
+        py = float(node.py)
         data = mapper.pixel_to_data(px, py)
+        if node.kind == "bridge":
+            if data is None:
+                continue
+            points.append(
+                DataPoint(
+                    x=data[0],
+                    y=data[1],
+                    px=px,
+                    py=py,
+                    confidence=0.55,
+                    flags=PointFlag.INTERPOLATED,
+                )
+            )
+            continue
         flags = PointFlag.NONE
-        # A merged color is still one stroke. Flagging every point erases it
-        # from the scored output. A second ridge far from this one, or ink that
-        # sits on another series, has no single y.
-        if len(runs) > 1:
-            chosen_center = float(np.mean(chosen) + y0 + 0.5)
-            split = max(16.0, 4.0 * thin_width)
-            for extra in runs:
-                center = float(np.mean(extra) + y0 + 0.5)
-                if abs(center - chosen_center) > split:
-                    flags |= PointFlag.AMBIGUOUS_SERIES
-                    break
-        if other_dist is not None:
-            iy = int(np.clip(round(py - 0.5), 0, other_dist.shape[0] - 1))
-            ix = int(np.clip(round(px - 0.5), 0, other_dist.shape[1] - 1))
-            if float(other_dist[iy, ix]) <= 2.0:
-                flags |= PointFlag.AMBIGUOUS_SERIES
+        # The path already picked this series' color. A run whose best pixel is
+        # another series' color stays flagged so strict scoring drops it.
+        if node.color_delta > 28.0 or (node.n_runs > 1 and node.color_delta > 17.0):
+            flags |= PointFlag.AMBIGUOUS_SERIES
         if 0 <= int(py) < text_dist.shape[0] and text_dist[int(py), int(px)] <= 1.5:
             flags |= PointFlag.NEAR_TEXT
-        # The sample comes from a chromatic series mask, so a gridline crossing
-        # it is still the stroke. Gray grid ink never enters this mask.
-        if col <= x0 + 1 or col >= x1 - 2:
+        if node.col <= x0 + 1 or node.col >= x1 - 2:
             flags |= PointFlag.EDGE_OF_PLOT
-        # A connected steep stroke has one center. Flag a tall column only when
-        # several runs share it.
-        if float(chosen.size) > cfg.thick_factor * est_width and len(runs) > 1:
+        if node.thickness > cfg.thick_factor * est_width and node.n_runs > 1:
             flags |= PointFlag.THICK_SEGMENT
         if column_is_occluded(gray, area.bbox, px):
             flags |= PointFlag.THICK_SEGMENT
@@ -288,8 +252,6 @@ def extract_curve(
         else:
             x_val, y_val = data
         points.append(DataPoint(x=x_val, y=y_val, px=px, py=py, confidence=confidence, flags=flags))
-    if gap_start is not None:
-        gap_runs.append((gap_start, x1))
     # Specks acquired after a gap are legend remnants, not a curve.
     kept_points: list[DataPoint] = []
     run: list[DataPoint] = []
@@ -298,10 +260,6 @@ def extract_curve(
         nonlocal run
         if len(run) >= 16:
             kept_points.extend(run)
-        elif run:
-            c0 = int(run[0].px)
-            c1 = int(run[-1].px) + 1
-            gap_runs.append((c0, c1))
         run = []
 
     for point in points:
@@ -310,6 +268,18 @@ def extract_curve(
         run.append(point)
     flush_run()
     points = kept_points
+    covered = {int(point.px) for point in points}
+    gap_runs: list[tuple[int, int]] = []
+    gap_start: int | None = None
+    for col in range(x0, x1):
+        if col in covered:
+            if gap_start is not None:
+                gap_runs.append((gap_start, col))
+                gap_start = None
+        elif gap_start is None:
+            gap_start = col
+    if gap_start is not None:
+        gap_runs.append((gap_start, x1))
     gaps: list[tuple[float, float]] = []
     for c0, c1 in gap_runs:
         p0 = mapper.pixel_to_data(float(c0) + 0.5, float(area.x_axis_px))

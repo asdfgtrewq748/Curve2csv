@@ -13,10 +13,22 @@ from curve2csv.types import (
     AxisCalibration,
     ExtractionResult,
     PlotArea,
+    PointFlag,
     flag_names,
 )
 
-CSV_COLUMNS = ("series_id", "series_label", "kind", "x", "y", "confidence", "flags", "px", "py")
+CSV_COLUMNS = (
+    "series_id",
+    "series_label",
+    "kind",
+    "x",
+    "y",
+    "confidence",
+    "flags",
+    "px",
+    "py",
+    "interpolated",
+)
 
 DISCLAIMER = "Values digitized from a published figure; not original measurements."
 
@@ -43,6 +55,7 @@ def write_csv(result: ExtractionResult, path: Path) -> None:
                 "|".join(flag_names(point.flags)),
                 _num(point.px),
                 _num(point.py),
+                "1" if PointFlag.INTERPOLATED in point.flags else "0",
             ]
             lines.append(",".join(fields))
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -99,6 +112,7 @@ def result_document(
                         "py": point.py,
                         "confidence": point.confidence,
                         "flags": flag_names(point.flags),
+                        "interpolated": 1 if PointFlag.INTERPOLATED in point.flags else 0,
                     }
                     for point in series.points
                 ],

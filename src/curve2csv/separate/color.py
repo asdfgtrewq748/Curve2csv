@@ -223,7 +223,59 @@ def _merge_stroke_shades(series: list[SeriesMask]) -> list[SeriesMask]:
                 ambiguous=base.ambiguous,
             )
         )
-    return merged
+    return _strip_ridge_halos(merged)
+
+
+def _strip_ridge_halos(series: list[SeriesMask]) -> list[SeriesMask]:
+    """Drop pixels that sit on another stroke's ridge and far from their own.
+
+    Anti-aliased bleed and a crossing halo make ``other_dist`` flag the parent
+    centerline for the rest of the column. A real crossing stays: those pixels
+    are near both centerlines. A parallel stroke stays: its pixels are near its
+    own centerline. Empty masks are removed. Nothing is filled in.
+    """
+
+    if len(series) < 2:
+        return series
+    width = int(series[0].mask.shape[1])
+    center_rows: list[NDArray[np.float64]] = []
+    for item in series:
+        cols, centers = _column_centers(item.mask)
+        row = np.full(width, np.nan, dtype=np.float64)
+        if cols.size:
+            row[cols] = centers
+        center_rows.append(row)
+    stripped: list[SeriesMask] = []
+    for index, guest in enumerate(series):
+        mask = np.array(guest.mask, copy=True)
+        ys, xs = np.nonzero(mask)
+        if ys.size == 0:
+            continue
+        guest_y = center_rows[index][xs]
+        rows = ys.astype(np.float64)
+        drop = np.zeros(ys.shape[0], dtype=bool)
+        for host_index, host_row in enumerate(center_rows):
+            if host_index == index:
+                continue
+            host_y = host_row[xs]
+            on_host = np.isfinite(host_y) & (np.abs(rows - host_y) <= 2.5)
+            on_guest = np.isfinite(guest_y) & (np.abs(rows - guest_y) <= 6.0)
+            drop |= on_host & ~on_guest
+        if np.any(drop):
+            mask[ys[drop], xs[drop]] = False
+        if int(mask.sum()) < 10:
+            continue
+        stripped.append(
+            SeriesMask(
+                series_id=guest.series_id,
+                color_lab=guest.color_lab,
+                style=guest.style,
+                mask=mask,
+                separation_score=guest.separation_score,
+                ambiguous=guest.ambiguous,
+            )
+        )
+    return stripped
 
 
 def separate_series(

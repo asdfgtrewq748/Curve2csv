@@ -27,6 +27,7 @@ from curve2csv.types import (
     LoadedImage,
     PlotArea,
     Series,
+    SeriesMask,
 )
 
 
@@ -132,7 +133,17 @@ def run_pipeline(
     timings["masks"] = (time.perf_counter() - t0) * 1000.0
 
     t0 = time.perf_counter()
-    separated = separate_series(loaded.rgb, masks, cfg)
+    learned_masks: list[SeriesMask] | None = None
+    if cfg.extractor == "learned":
+        from curve2csv.separate.learned import segment_series
+
+        learned_masks = segment_series(loaded.rgb, area.bbox, cfg)
+    if learned_masks is None:
+        separated = separate_series(loaded.rgb, masks, cfg)
+        extractor_name = "rules"
+    else:
+        separated = learned_masks
+        extractor_name = "learned"
     timings["separate"] = (time.perf_counter() - t0) * 1000.0
 
     if plane is None:
@@ -176,6 +187,8 @@ def run_pipeline(
                 color_hex=color,
                 other_mask=other,
                 gray=gray,
+                clean_components=extractor_name == "rules",
+                allow_single_ridge_overlap=extractor_name == "learned",
             )
         if extracted.points:
             series.append(extracted)
@@ -200,6 +213,8 @@ def run_pipeline(
         "n_detected_ticks": len(detected),
         "n_series_masks": len(separated),
         "aligned": plane.is_axis_aligned(),
+        "extractor": extractor_name,
+        "extractor_requested": cfg.extractor,
     }
     return ExtractionResult(
         schema_version=SCHEMA_VERSION,

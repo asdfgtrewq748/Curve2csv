@@ -93,6 +93,14 @@ CLI 与批处理的完善、PDF、Web UI、3D 图、极坐标、三元图、等�
 
 ---
 
+## M2.5 — 学习像素分割（可选提取器）
+
+规则分离仍是默认。`extractor=learned` 时用一个小的全分辨率扩张卷积（ONNX，CPU）输出墨迹分数和颜色嵌入，再聚成系列掩膜。训练只用 `benchmarks/learned/` 里的合成图（种子 20261025），不用任何 OWID 图像或 CSV。阈值和 tau 只在合成验证集上选定。held-out 只做评测。
+
+掩膜转点沿用现有校准、OCR 和曲线采样。空隙保持空白，不插值。权重校验失败或没有 onnxruntime 时退回规则路径。Android 没有 onnxruntime 轮子，继续走规则路径。Windows 安装包带上 `segmenter.onnx`。CI 不训练。
+
+---
+
 ## M3 — CLI / Python API / 批处理 / PDF（`v0.3.0`）
 
 ### 范围

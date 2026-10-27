@@ -26,6 +26,13 @@ class PipelineConfig:
     scatter_min_pixels: int = 4
     edge_band_px: int = 3
     kmeans_seed: int = 0
+    # "rules" is the default so CI smoke stays on the hand-tuned separator.
+    # "learned" loads the ONNX segmenter and falls back when the weights
+    # cannot be checked. Threshold and tau won the synthetic-val sweep
+    # (matched dice 0.352 at 0.35 / 0.5). They were not chosen on OWID.
+    extractor: str = "rules"
+    learned_threshold: float = 0.35
+    learned_tau: float = 0.5
 
     def config_hash(self) -> str:
         payload = json.dumps(asdict(self), sort_keys=True, separators=(",", ":"))

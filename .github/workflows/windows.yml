@@ -31,7 +31,7 @@ jobs:
           python -m pip install --force-reinstall --no-deps opencv-python-headless==4.10.0.84
       - name: Build the Windows exe
         run: |
-          pyinstaller --noconfirm --clean --name curve2csv --console --paths src --collect-submodules curve2csv --collect-all tkinterdnd2 --collect-all pypdfium2 --collect-all rapidocr_onnxruntime --collect-all onnxruntime packaging/entry.py
+          pyinstaller --noconfirm --clean --name curve2csv --console --paths src --collect-submodules curve2csv --add-data "src/curve2csv/models;curve2csv/models" --collect-all tkinterdnd2 --collect-all pypdfium2 --collect-all rapidocr_onnxruntime --collect-all onnxruntime packaging/entry.py
       - name: Headless smoke
         shell: pwsh
         run: |

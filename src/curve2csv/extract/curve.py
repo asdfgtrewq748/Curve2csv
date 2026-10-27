@@ -144,10 +144,16 @@ def extract_curve(
     color_hex: str | None = None,
     gray: np.ndarray | None = None,
     other_mask: np.ndarray | None = None,
+    clean_components: bool = True,
+    allow_single_ridge_overlap: bool = False,
 ) -> Series:
     cfg = config or PipelineConfig()
     x0, y0, x1, y1 = area.bbox
-    mask = _component_mask(series_mask.mask, area.bbox, kind="line")
+    mask = (
+        _component_mask(series_mask.mask, area.bbox, kind="line")
+        if clean_components
+        else series_mask.mask
+    )
     crop = mask[y0:y1, x0:x1]
     covered_cols = crop.any(axis=0)
     if int(covered_cols.sum()) == 0:
@@ -258,7 +264,8 @@ def extract_curve(
         if other_dist is not None:
             iy = int(np.clip(round(py - 0.5), 0, other_dist.shape[0] - 1))
             ix = int(np.clip(round(px - 0.5), 0, other_dist.shape[1] - 1))
-            if float(other_dist[iy, ix]) <= 2.0:
+            single_ridge = allow_single_ridge_overlap and len(runs) == 1
+            if float(other_dist[iy, ix]) <= 2.0 and not single_ridge:
                 flags |= PointFlag.AMBIGUOUS_SERIES
         if 0 <= int(py) < text_dist.shape[0] and text_dist[int(py), int(px)] <= 1.5:
             flags |= PointFlag.NEAR_TEXT

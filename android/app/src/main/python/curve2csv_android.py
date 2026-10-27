@@ -1,9 +1,9 @@
 """On-device entry points for the Android app.
 
 Tick-label OCR is not bundled. Chaquopy has no Android wheel for
-onnxruntime, which RapidOCR needs, so the reader types the axis endpoints.
-Geometry, color separation, and the CSV export are the same Python core as
-the desktop package.
+onnxruntime, which RapidOCR and the learned segmenter need, so the reader
+types the axis endpoints and series separation stays on the rule-based path.
+Geometry and the CSV export are the same Python core as the desktop package.
 """
 
 from __future__ import annotations

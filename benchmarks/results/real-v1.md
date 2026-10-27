@@ -1,56 +1,56 @@
 # Real-figure results (owid-grapher-v1)
 
-Commit `06d996523d67ca9dcb8fad5806f14c731ed45097`. Python 3.12.3.
+Commit `df055035169b741e2eb030133b5a17838351160a`. Python 3.12.3.
 
 A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90. Flagged points are excluded before scoring.
 
 | split | n | correct | accuracy |
 |---|---:|---:|---:|
-| dev | 49 | 31 | 63.27% |
+| dev | 49 | 32 | 65.31% |
 | held-out | 61 | 39 | 63.93% |
-| all | 110 | 70 | 63.64% |
+| all | 110 | 71 | 64.55% |
 
 Parameter error is the worst relative slope error on series whose ground truth is a straight line (R² ≥ 0.98) in axis space. It is not part of the pass rule. Median over figures where a fit applies:
 
-- dev: n_fit=2, median |Δslope|/|slope|=0.016, median |Δintercept|/range=0.899
+- dev: n_fit=2, median |Δslope|/|slope|=0.014, median |Δintercept|/range=0.852
 - held-out: n_fit=2, median |Δslope|/|slope|=0.005, median |Δintercept|/range=0.052
-- all: n_fit=4, median |Δslope|/|slope|=0.009, median |Δintercept|/range=0.152
+- all: n_fit=4, median |Δslope|/|slope|=0.007, median |Δintercept|/range=0.105
 
 ## Per figure
 
 | slug | split | correct | reason | n_gt | n_pred | worst NRMSE % | worst x-coverage | slope rel err | intercept / range | license | url |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---|---|
 | air-passengers-per-fatality | dev | no | nrmse_and_coverage | 1 | 1 | 6.741 | 0.520 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/air-passengers-per-fatality |
-| annual-fish-catch-taxa | held-out | no | x_coverage | 5 | 5 | 0.405 | 0.165 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/annual-fish-catch-taxa |
+| annual-fish-catch-taxa | held-out | no | x_coverage | 5 | 5 | 0.404 | 0.610 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/annual-fish-catch-taxa |
 | annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar | held-out | yes | ok | 1 | 1 | 0.222 | 0.995 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/annual-number-of-people-receiving-antiretroviral-therapy-through-pepfar |
 | annual-patents-invention-united-states-1790 | held-out | yes | ok | 1 | 1 | 0.561 | 0.960 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/annual-patents-invention-united-states-1790 |
 | arable-land-pin | held-out | yes | ok | 1 | 1 | 0.111 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/arable-land-pin |
 | arctic-sea-ice-coverage-19352014 | dev | yes | ok | 1 | 1 | 0.395 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/arctic-sea-ice-coverage-19352014 |
 | aviation-fatalities-per-million-passengers | dev | yes | ok | 1 | 1 | 0.274 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/aviation-fatalities-per-million-passengers |
-| banana-yields | dev | no | x_coverage | 3 | 3 | 0.522 | 0.075 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/banana-yields |
-| bean-yields | dev | no | x_coverage | 4 | 4 | 0.171 | 0.145 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/bean-yields |
+| banana-yields | dev | no | x_coverage | 3 | 3 | 0.519 | 0.485 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/banana-yields |
+| bean-yields | dev | no | x_coverage | 4 | 4 | 0.171 | 0.665 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/bean-yields |
 | biomass-fish-stocks-taxa | held-out | yes | ok | 1 | 1 | 0.108 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/biomass-fish-stocks-taxa |
-| breast-cancer-death-rate-in-women | held-out | no | x_coverage | 6 | 6 | 0.219 | 0.130 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/breast-cancer-death-rate-in-women |
+| breast-cancer-death-rate-in-women | held-out | no | x_coverage | 6 | 6 | 0.161 | 0.535 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/breast-cancer-death-rate-in-women |
 | cases-of-paralytic-polio-from-wild-polioviruses | held-out | no | no_calibration | 5 | 0 | n/a | n/a | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/cases-of-paralytic-polio-from-wild-polioviruses |
 | cashew-nut-yields | held-out | no | series_count | 4 | 3 | 7.618 | 0.005 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/cashew-nut-yields |
 | cholera-case-fatality-rate | held-out | yes | ok | 1 | 1 | 0.632 | 0.970 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/cholera-case-fatality-rate |
 | co2-long-term-concentration | held-out | no | no_calibration | 1 | 0 | n/a | n/a | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/co2-long-term-concentration |
 | coal-output-per-worker-in-the-united-kingdom | held-out | yes | ok | 1 | 1 | 0.559 | 0.975 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/coal-output-per-worker-in-the-united-kingdom |
-| cohort-fertility-rate | dev | no | x_coverage | 6 | 6 | 0.274 | 0.145 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/cohort-fertility-rate |
+| cohort-fertility-rate | dev | no | x_coverage | 6 | 6 | 0.272 | 0.410 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/cohort-fertility-rate |
 | computer-chess-ability | dev | yes | ok | 1 | 1 | 0.123 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/computer-chess-ability |
 | cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009 | held-out | yes | ok | 1 | 1 | 0.491 | 0.975 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009 |
 | countries-with-a-signed-bilateral-investment-treaty | held-out | yes | ok | 2 | 2 | 0.255 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/countries-with-a-signed-bilateral-investment-treaty |
 | countries-with-an-inforce-bilateral-investment-treaty | held-out | yes | ok | 2 | 2 | 0.372 | 0.955 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/countries-with-an-inforce-bilateral-investment-treaty |
-| crude-death-rate-hmd | dev | no | series_count | 5 | 4 | 2.998 | 0.090 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/crude-death-rate-hmd |
+| crude-death-rate-hmd | dev | no | x_coverage | 5 | 5 | 2.712 | 0.090 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/crude-death-rate-hmd |
 | cumulative-space-visits | held-out | no | x_coverage | 4 | 4 | 0.614 | 0.075 | 0.006 | 0.042 | CC BY 4.0 | https://ourworldindata.org/grapher/cumulative-space-visits |
 | daily-per-capita-caloric-supply | dev | yes | ok | 1 | 1 | 0.198 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/daily-per-capita-caloric-supply |
 | deaths-and-disappearances-during-migration | held-out | yes | ok | 1 | 1 | 0.257 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration |
 | deaths-from-aids-un | dev | yes | ok | 1 | 1 | 1.414 | 0.910 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-from-aids-un |
 | deaths-from-smallpox-in-london | dev | no | nrmse_and_coverage | 1 | 1 | 2.808 | 0.630 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-from-smallpox-in-london |
-| difference-in-female-and-male-life-expectancy-at-age-45 | held-out | no | x_coverage | 4 | 4 | 0.943 | 0.030 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45 |
+| difference-in-female-and-male-life-expectancy-at-age-45 | held-out | no | x_coverage | 4 | 4 | 0.943 | 0.245 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45 |
 | different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk | dev | yes | ok | 2 | 2 | 0.097 | 0.910 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk |
 | diphtheria-cases-in-the-united-states | held-out | no | nrmse_and_coverage | 1 | 1 | 3.646 | 0.835 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/diphtheria-cases-in-the-united-states |
-| electric-car-stocks | dev | no | x_coverage | 4 | 4 | 0.600 | 0.050 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/electric-car-stocks |
+| electric-car-stocks | dev | no | x_coverage | 4 | 4 | 0.600 | 0.150 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/electric-car-stocks |
 | electricity-air-conditioning | dev | yes | ok | 1 | 1 | 0.079 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/electricity-air-conditioning |
 | employment-in-the-coal-industry-in-the-united-kingdom | dev | yes | ok | 1 | 1 | 0.518 | 0.990 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/employment-in-the-coal-industry-in-the-united-kingdom |
 | fatal-airliner-accidents-per-million-flights | held-out | yes | ok | 1 | 1 | 0.232 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/fatal-airliner-accidents-per-million-flights |
@@ -67,7 +67,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | growth-of-global-trade | held-out | no | x_coverage | 1 | 1 | 1.527 | 0.870 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/growth-of-global-trade |
 | heat-wave-index-usa | held-out | yes | ok | 1 | 1 | 1.304 | 0.905 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/heat-wave-index-usa |
 | hepb3-number-unvaccinated | held-out | yes | ok | 1 | 1 | 0.171 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/hepb3-number-unvaccinated |
-| homicide-rates-across-western-europe | dev | no | nrmse_and_coverage | 5 | 5 | 9.796 | 0.035 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/homicide-rates-across-western-europe |
+| homicide-rates-across-western-europe | dev | no | nrmse_and_coverage | 5 | 5 | 9.796 | 0.360 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/homicide-rates-across-western-europe |
 | incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49 | dev | yes | ok | 1 | 1 | 0.097 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49 |
 | india-government-debt-as-a-percentage-of-gdp-19802019 | held-out | yes | ok | 1 | 1 | 0.991 | 0.905 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/india-government-debt-as-a-percentage-of-gdp-19802019 |
 | indian-rhinos | held-out | yes | ok | 1 | 1 | 0.112 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/indian-rhinos |
@@ -81,8 +81,8 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | land-use-agriculture-longterm | held-out | yes | ok | 1 | 1 | 0.073 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/land-use-agriculture-longterm |
 | long-term-cod-catch | held-out | yes | ok | 1 | 1 | 0.858 | 0.915 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/long-term-cod-catch |
 | macroplastics-in-ocean | dev | no | series_count | 3 | 2 | 0.129 | 0.245 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/macroplastics-in-ocean |
-| maize-production | held-out | no | x_coverage | 5 | 5 | 1.430 | 0.125 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/maize-production |
-| marriage-rate-per-1000-inhabitants | held-out | no | series_count | 5 | 4 | 1.416 | 0.330 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/marriage-rate-per-1000-inhabitants |
+| maize-production | held-out | no | x_coverage | 5 | 5 | 1.430 | 0.485 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/maize-production |
+| marriage-rate-per-1000-inhabitants | held-out | no | series_count | 5 | 4 | 1.523 | 0.445 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/marriage-rate-per-1000-inhabitants |
 | material-footprint-per-capita | held-out | yes | ok | 1 | 1 | 0.063 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/material-footprint-per-capita |
 | mention-of-the-word-capitalism-in-new-york-times-articles | held-out | no | nrmse_and_coverage | 1 | 1 | 6.133 | 0.265 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/mention-of-the-word-capitalism-in-new-york-times-articles |
 | microplastics-in-ocean | held-out | no | series_count | 3 | 2 | 0.314 | 0.165 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/microplastics-in-ocean |
@@ -94,7 +94,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | number-of-child-deaths-unwpp | held-out | yes | ok | 1 | 1 | 0.128 | 1.000 | 0.003 | 0.061 | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-child-deaths-unwpp |
 | number-of-countries-having-implemented-a-vat | dev | yes | ok | 1 | 1 | 0.085 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-countries-having-implemented-a-vat |
 | number-of-natural-disaster-events | held-out | yes | ok | 1 | 1 | 0.489 | 0.990 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-natural-disaster-events |
-| number-of-patents-through-the-industrial-revolution | dev | no | nrmse_and_coverage | 3 | 3 | 4.023 | 0.050 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution |
+| number-of-patents-through-the-industrial-revolution | dev | no | nrmse_and_coverage | 3 | 3 | 4.023 | 0.170 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-patents-through-the-industrial-revolution |
 | number-un-peacekeeping-missions | held-out | yes | ok | 1 | 1 | 1.243 | 0.975 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/number-un-peacekeeping-missions |
 | ozone-depleting-substance-emissions | dev | yes | ok | 2 | 2 | 0.140 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/ozone-depleting-substance-emissions |
 | ozone-depleting-substances-index | held-out | yes | ok | 1 | 1 | 0.184 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/ozone-depleting-substances-index |
@@ -102,7 +102,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | percentage-of-persons-without-health-insurance-coverage-us | held-out | yes | ok | 1 | 1 | 0.129 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/percentage-of-persons-without-health-insurance-coverage-us |
 | population-growth-rate | held-out | yes | ok | 1 | 1 | 1.139 | 0.910 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/population-growth-rate |
 | population-of-england-millennium | dev | yes | ok | 1 | 1 | 0.154 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/population-of-england-millennium |
-| population-unwpp | dev | no | x_coverage | 3 | 3 | 0.114 | 0.200 | 0.013 | 0.242 | CC BY 4.0 | https://ourworldindata.org/grapher/population-unwpp |
+| population-unwpp | dev | yes | ok | 3 | 3 | 0.095 | 0.970 | 0.008 | 0.149 | CC BY 4.0 | https://ourworldindata.org/grapher/population-unwpp |
 | prevalence-of-undernourishment-in-developing-countries-since-1970 | held-out | yes | ok | 1 | 1 | 0.099 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/prevalence-of-undernourishment-in-developing-countries-since-1970 |
 | public-trust-in-government | dev | yes | ok | 1 | 1 | 0.589 | 0.980 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/public-trust-in-government |
 | reported-share-of-people-experiencing-homelessness | dev | yes | ok | 1 | 1 | 0.069 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/reported-share-of-people-experiencing-homelessness |
@@ -111,9 +111,9 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | share-of-agriculture-in-total-employment | held-out | yes | ok | 1 | 1 | 0.106 | 1.000 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/share-of-agriculture-in-total-employment |
 | share-of-the-workforce-employed-in-the-coal-industry-united-kingdom | dev | yes | ok | 1 | 1 | 0.409 | 0.990 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/share-of-the-workforce-employed-in-the-coal-industry-united-kingdom |
 | southern-white-rhinos | held-out | yes | ok | 1 | 1 | 0.414 | 0.990 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/southern-white-rhinos |
-| stomach-cancer-death-rate | dev | no | x_coverage | 6 | 6 | 0.170 | 0.100 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/stomach-cancer-death-rate |
-| stratospheric-chorine-concentrations | dev | no | x_coverage | 3 | 3 | 0.460 | 0.160 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/stratospheric-chorine-concentrations |
-| stratospheric-ozone-concentration-projections | dev | no | nrmse_and_coverage | 3 | 3 | 6.707 | 0.100 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/stratospheric-ozone-concentration-projections |
+| stomach-cancer-death-rate | dev | no | x_coverage | 6 | 6 | 0.157 | 0.440 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/stomach-cancer-death-rate |
+| stratospheric-chorine-concentrations | dev | no | x_coverage | 3 | 3 | 0.465 | 0.770 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/stratospheric-chorine-concentrations |
+| stratospheric-ozone-concentration-projections | dev | no | series_count | 3 | 4 | 1.426 | 0.145 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/stratospheric-ozone-concentration-projections |
 | supercomputer-power-flops | dev | yes | ok | 1 | 1 | 1.065 | 0.925 | 0.019 | 1.556 | CC BY 4.0 | https://ourworldindata.org/grapher/supercomputer-power-flops |
 | the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018 | dev | yes | ok | 1 | 1 | 1.207 | 0.950 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/the-amount-of-cod-caught-in-the-grand-banks-north-atlantic-fisheries-18512018 |
 | the-growth-of-government-in-the-uk | dev | yes | ok | 1 | 1 | 0.522 | 0.965 | n/a | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/the-growth-of-government-in-the-uk |

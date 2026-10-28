@@ -122,7 +122,8 @@
 - `flag_precision` / `flag_recall`：把被 flag（任何非空 flag）当作预测"错误"时的精确率和召回率。
 - 可靠性图（reliability diagram）：把 confidence 分成 10 个 bin，统计每个 bin 内的实际正确率，并计算 `ece`（Expected Calibration Error）。
 - **区域级检查**：GT 中不可见（被遮挡）的 x 区间应满足"无输出"或"有 flag"。
-  - `fabrication_count`：落在 GT 不可见区间内（或绘图区外）、**无 flag**，且 confidence ≥ 0.5 的输出点数。**门槛：0**。
+  - `fabrication_count`：落在 GT 不可见区间内（或绘图区外）、**无 flag**，且 confidence ≥ 0.5 的输出点数。**门槛：0**。合成评测的 `aggregates.fabrication_count` 就是 `per_sample` 中该字段的求和；评测器在写 JSON 前会断言两者相等。桥接点带 `INTERPOLATED`，不计入。真实 OWID 集没有不可见区间掩膜，其逐图 `fabrication_count` 是更窄的报告项：无 flag、confidence ≥ 0.5、且落在已发布 x/y 量程外的点，不参与通过规则。
+  - `ink_support`：对每个非空、非桥接的输出点，检查其 2px 邻域内是否存在 CIEDE2000 ≤ 18 的同色墨迹；报告被支持点的比例。只报告，不参与通过规则。
   - `abstain_precision`：输出为空或被 flag 的 x 区间中，真实不可见或误差大的比例（反映是否过度保守）。
 - 图级：`image_confidence` 与 `curve_nrmse_range` 的 Spearman ρ，期望为负相关（M2 起报告）。
 

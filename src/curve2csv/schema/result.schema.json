@@ -55,12 +55,14 @@
               "maxItems": 4,
               "items": { "type": "number" }
             },
-            "score": { "type": "number" }
+            "score": { "type": "number" },
+            "source": { "type": "string" }
           }
         }
       ]
     },
     "axes": { "type": "object" },
+    "calibration_id": { "type": "string" },
     "series": {
       "type": "array",
       "items": {
@@ -75,6 +77,23 @@
           "confidence": { "type": "number" },
           "coverage": { "type": "number" },
           "gaps": { "type": "array" },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["segment_id", "n_points"],
+              "properties": {
+                "segment_id": { "type": "integer" },
+                "start_x": { "type": ["number", "null"] },
+                "end_x": { "type": ["number", "null"] },
+                "start_px": { "type": ["number", "null"] },
+                "end_px": { "type": ["number", "null"] },
+                "n_points": { "type": "integer" },
+                "n_bridged": { "type": "integer" },
+                "n_empty": { "type": "integer" }
+              }
+            }
+          },
           "points": {
             "type": "array",
             "items": {
@@ -87,7 +106,10 @@
                 "py": { "type": "number" },
                 "confidence": { "type": "number" },
                 "flags": { "type": "array", "items": { "type": "string" } },
-                "interpolated": { "type": "integer", "enum": [0, 1] }
+                "interpolated": { "type": "integer", "enum": [0, 1] },
+                "status": { "type": "string", "enum": ["ok", "flagged", "bridge", "empty"] },
+                "segment_id": { "type": "integer" },
+                "calibration_id": { "type": "string" }
               }
             }
           }

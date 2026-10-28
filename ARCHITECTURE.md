@@ -199,11 +199,13 @@ class ExtractionResult:
 
 ### 4.1 CSV（长表，每点一行；`<stem>.csv`）
 ```
-series_id,series_label,kind,x,y,confidence,flags,px,py
-s0,,line,12.5,3.41,0.93,,412.0,188.5
-s0,,line,13.0,,0.12,LOW_CONFIDENCE|NEAR_TEXT,418.0,190.0
+series_id,series_label,kind,x,y,confidence,flags,px,py,interpolated,status,segment_id,calibration_id
+s0,,line,12.5,3.41,0.93,,412.0,188.5,0,ok,0,cal-0123456789ab
+s0,,line,13.0,,0.12,LOW_CONFIDENCE|NEAR_TEXT,418.0,190.0,0,empty,1,cal-0123456789ab
+s0,,line,13.5,3.44,0.55,INTERPOLATED,424.0,191.0,1,bridge,1,cal-0123456789ab
 ```
-- `x`/`y` 为空表示弃权（**不插值**）。`flags` 用 `|` 连接。
+- `x`/`y` 为空表示弃权（**不插值**），`status=empty`。`flags` 用 `|` 连接。
+- `status` 为 `ok` / `flagged` / `bridge` / `empty`。普通空列开始新的 `segment_id`；短遮挡桥留在同一段。
 - 可选的宽表 `--wide`：按 x 对齐，只在各系列共享 x 网格时可用（例如柱状图），否则拒绝生成。
 - 文件头不写注释行（保证与 pandas、Excel 兼容），元数据放在 JSON 中。
 
@@ -215,7 +217,8 @@ s0,,line,13.0,,0.12,LOW_CONFIDENCE|NEAR_TEXT,418.0,190.0
   "source": {"path": "fig3.png", "sha256": "…", "page": null, "width": 1600, "height": 1200},
   "data_origin": "digitized_from_figure",
   "disclaimer": "Values digitized from a published figure; not original measurements.",
-  "plot_area": {"bbox": [120, 40, 1550, 1100], "score": 0.97},
+  "plot_area": {"bbox": [120, 40, 1550, 1100], "score": 0.97, "source": "detected"},
+  "calibration_id": "cal-0123456789ab",
   "axes": {
     "x": {"scale": "linear", "inverted": false, "a": 0.0123, "b": -1.47, "residual_rel": 0.0008,
            "ticks": [{"px": 120.0, "value": 0, "text": "0", "source": "sidecar"}], "source": "sidecar"},
@@ -225,7 +228,11 @@ s0,,line,13.0,,0.12,LOW_CONFIDENCE|NEAR_TEXT,418.0,190.0
     {"series_id": "s0", "label": null, "kind": "line", "color_hex": "#1f77b4", "style": "solid",
      "confidence": 0.91, "coverage": 0.96,
      "gaps": [[40.0, 46.5]],
-     "points": [{"x": 12.5, "y": 3.41, "px": 412.0, "py": 188.5, "confidence": 0.93, "flags": []}]}
+     "segments": [{"segment_id": 0, "start_x": 0.0, "end_x": 40.0, "n_points": 812,
+                   "n_bridged": 0, "n_empty": 0}],
+     "points": [{"x": 12.5, "y": 3.41, "px": 412.0, "py": 188.5, "confidence": 0.93,
+                 "flags": [], "interpolated": 0, "status": "ok", "segment_id": 0,
+                 "calibration_id": "cal-0123456789ab"}]}
   ],
   "image_confidence": 0.88,
   "abstentions": [{"stage": "legend", "reason": "not_implemented_m1"}],
@@ -237,7 +244,7 @@ s0,,line,13.0,,0.12,LOW_CONFIDENCE|NEAR_TEXT,418.0,190.0
 ### 4.3 QA overlay（`<stem>.overlay.png`）
 - 以原图为底，降低饱和度并设透明度 60 %。
 - 每个系列用高对比色绘制提取点（直径 2–3 px）和折线连接（**只连接相邻且无 gap 的点**）。
-- 低置信或被 flag 的点用空心红圈表示；gap 区间在 x 轴下方用红色细条标出。
+- 低置信或被 flag 的点用空心红圈表示；普通 gap 画成浅红带 + 轴下红色细条，遮挡桥用洋红空心方块，二者不混用。
 - 画出绘图区框和校准刻度：标出刻度像素位置与读数，残差过大的刻度用红色标出。
 - 右侧或底部的信息栏：系列 id、颜色、coverage、confidence、校准残差、版本号。
 - 可选输出 `<stem>.recreated.png`：用提取数据重新绘制的图，与原图并排对比。

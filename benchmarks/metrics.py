@@ -14,6 +14,7 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 from scipy.spatial import cKDTree
 
+from curve2csv.color_math import deltaE_ciede2000, rgb2lab
 from curve2csv.types import Abstain, ExtractionResult, PlotArea, PointFlag
 
 UNMATCHED = 100.0
@@ -224,6 +225,82 @@ def _assign(cost: np.ndarray) -> list[tuple[int, int, float]]:
     return [(int(r), int(c), float(cost[r, c])) for r, c in zip(rows, cols, strict=True)]
 
 
+def _hex_lab(color_hex: str) -> np.ndarray | None:
+    text = color_hex.strip().lstrip("#")
+    if len(text) != 6:
+        return None
+    try:
+        rgb = np.asarray(
+            [[[int(text[0:2], 16), int(text[2:4], 16), int(text[4:6], 16)]]],
+            dtype=np.uint8,
+        )
+    except ValueError:
+        return None
+    return np.asarray(rgb2lab(rgb)[0, 0], dtype=np.float64)
+
+
+def ink_support(
+    result: ExtractionResult,
+    *,
+    radius_px: int = 2,
+    delta_e_max: float = 18.0,
+) -> dict[str, object]:
+    """Fraction of measured points with same-color ink within ``radius_px``.
+
+    Empty and bridged points are excluded: a bridge is not measured ink. The
+    check is report-only and never changes a pass/fail gate.
+    """
+
+    rgb = result.source.rgb
+    if rgb.ndim != 3 or rgb.shape[2] != 3:
+        return {
+            "n_checked": 0,
+            "n_supported": 0,
+            "n_no_color": 0,
+            "fraction": None,
+            "radius_px": radius_px,
+            "delta_e_max": delta_e_max,
+        }
+    if radius_px < 0:
+        raise ValueError("radius_px must be non-negative")
+    lab_image = rgb2lab(rgb)
+    height, width = lab_image.shape[:2]
+    checked = 0
+    supported = 0
+    no_color = 0
+    for series in result.series:
+        if not series.color_hex:
+            no_color += sum(1 for point in series.points if point.status not in {"empty", "bridge"})
+            continue
+        target = _hex_lab(series.color_hex)
+        if target is None:
+            no_color += sum(1 for point in series.points if point.status not in {"empty", "bridge"})
+            continue
+        for point in series.points:
+            if point.status in {"empty", "bridge"}:
+                continue
+            col = int(np.clip(round(point.px - 0.5), 0, width - 1))
+            row = int(np.clip(round(point.py - 0.5), 0, height - 1))
+            patch = lab_image[
+                max(0, row - radius_px) : min(height, row + radius_px + 1),
+                max(0, col - radius_px) : min(width, col + radius_px + 1),
+            ].reshape(-1, 3)
+            if patch.size == 0:
+                continue
+            checked += 1
+            distances = deltaE_ciede2000(patch, target)
+            if float(np.min(distances)) <= delta_e_max:
+                supported += 1
+    return {
+        "n_checked": checked,
+        "n_supported": supported,
+        "n_no_color": no_color,
+        "fraction": float(supported / checked) if checked else None,
+        "radius_px": radius_px,
+        "delta_e_max": delta_e_max,
+    }
+
+
 def score_sample(gt: dict[str, Any], result: ExtractionResult, runtime_s: float) -> dict[str, Any]:
     """Score one generated figure. Higher-is-better fields are noted in the report."""
 
@@ -350,6 +427,7 @@ def score_sample(gt: dict[str, Any], result: ExtractionResult, runtime_s: float)
 
     scatter_f1 = _image_scatter_f1(gt_series, preds) if chart == "scatter" else None
     bar_rel = _image_bar_rel(gt_series, preds, ry) if chart == "bar" else None
+    support = ink_support(result)
 
     point_conf = np.concatenate(confs) if confs else np.zeros(0)
     point_err = np.concatenate(error_flags) if error_flags else np.zeros(0, dtype=bool)
@@ -378,6 +456,9 @@ def score_sample(gt: dict[str, Any], result: ExtractionResult, runtime_s: float)
         "bar_rel_err": bar_rel,
         "fabrication_count": int(fabrication),
         "bridged_count": int(bridged),
+        "ink_support_fraction": support["fraction"],
+        "ink_support_checked": support["n_checked"],
+        "ink_support_radius_px": support["radius_px"],
         "runtime_s": float(runtime_s),
         "n_points": int(point_conf.size),
         "point_confidence": point_conf,
@@ -601,6 +682,8 @@ def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "bar_rel_err_median": _median(col(_subset(rows, "bar"), "bar_rel_err")),
         "fabrication_count": int(sum(int(r["fabrication_count"]) for r in rows)),
         "bridged_count": int(sum(int(r.get("bridged_count") or 0) for r in rows)),
+        "ink_support_median": _median(col(rows, "ink_support_fraction")),
+        "ink_support_checked": int(sum(int(r.get("ink_support_checked") or 0) for r in rows)),
         "completeness": _median(col(rows, "completeness"))
         if any("completeness" in r for r in rows)
         else 1.0,

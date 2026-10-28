@@ -7,6 +7,9 @@ That convention matches Matplotlib's display ``x`` and ``height - display_y``.
 
 from __future__ import annotations
 
+import hashlib
+import json
+import math
 from dataclasses import dataclass, field
 from enum import Enum, Flag
 from pathlib import Path
@@ -83,6 +86,8 @@ class PlotArea:
         tuple[tuple[float, float], tuple[float, float], tuple[float, float], tuple[float, float]]
         | None
     ) = None
+    # ``detected`` or a manual source such as ``manual:plot_box``.
+    source: str = "detected"
 
 
 @dataclass(frozen=True)
@@ -180,6 +185,31 @@ class DataPoint:
     py: float
     confidence: float
     flags: PointFlag
+    # Contiguous same-series run. A plain empty column starts a new segment;
+    # an occlusion bridge does not.
+    segment_id: int = 0
+
+    @property
+    def status(self) -> str:
+        """Honest export state: empty, bridge, flagged, or ok.
+
+        ``empty`` means there is no emitted coordinate. A point can be present
+        as evidence (pixel position, flags) and still be empty. ``bridge`` is
+        the only filled gap; it is never counted as measured ink.
+        """
+
+        if (
+            self.x is None
+            or self.y is None
+            or not math.isfinite(float(self.x))
+            or not math.isfinite(float(self.y))
+        ):
+            return "empty"
+        if PointFlag.INTERPOLATED in self.flags:
+            return "bridge"
+        if self.flags != PointFlag.NONE:
+            return "flagged"
+        return "ok"
 
 
 @dataclass
@@ -234,27 +264,52 @@ class ExtractionResult:
 
         write_overlay(self, Path(path))
 
+    @property
+    def calibration_id(self) -> str:
+        """Stable short id for the current x/y calibration values and source."""
+
+        payload: dict[str, object] = {}
+        for axis in sorted(self.calibration):
+            cal = self.calibration[axis]
+            if isinstance(cal, AxisCalibration):
+                payload[axis] = {
+                    "scale": cal.scale.value,
+                    "a": cal.a,
+                    "b": cal.b,
+                    "inverted": cal.inverted,
+                    "source": cal.source,
+                    "dir": [cal.dir_x, cal.dir_y],
+                }
+            else:
+                payload[axis] = {"abstain": cal.reason}
+        encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+        digest = hashlib.sha256(encoded.encode("utf-8")).hexdigest()
+        return f"cal-{digest[:12]}"
+
     def metrics(self) -> dict[str, object]:
         n_points = 0
         n_flagged = 0
         n_abstained = 0
+        n_bridged = 0
+        n_ok = 0
         for series in self.series:
             for point in series.points:
                 n_points += 1
                 if point.flags != PointFlag.NONE:
                     n_flagged += 1
-                if point.x is None or point.y is None:
+                if point.status == "empty":
                     n_abstained += 1
+                elif point.status == "bridge":
+                    n_bridged += 1
+                elif point.status == "ok":
+                    n_ok += 1
         return {
             "n_points": n_points,
             "n_flagged": n_flagged,
             "n_abstained": n_abstained,
-            "n_bridged": sum(
-                1
-                for series in self.series
-                for point in series.points
-                if PointFlag.INTERPOLATED in point.flags and point.x is not None
-            ),
+            "n_bridged": n_bridged,
+            "n_ok": n_ok,
             "n_series": len(self.series),
             "image_confidence": self.image_confidence,
+            "calibration_id": self.calibration_id,
         }

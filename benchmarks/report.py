@@ -76,6 +76,9 @@ def render(report: dict[str, Any]) -> str:
             f"- flag_precision: {_fmt(aggregates.get('flag_precision'), 4)}",
             f"- flag_recall: {_fmt(aggregates.get('flag_recall'), 4)}",
             f"- ece: {_fmt(aggregates.get('ece'), 4)}",
+            f"- ink_support_median: {_fmt(aggregates.get('ink_support_median'), 4)}",
+            f"- ink_support_checked: {aggregates.get('ink_support_checked')}",
+            f"- bridged_count: {aggregates.get('bridged_count')}",
             f"- runtime_s_median: {_fmt(aggregates.get('runtime_s_median'), 4)}",
             "",
         ]

@@ -1,6 +1,6 @@
 # Real-figure results (owid-grapher-v1)
 
-Commit `e7dc53d441e66675c2dcbc057d18e32348a3c068`. Python 3.12.3.
+Commit `c5679415f2c09c9e81422e58dc846e0c4d8150be`. Python 3.12.3.
 
 Strict scoring drops every flagged point, including occlusion bridges. With-bridge scoring keeps points flagged `INTERPOLATED` and still drops every other flag. A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90.
 
@@ -10,13 +10,13 @@ Strict scoring drops every flagged point, including occlusion bridges. With-brid
 | held-out | 61 | 39 | 63.93% | 39 | 63.93% |
 | all | 110 | 71 | 64.55% | 71 | 64.55% |
 
-Mean CPU time 1.026s/image. Bridged points: 59.
+Mean CPU time 0.984s/image. Bridged points: 72.
 
 Parameter error is the worst relative slope error on series whose ground truth is a straight line (R² ≥ 0.98) in axis space. It is not part of the pass rule. Median over figures where a fit applies:
 
 - dev: n_fit=2, median |Δslope|/|slope|=0.011, median |Δintercept|/range=0.809
-- held-out: n_fit=2, median |Δslope|/|slope|=0.005, median |Δintercept|/range=0.052
-- all: n_fit=4, median |Δslope|/|slope|=0.005, median |Δintercept|/range=0.062
+- held-out: n_fit=2, median |Δslope|/|slope|=0.009, median |Δintercept|/range=0.080
+- all: n_fit=4, median |Δslope|/|slope|=0.009, median |Δintercept|/range=0.080
 
 ## Per figure
 
@@ -44,7 +44,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | countries-with-a-signed-bilateral-investment-treaty | held-out | yes | ok | yes | ok | 2 | 2 | 0.255 | 1.000 | 0.255 | 1.000 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/countries-with-a-signed-bilateral-investment-treaty |
 | countries-with-an-inforce-bilateral-investment-treaty | held-out | yes | ok | yes | ok | 2 | 2 | 0.372 | 0.955 | 0.372 | 0.955 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/countries-with-an-inforce-bilateral-investment-treaty |
 | crude-death-rate-hmd | dev | no | x_coverage | no | x_coverage | 5 | 5 | 2.712 | 0.090 | 2.712 | 0.090 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/crude-death-rate-hmd |
-| cumulative-space-visits | held-out | no | x_coverage | no | x_coverage | 4 | 4 | 0.597 | 0.075 | 0.597 | 0.075 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/cumulative-space-visits |
+| cumulative-space-visits | held-out | no | x_coverage | no | x_coverage | 4 | 4 | 0.597 | 0.855 | 0.597 | 0.855 | 5 | CC BY 4.0 | https://ourworldindata.org/grapher/cumulative-space-visits |
 | daily-per-capita-caloric-supply | dev | yes | ok | yes | ok | 1 | 1 | 0.348 | 0.990 | 0.348 | 0.990 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/daily-per-capita-caloric-supply |
 | deaths-and-disappearances-during-migration | held-out | yes | ok | yes | ok | 1 | 1 | 0.257 | 1.000 | 0.257 | 1.000 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration |
 | deaths-from-aids-un | dev | yes | ok | yes | ok | 1 | 1 | 1.414 | 0.910 | 1.414 | 0.910 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-from-aids-un |
@@ -79,7 +79,7 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | labor-force-participation-rate-of-men-65-years-and-older-in-the-usa | held-out | yes | ok | yes | ok | 1 | 1 | 0.202 | 0.995 | 0.202 | 0.995 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/labor-force-participation-rate-of-men-65-years-and-older-in-the-usa |
 | labor-productivity-agriculture-sweden | dev | yes | ok | yes | ok | 1 | 1 | 0.259 | 1.000 | 0.259 | 1.000 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/labor-productivity-agriculture-sweden |
 | labor-productivity-per-hour | dev | yes | ok | yes | ok | 1 | 1 | 0.142 | 1.000 | 0.142 | 1.000 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/labor-productivity-per-hour |
-| land-natural-share | held-out | no | x_coverage | no | x_coverage | 4 | 4 | 0.208 | 0.115 | 0.208 | 0.115 | 5 | CC BY 4.0 | https://ourworldindata.org/grapher/land-natural-share |
+| land-natural-share | held-out | no | x_coverage | no | x_coverage | 4 | 4 | 0.100 | 0.725 | 0.100 | 0.730 | 9 | CC BY 4.0 | https://ourworldindata.org/grapher/land-natural-share |
 | land-use-agriculture-longterm | held-out | yes | ok | yes | ok | 1 | 1 | 0.073 | 1.000 | 0.073 | 1.000 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/land-use-agriculture-longterm |
 | long-term-cod-catch | held-out | yes | ok | yes | ok | 1 | 1 | 0.731 | 0.905 | 0.731 | 0.905 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/long-term-cod-catch |
 | macroplastics-in-ocean | dev | no | series_count | no | series_count | 3 | 2 | 0.129 | 0.255 | 0.129 | 0.255 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/macroplastics-in-ocean |
@@ -130,5 +130,5 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000 | held-out | no | nrmse_and_coverage | no | nrmse_and_coverage | 1 | 1 | 2.629 | 0.700 | 2.629 | 0.700 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/wage-of-craftsmen-relative-to-that-of-laborers-in-england-1200-2000 |
 | wages-relative-to-the-cost-of-capital | held-out | yes | ok | yes | ok | 2 | 2 | 0.155 | 1.000 | 0.155 | 1.000 | 1 | CC BY 4.0 | https://ourworldindata.org/grapher/wages-relative-to-the-cost-of-capital |
 | what-percentage-of-the-us-public-approves-of-working-wives | held-out | yes | ok | yes | ok | 1 | 1 | 0.163 | 1.000 | 0.163 | 1.000 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/what-percentage-of-the-us-public-approves-of-working-wives |
-| wildlife-exports | held-out | no | series_count | no | series_count | 6 | 5 | 30.803 | 0.000 | 30.803 | 0.000 | 5 | CC BY 4.0 | https://ourworldindata.org/grapher/wildlife-exports |
+| wildlife-exports | held-out | no | series_count | no | series_count | 6 | 5 | 37.534 | 0.000 | 37.845 | 0.000 | 9 | CC BY 4.0 | https://ourworldindata.org/grapher/wildlife-exports |
 | working-hours-uk-millennium | dev | no | nrmse_and_coverage | no | nrmse_and_coverage | 1 | 1 | 3.749 | 0.730 | 3.749 | 0.730 | 0 | CC BY 4.0 | https://ourworldindata.org/grapher/working-hours-uk-millennium |

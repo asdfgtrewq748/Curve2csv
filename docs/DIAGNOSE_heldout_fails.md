@@ -24,6 +24,15 @@
 
 上面的「+2」和「最多 +1」是判断，不是改完再跑出来的分数。最清楚的下一步是散点/折线分类：俄罗斯和德国的色墨分别覆盖 475 和 452 列，输出却只有 31 和 36 个散点。只做这一类，held-out 大约从 39/61 到 41/61，离 90%（55/61）还远。
 
+### 实测（`c567941`）
+
+这条已经做了，假设的 +2 没有出现。held-out 仍是 39/61，全体仍是 71/110，严格和 with-bridge 相同，原先通过的图没有退回。两张都改成了折线，NRMSE 很低，覆盖率还不到 0.90：
+
+- `cumulative-space-visits` 俄罗斯：31 个散点、覆盖率 0.075 → 532 个未标记点、覆盖率 0.855、NRMSE 0.139。剩下的空洞主要是 1961–1965，画面上没有这条颜色的墨。
+- `land-natural-share` 德国：36 个散点、覆盖率 0.115、NRMSE 0.21 → 463 个点、覆盖率 0.725、NRMSE 0.089。其余空洞是蒙版里没有的列。
+
+`wildlife-exports` 的错图框里有一块同样的细碎笔画，NRMSE 从 30.8 变成 37.5，原因仍是 series_count。smoke 与 `e7dc53d` 相同：`fabrication_count` 59，`bridged_count` 92，`curve_nrmse_range_median` 0.859。
+
 专门计数：
 
 - 失败原因：`x_coverage` 8，`nrmse_and_coverage` 7，`series_count` 4，`no_calibration` 3。

@@ -3,6 +3,11 @@
 python -m benchmarks.real.evaluate --split dev
 python -m benchmarks.real.evaluate --split held-out
 python -m benchmarks.real.evaluate --split all --out benchmarks/results
+python -m benchmarks.real.evaluate --root benchmarks/domain --tag domain-v1 --split dev
+
+``--root`` points at any directory with the same ``manifest.json`` /
+``gt/`` / ``figures/`` layout (for example the W3 domain set). Scoring is
+identical for every root.
 """
 
 from __future__ import annotations
@@ -157,6 +162,11 @@ def _rate(rows: list[dict[str, Any]]) -> dict[str, Any]:
     intercepts = [
         row["intercept_err_range"] for row in rows if row.get("intercept_err_range") is not None
     ]
+    supports = [
+        float(row["ink_support_fraction"])
+        for row in rows
+        if row.get("ink_support_fraction") is not None
+    ]
     return {
         "n": n,
         "n_correct": correct,
@@ -167,9 +177,7 @@ def _rate(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "median_intercept_err_range": float(np.median(intercepts)) if intercepts else None,
         "fabrication_count": int(sum(int(row.get("fabrication_count") or 0) for row in rows)),
         "ink_support_median": (
-            float(np.median([row["ink_support_fraction"] for row in rows]))
-            if any(row.get("ink_support_fraction") is not None for row in rows)
-            else None
+            float(np.median(supports)) if supports else None
         ),
     }
 
@@ -187,7 +195,7 @@ def _bridge_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def _markdown(payload: dict[str, Any]) -> str:
     lines = [
-        "# Real-figure results (owid-grapher-v1)",
+        f"# Real-figure results ({payload['dataset']})",
         "",
         f"Commit `{payload['commit']}`. Python {payload['python']}.",
         "",
@@ -260,15 +268,18 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=("dev", "held-out", "all"), default="all")
     parser.add_argument("--out", type=Path, default=ROOT / "benchmarks" / "results")
+    parser.add_argument("--root", type=Path, default=REAL, help="dataset dir (manifest.json, gt/, figures/)")
+    parser.add_argument("--tag", default="real-v1", help="output file prefix")
     args = parser.parse_args()
-    manifest = json.loads((REAL / "manifest.json").read_text(encoding="utf-8"))
+    root = args.root.resolve()
+    manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     selected = [
         item for item in manifest["figures"] if args.split == "all" or item["split"] == args.split
     ]
     rows: list[dict[str, Any]] = []
     for index, item in enumerate(selected, start=1):
         slug = item["slug"]
-        row = _one(REAL / "gt" / f"{slug}.json", REAL / "figures" / f"{slug}.png")
+        row = _one(root / "gt" / f"{slug}.json", root / "figures" / f"{slug}.png")
         rows.append(row)
         bridge = row.get("with_bridge") or {}
         print(
@@ -304,7 +315,7 @@ def main() -> None:
         "figures": rows,
     }
     args.out.mkdir(parents=True, exist_ok=True)
-    tag = "real-v1" if args.split == "all" else f"real-v1-{args.split}"
+    tag = args.tag if args.split == "all" else f"{args.tag}-{args.split}"
     (args.out / f"{tag}.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     (args.out / f"{tag}.md").write_text(_markdown(payload), encoding="utf-8")
     summary = payload["summary"]

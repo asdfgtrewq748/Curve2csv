@@ -18,6 +18,11 @@ from curve2csv.extract.curve import classify_mask, extract_curve
 from curve2csv.extract.scatter import extract_scatter
 from curve2csv.quality.confidence import calibration_residual, plot_score_of, score_series
 from curve2csv.quality.flags import assign_segment_ids, strip_interpolation
+from curve2csv.separate.achromatic import (
+    achromatic_text_exclusion,
+    achromatic_width_hint,
+    separate_achromatic_series,
+)
 from curve2csv.separate.color import lab_to_hex, separate_series
 from curve2csv.separate.foreground import build_masks
 from curve2csv.types import (
@@ -27,6 +32,7 @@ from curve2csv.types import (
     AxisCalibration,
     ExtractionResult,
     LoadedImage,
+    Masks,
     PlotArea,
     PointFlag,
     Series,
@@ -157,6 +163,10 @@ def run_pipeline(
 
     t0 = time.perf_counter()
     separated = separate_series(loaded.rgb, masks, cfg)
+    achromatic_fallback = False
+    if not separated:
+        separated = separate_achromatic_series(loaded.rgb, masks, area, cfg)
+        achromatic_fallback = bool(separated)
     timings["separate"] = (time.perf_counter() - t0) * 1000.0
 
     if plane is None:
@@ -174,6 +184,15 @@ def run_pipeline(
     series: list[Series] = []
     separated_masks = [item.mask for item in separated]
     lab_image = rgb2lab(loaded.rgb)
+    curve_masks = masks
+    if achromatic_fallback:
+        curve_masks = Masks(
+            foreground=masks.foreground,
+            text=achromatic_text_exclusion(masks.text, area.bbox),
+            grid=masks.grid,
+            legend=masks.legend,
+            axes=masks.axes,
+        )
     for index, mask in enumerate(separated):
         kind = classify_mask(mask.mask, area.bbox)
         color = lab_to_hex(mask.color_lab) if mask.color_lab is not None else None
@@ -196,12 +215,15 @@ def run_pipeline(
                 mask,
                 area,
                 plane,
-                masks,
+                curve_masks,
                 cfg,
                 color_hex=color,
                 other_mask=other,
                 gray=gray,
                 lab_image=lab_image,
+                width_hint=(
+                    achromatic_width_hint(mask.mask, area.bbox) if achromatic_fallback else None
+                ),
             )
         if extracted.points:
             series.append(extracted)
@@ -230,6 +252,7 @@ def run_pipeline(
         "timings_ms": {key: round(value, 3) for key, value in timings.items()},
         "n_detected_ticks": len(detected),
         "n_series_masks": len(separated),
+        "achromatic_fallback": achromatic_fallback,
         "aligned": plane.is_axis_aligned(),
         "bridged_count": bridged,
         "plot_area_source": area.source,

@@ -180,7 +180,10 @@ def main() -> None:
             **frame,
         }
         figures.append(entry)
-        gt = {**entry, "series": {"curve": [[float(a), float(b)] for a, b in zip(x, y)]}}
+        gt = {
+            **entry,
+            "series": {"curve": [[float(a), float(b)] for a, b in zip(x, y, strict=False)]},
+        }
         (HERE / "gt" / f"{slug}.json").write_text(json.dumps(gt, indent=1), encoding="utf-8")
     manifest = {
         "dataset": "domain-single-curve-v1",

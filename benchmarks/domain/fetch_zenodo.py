@@ -1,3 +1,4 @@
+# ruff: noqa: E401, E701, E702, I001
 import json,sys,urllib.request,os
 rid=sys.argv[1]; maxsize=int(sys.argv[2]) if len(sys.argv)>2 else 30_000_000
 d=json.load(urllib.request.urlopen(f"https://zenodo.org/api/records/{rid}",timeout=30))

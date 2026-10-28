@@ -1,3 +1,4 @@
+# ruff: noqa: E401, E402, E701, E702, I001
 # Provenance script (not run in CI). Requires pandas+openpyxl and the Zenodo files
 # downloaded by zdl.py-style fetch into the working dir (see sources.json source_url).
 # Run from that working dir: python prep_sources.py  -> writes sources/<slug>.csv.

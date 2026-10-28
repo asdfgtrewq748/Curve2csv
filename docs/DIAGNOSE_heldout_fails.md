@@ -61,6 +61,10 @@
 
 最大的两段是 1951–1968（16 点）和 1983–1989（6 点），预期 y 上最近的像素 ΔE 19–36。短桥盖不住。德国在现有规则下也过不了 0.90。提取器因此没有再改。
 
+### 单系列刻度（`e5dcdf7`）
+
+held-out 里真值只有 1 条系列的图是 46 张，原先通过 35 张。`co2-long-term-concentration` 因 `803.719BCE` 这种标签没被解析而 `no_calibration`；外缘对齐之后 NRMSE 0.985、覆盖率 0.920，通过。单系列 held-out 变为 36/46。`nitrous-oxide-long` 现在能标定，NRMSE 5.19、覆盖率 0.375，仍失败。其余单系列失败仍是描线与 CSV 不一致，或色线短于 CSV。
+
 专门计数：
 
 - 失败原因：`x_coverage` 8，`nrmse_and_coverage` 7，`series_count` 4，`no_calibration` 3。

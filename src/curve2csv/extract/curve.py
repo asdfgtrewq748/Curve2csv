@@ -1,4 +1,9 @@
-"""Column-wise centerline extraction. Missing columns become gaps; nothing is interpolated."""
+"""Column-wise centerline extraction.
+
+The path is a color-constrained dynamic program. A short hole is filled only
+when another series covers it; those points carry ``INTERPOLATED``. Every other
+missing column stays a gap.
+"""
 
 from __future__ import annotations
 
@@ -6,6 +11,7 @@ import cv2
 import numpy as np
 
 from curve2csv.config import PipelineConfig
+from curve2csv.extract.track import track_series
 from curve2csv.types import (
     DataPoint,
     Masks,
@@ -15,6 +21,44 @@ from curve2csv.types import (
     Series,
     SeriesMask,
 )
+
+
+def _broken_thin_stroke(crop: np.ndarray) -> bool:
+    """True when same-color ink is a thin stroke split into short pieces.
+
+    Round markers are thicker and leave most columns empty. A continuous stroke
+    has one long component. Neither matches.
+    """
+
+    if crop.size == 0:
+        return False
+    covered = int(crop.any(axis=0).sum())
+    width = max(1, crop.shape[1])
+    if covered / float(width) < 0.55:
+        return False
+    if float(crop.sum()) / float(covered) > 2.0:
+        return False
+    count, _labels, stats, _ = cv2.connectedComponentsWithStats(
+        crop.astype(np.uint8), connectivity=8
+    )
+    wide = 0
+    pieces = 0
+    heights: list[int] = []
+    for idx in range(1, count):
+        if int(stats[idx, cv2.CC_STAT_AREA]) < 3:
+            continue
+        pieces += 1
+        wide = max(wide, int(stats[idx, cv2.CC_STAT_WIDTH]))
+        heights.append(int(stats[idx, cv2.CC_STAT_HEIGHT]))
+    if not heights:
+        return False
+    # The two held-out strokes are one pixel tall. Taller fragments are a
+    # different series running nearby, and tracking them pulls the centerline off.
+    return (
+        pieces >= 5
+        and 40 <= wide < int(0.2 * width)
+        and float(np.median(heights)) <= 4.0
+    )
 
 
 def _component_mask(mask: np.ndarray, bbox: tuple[int, int, int, int], *, kind: str) -> np.ndarray:
@@ -33,13 +77,17 @@ def _component_mask(mask: np.ndarray, bbox: tuple[int, int, int, int], *, kind: 
     keep[0] = False
     plot_w = max(1, x1 - x0)
     plot_h = max(1, y1 - y0)
+    broken = kind == "line" and _broken_thin_stroke(crop)
     for idx in range(1, n):
         _x, _y, w, h, area = (int(v) for v in stats[idx])
         if kind == "line":
             # Legend handles are short in height and much smaller than the stroke.
-            # Steep pieces of the curve are tall, so they stay.
-            handle = area < max(80, int(0.12 * largest)) and w < 0.22 * plot_w and h < 0.08 * plot_h
-            speck = area < max(12, int(0.015 * largest)) and max(w, h) < 18
+            # Steep pieces of the curve are tall, so they stay. A thin stroke that
+            # is already split into short pieces keeps those pieces.
+            handle_limit = 3 if broken else max(80, int(0.12 * largest))
+            speck_limit = 3 if broken else max(12, int(0.015 * largest))
+            handle = area < handle_limit and w < 0.22 * plot_w and h < 0.08 * plot_h
+            speck = area < speck_limit and max(w, h) < 18
             if not handle and not speck:
                 keep[idx] = True
         elif kind == "bar":
@@ -101,6 +149,10 @@ def classify_mask(mask: np.ndarray, bbox: tuple[int, int, int, int]) -> str:
         and max_w < 0.85 * crop_w
     ):
         return "bar"
+    # A 1px stroke broken into short pieces still covers most columns. Round
+    # markers are thicker and leave most columns empty, so they remain scatter.
+    if _broken_thin_stroke(crop):
+        return "line"
     # Compact blobs are markers even when they cover many columns.
     if len(widths) >= 5 and max_w < 0.2 * crop_w and med_w <= 30 and med_h <= 30 and med_fill > 0.2:
         return "scatter"
@@ -144,9 +196,11 @@ def extract_curve(
     color_hex: str | None = None,
     gray: np.ndarray | None = None,
     other_mask: np.ndarray | None = None,
+    lab_image: np.ndarray | None = None,
 ) -> Series:
     cfg = config or PipelineConfig()
     x0, y0, x1, y1 = area.bbox
+    broken = _broken_thin_stroke(series_mask.mask[y0:y1, x0:x1])
     mask = _component_mask(series_mask.mask, area.bbox, kind="line")
     crop = mask[y0:y1, x0:x1]
     covered_cols = crop.any(axis=0)
@@ -188,87 +242,45 @@ def extract_curve(
     )
     thin_width = max(1.0, thin_width)
     points: list[DataPoint] = []
-    gap_runs: list[tuple[int, int]] = []
-    gap_start: int | None = None
-    last_py: float | None = None
-    prev_rows: np.ndarray | None = None
     text_dist = cv2.distanceTransform((~masks.text).astype(np.uint8), cv2.DIST_L2, 3)
-    other_dist = None
-    if other_mask is not None and np.any(other_mask):
-        other_dist = cv2.distanceTransform((~other_mask).astype(np.uint8), cv2.DIST_L2, 3)
-
-    def close_gap(col: int) -> None:
-        nonlocal gap_start
-        if gap_start is not None and col > gap_start:
-            gap_runs.append((gap_start, col))
-        gap_start = None
-
-    for col in range(x0, x1):
-        rows = np.flatnonzero(mask[y0:y1, col])
-        if rows.size == 0:
-            if gap_start is None:
-                gap_start = col
-            continue
-        runs = _runs(rows)
-        runs.sort(key=lambda run: int(run.size), reverse=True)
-        chosen = runs[0]
-        connected = False
-        if prev_rows is not None and prev_rows.size and chosen.size:
-            # A steep stroke moves farther than its thickness between columns.
-            row_lo = int(prev_rows[0]) - 8
-            row_hi = int(prev_rows[-1]) + 8
-            connected = bool(np.any((chosen >= row_lo) & (chosen <= row_hi)))
-        # A tall blob that does not touch the previous column is not the stroke.
-        # A steep stroke stays connected, and its center is the sample.
-        if float(chosen.size) > cfg.thick_factor * est_width and len(runs) == 1 and not connected:
-            if gap_start is None:
-                gap_start = col
-            continue
-        close_gap(col)
-        weights_rows = chosen + y0
-        chroma_w = np.ones(weights_rows.shape, dtype=np.float64)
-        py = float(np.average(weights_rows, weights=chroma_w) + 0.5)
-        px = float(col) + 0.5
-        # A thick column that jumps away from the stroke is a step riser or a
-        # legend swatch, not a sample of the curve. A steep stroke stays
-        # connected and moves by about its own thickness, so its center is kept.
-        # A step riser is also connected, but its center sits far from the
-        # previous sample; that midpoint is not a value on the curve.
-        delta_py = abs(py - last_py) if last_py is not None else 0.0
-        jump = last_py is not None and delta_py > max(8.0, 3.0 * est_width)
-        if jump and float(chosen.size) > 2.2 * est_width and (not connected or delta_py > 36.0):
-            if gap_start is None:
-                gap_start = col
-            continue
-        last_py = py
-        prev_rows = chosen
+    tracked = track_series(
+        mask,
+        area.bbox,
+        est_width=est_width,
+        thin_width=thin_width,
+        color_lab=series_mask.color_lab,
+        lab_image=lab_image,
+        other_mask=other_mask,
+        keep_short_segments=broken,
+    )
+    for node in tracked:
+        px = float(node.col) + 0.5
+        py = float(node.py)
         data = mapper.pixel_to_data(px, py)
+        if node.kind == "bridge":
+            if data is None:
+                continue
+            points.append(
+                DataPoint(
+                    x=data[0],
+                    y=data[1],
+                    px=px,
+                    py=py,
+                    confidence=0.55,
+                    flags=PointFlag.INTERPOLATED,
+                )
+            )
+            continue
         flags = PointFlag.NONE
-        # A merged color is still one stroke. Flagging every point erases it
-        # from the scored output. A second ridge far from this one, or ink that
-        # sits on another series, has no single y.
-        if len(runs) > 1:
-            chosen_center = float(np.mean(chosen) + y0 + 0.5)
-            split = max(16.0, 4.0 * thin_width)
-            for extra in runs:
-                center = float(np.mean(extra) + y0 + 0.5)
-                if abs(center - chosen_center) > split:
-                    flags |= PointFlag.AMBIGUOUS_SERIES
-                    break
-        if other_dist is not None:
-            iy = int(np.clip(round(py - 0.5), 0, other_dist.shape[0] - 1))
-            ix = int(np.clip(round(px - 0.5), 0, other_dist.shape[1] - 1))
-            if float(other_dist[iy, ix]) <= 2.0:
-                flags |= PointFlag.AMBIGUOUS_SERIES
+        # The path already picked this series' color. A run whose best pixel is
+        # another series' color stays flagged so strict scoring drops it.
+        if node.color_delta > 28.0 or (node.n_runs > 1 and node.color_delta > 17.0):
+            flags |= PointFlag.AMBIGUOUS_SERIES
         if 0 <= int(py) < text_dist.shape[0] and text_dist[int(py), int(px)] <= 1.5:
             flags |= PointFlag.NEAR_TEXT
-        # The sample comes from a chromatic series mask, so a gridline crossing
-        # it is still the stroke. Gray grid ink never enters this mask.
-        if col <= x0 + 1 or col >= x1 - 2:
+        if node.col <= x0 + 1 or node.col >= x1 - 2:
             flags |= PointFlag.EDGE_OF_PLOT
-        # A connected steep stroke has one center. Flag a tall column only when
-        # several runs share it.
-        if float(chosen.size) > cfg.thick_factor * est_width and len(runs) > 1:
+        if node.thickness > cfg.thick_factor * est_width and node.n_runs > 1:
             flags |= PointFlag.THICK_SEGMENT
         if column_is_occluded(gray, area.bbox, px):
             flags |= PointFlag.THICK_SEGMENT
@@ -288,20 +300,16 @@ def extract_curve(
         else:
             x_val, y_val = data
         points.append(DataPoint(x=x_val, y=y_val, px=px, py=py, confidence=confidence, flags=flags))
-    if gap_start is not None:
-        gap_runs.append((gap_start, x1))
-    # Specks acquired after a gap are legend remnants, not a curve.
-    kept_points: list[DataPoint] = []
+    # Specks acquired after a gap are legend remnants, not a curve. Short pieces
+    # of one thin stroke, split by one or two empty columns, stay. The empty
+    # columns themselves are not emitted.
+    pieces: list[list[DataPoint]] = []
     run: list[DataPoint] = []
 
     def flush_run() -> None:
         nonlocal run
-        if len(run) >= 16:
-            kept_points.extend(run)
-        elif run:
-            c0 = int(run[0].px)
-            c1 = int(run[-1].px) + 1
-            gap_runs.append((c0, c1))
+        if run:
+            pieces.append(run)
         run = []
 
     for point in points:
@@ -309,7 +317,49 @@ def extract_curve(
             flush_run()
         run.append(point)
     flush_run()
+
+    def _joins(left: list[DataPoint], right: list[DataPoint]) -> bool:
+        if not broken:
+            return False
+        gap = right[0].px - left[-1].px
+        dy = abs(right[0].py - left[-1].py)
+        return gap <= 3.6 and dy <= max(10.0, 3.0 * gap)
+
+    parent = list(range(len(pieces)))
+
+    def _find(index: int) -> int:
+        while parent[index] != index:
+            parent[index] = parent[parent[index]]
+            index = parent[index]
+        return index
+
+    for index in range(1, len(pieces)):
+        if _joins(pieces[index - 1], pieces[index]):
+            root_left = _find(index - 1)
+            root_right = _find(index)
+            if root_left != root_right:
+                parent[root_right] = root_left
+    totals: dict[int, int] = {}
+    for index, piece in enumerate(pieces):
+        root = _find(index)
+        totals[root] = totals.get(root, 0) + len(piece)
+    kept_points: list[DataPoint] = []
+    for index, piece in enumerate(pieces):
+        if totals[_find(index)] >= 16:
+            kept_points.extend(piece)
     points = kept_points
+    covered = {int(point.px) for point in points}
+    gap_runs: list[tuple[int, int]] = []
+    gap_start: int | None = None
+    for col in range(x0, x1):
+        if col in covered:
+            if gap_start is not None:
+                gap_runs.append((gap_start, col))
+                gap_start = None
+        elif gap_start is None:
+            gap_start = col
+    if gap_start is not None:
+        gap_runs.append((gap_start, x1))
     gaps: list[tuple[float, float]] = []
     for c0, c1 in gap_runs:
         p0 = mapper.pixel_to_data(float(c0) + 0.5, float(area.x_axis_px))

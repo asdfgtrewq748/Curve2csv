@@ -249,6 +249,12 @@ class ExtractionResult:
             "n_points": n_points,
             "n_flagged": n_flagged,
             "n_abstained": n_abstained,
+            "n_bridged": sum(
+                1
+                for series in self.series
+                for point in series.points
+                if PointFlag.INTERPOLATED in point.flags and point.x is not None
+            ),
             "n_series": len(self.series),
             "image_confidence": self.image_confidence,
         }

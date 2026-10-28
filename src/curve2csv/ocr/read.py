@@ -150,9 +150,21 @@ def _margin_words(rgb: np.ndarray, *, need_y: bool, need_x: bool) -> list[_Word]
 def _merge_words(primary: list[_Word], extra: list[_Word]) -> list[_Word]:
     merged = list(primary)
     for word in extra:
-        if any(abs(word.cx - kept.cx) < 12.0 and abs(word.cy - kept.cy) < 12.0 for kept in merged):
+        close = next(
+            (
+                kept
+                for kept in merged
+                if abs(word.cx - kept.cx) < 12.0 and abs(word.cy - kept.cy) < 12.0
+            ),
+            None,
+        )
+        if close is None:
+            merged.append(word)
             continue
-        merged.append(word)
+        # The full-image pass sometimes drops the minus on "-2%".
+        if word.text.strip().startswith("-") and not close.text.strip().startswith("-"):
+            merged.remove(close)
+            merged.append(word)
     return merged
 
 
@@ -166,8 +178,10 @@ def _words(rgb: np.ndarray) -> list[_Word]:
     if native:
         height, width = rgb.shape[:2]
         has_y, has_x = _labels_present(native, width, height)
-        if not has_y or not has_x:
-            extra = _margin_words(rgb, need_y=not has_y, need_x=not has_x)
+        # The y strip is re-read even when some labels were found: a 4× pass
+        # picks up 0, 1.0, and 1.2 that the full image skips.
+        extra = _margin_words(rgb, need_y=True, need_x=not has_x)
+        if not has_y or not has_x or extra:
             native = _expand_glued_years(_merge_words(native, extra))
     _WORD_CACHE = (key, sample, native)
     return native
@@ -228,6 +242,30 @@ def _expand_glued_years(words: list[_Word]) -> list[_Word]:
             )
         )
     return expanded
+
+
+def _anchor_era_endpoints(group: list[_Word]) -> list[_Word]:
+    """Put a BCE label on the outer edge of its text, not the glyph center.
+
+    ``803,719 BCE`` is start-anchored and ``2025`` beside it is end-anchored.
+    Their centers sit inside the axis and stretch the year scale.
+    """
+
+    if len(group) < 2:
+        return group
+    ordered = sorted(group, key=lambda word: word.cx)
+    left, right = ordered[0], ordered[-1]
+    upper = left.text.upper()
+    if "BCE" not in upper and not upper.endswith("BC") and " BC" not in upper:
+        return group
+
+    def _move(word: _Word, cx: float) -> _Word:
+        return _Word(word.text, word.score, cx, word.cy, word.x0, word.x1, word.y0, word.y1)
+
+    return [
+        _move(word, word.x0) if word is left else _move(word, word.x1) if word is right else word
+        for word in group
+    ]
 
 
 def _split(words: list[_Word], area: PlotArea) -> tuple[list[_Word], list[_Word]]:
@@ -416,6 +454,60 @@ def _raise_top_along_stroke(
     return new_top
 
 
+def _lower_bottom_along_stroke(
+    rgb: np.ndarray,
+    left: float,
+    right: float,
+    bottom: float,
+    spacing: float,
+) -> float:
+    """Follow a stroke that continues below the lowest read y tick.
+
+    Same-sex marriage and the craftsmen wage tail are drawn past the last
+    label OCR kept. The walk stops at a gap, so the footer stays outside.
+    """
+
+    if rgb.ndim != 3 or rgb.shape[2] < 3:
+        return bottom
+    lab = rgb2lab(rgb[:, :, :3])
+    chroma = np.sqrt(lab[:, :, 1] ** 2 + lab[:, :, 2] ** 2)
+    height, width = chroma.shape
+    x0 = max(0, int(np.floor(left)))
+    x1 = min(width, int(np.ceil(right)))
+    if x1 - x0 < 10:
+        return bottom
+    cap = min(height - 1, int(round(bottom + min(max(2.5 * spacing, 40.0), 160.0))))
+    start = min(height - 1, max(0, int(round(bottom))))
+
+    def cols_at(row: int) -> np.ndarray:
+        if row < 0 or row >= height:
+            return np.zeros(0, dtype=np.int32)
+        return np.flatnonzero(chroma[row, x0:x1] >= 12.0).astype(np.int32)
+
+    prev = cols_at(start)
+    if prev.size == 0:
+        return bottom
+    new_bottom = float(start)
+    gap = 0
+    for row in range(start + 1, cap + 1):
+        cols = cols_at(row)
+        if cols.size == 0 or cols.size > 0.85 * (x1 - x0):
+            gap += 1
+            if gap >= 3:
+                break
+            continue
+        delta = cols.astype(np.int32)[:, None] - prev.astype(np.int32)[None, :]
+        if bool(np.any(np.abs(delta) <= 8)):
+            new_bottom = float(row)
+            prev = cols
+            gap = 0
+        else:
+            gap += 1
+            if gap >= 3:
+                break
+    return new_bottom
+
+
 def _snap(position: float, target: float, limit: float = 48.0) -> float:
     if abs(position - target) <= limit:
         return target
@@ -448,6 +540,90 @@ def _span_from_labels(
     return min(left), max(right)
 
 
+def _x_tick_marks(
+    gray: np.ndarray,
+    bottom: float,
+    label_top: float,
+    *,
+    label_left: float | None = None,
+    label_right: float | None = None,
+) -> list[float]:
+    """Centers of short vertical tick marks just below the x baseline.
+
+    Grapher anchors the first and last x labels to the plot edge, so their
+    text centers sit inside the true tick by half a label. Interior labels are
+    centered. Reading the marks puts the endpoint ticks back on the frame;
+    rows without marks keep the text positions. The search stays under the x
+    label row, so descenders of the left y labels are not marks.
+    """
+
+    if gray.ndim != 2 or gray.size == 0:
+        return []
+    height, width = gray.shape
+    y0 = max(0, int(np.floor(bottom)) + 1)
+    y1 = min(height, int(np.ceil(label_top)), y0 + 8)
+    if y1 - y0 < 2:
+        return []
+    band = gray[y0:y1, :] < 240
+    counts = band.sum(axis=0)
+    need = max(2, int(np.ceil(0.45 * (y1 - y0))))
+    columns = np.flatnonzero(counts >= need)
+    if label_left is not None:
+        columns = columns[columns >= int(np.floor(label_left)) - 2]
+    if label_right is not None:
+        columns = columns[columns <= int(np.ceil(label_right)) + 2]
+    if columns.size == 0:
+        return []
+    starts = np.concatenate(([0], np.flatnonzero(np.diff(columns) > 1) + 1))
+    ends = np.concatenate((starts[1:] - 1, [columns.size - 1]))
+    marks: list[float] = []
+    for start, end in zip(starts, ends, strict=True):
+        span = int(columns[end] - columns[start] + 1)
+        if span <= 8 and columns[end] < width:
+            marks.append(float(columns[start] + columns[end]) / 2.0)
+    return marks
+
+
+def _snap_x_to_ticks(
+    pairs: list[tuple[float, float]],
+    marks: list[float],
+) -> list[tuple[float, float]]:
+    """Move an edge-anchored x label onto its tick mark.
+
+    Only a gross offset is corrected. Interior labels already sit on their
+    marks, and a one-pixel nudge there can move a well-calibrated axis enough
+    to change a marginal score. The Grapher first/last label is off by about
+    half a label, which is what this picks up.
+    """
+
+    if len(marks) < 2 or not pairs:
+        return pairs
+    ordered = sorted(position for position, _value in pairs)
+    gaps = np.diff(np.asarray(ordered, dtype=np.float64))
+    gap = float(np.median(gaps)) if gaps.size else 0.0
+    if gap <= 0:
+        return pairs
+    limit = max(6.0, 0.45 * gap)
+    min_offset = 2.5
+    mark_array = np.asarray(marks, dtype=np.float64)
+    candidates: list[tuple[float, int, int]] = []
+    for index, (position, _value) in enumerate(pairs):
+        mark_index = int(np.argmin(np.abs(mark_array - position)))
+        distance = abs(float(mark_array[mark_index]) - position)
+        if min_offset <= distance <= limit:
+            candidates.append((distance, index, mark_index))
+    if not candidates:
+        return pairs
+    assigned: dict[int, float] = {}
+    used: set[int] = set()
+    for _distance, index, mark_index in sorted(candidates):
+        if index in assigned or mark_index in used:
+            continue
+        assigned[index] = float(mark_array[mark_index])
+        used.add(mark_index)
+    return [(assigned.get(index, position), value) for index, (position, value) in enumerate(pairs)]
+
+
 def read_frame(
     rgb: np.ndarray,
     config: PipelineConfig | None = None,
@@ -455,10 +631,11 @@ def read_frame(
     """Locate the plot from tick labels when the spines are too light to detect.
 
     Used only after spine detection abstains, so figures that already have a
-    dark axis box keep that box. Label centers are the tick positions. A long
-    horizontal stroke under the x labels, when one exists, replaces the outer
-    label centers so start-anchored and end-anchored endpoint text does not
-    pull the box inward.
+    dark axis box keep that box. Label centers are the tick positions, except
+    that a visibly edge-anchored first/last label is moved onto its short x
+    tick mark. A long horizontal stroke under the x labels, when one exists,
+    also replaces the outer label centers so start-anchored and end-anchored
+    endpoint text does not pull the box inward.
     """
 
     cfg = config or PipelineConfig()
@@ -503,6 +680,7 @@ def read_frame(
             x_group = group
     if x_group is None:
         return None
+    x_group = _anchor_era_endpoints(x_group)
     x_choice = choose_axis([(word.cx, word.text) for word in x_group], vertical=False, config=cfg)
     y_choice = choose_axis([(word.cy, word.text) for word in y_group], vertical=True, config=cfg)
     if x_choice is None or y_choice is None:
@@ -545,8 +723,32 @@ def read_frame(
     else:
         left, right = _span_from_labels(label_left, label_right)
         bottom = max(pos for pos, _value in y_pairs)
+    # The first and last x labels are edge-anchored in Grapher exports, so
+    # their glyph centers sit inside the true ticks. Snap to the marks when
+    # they are visible; without marks the text positions remain.
+    marks = _x_tick_marks(
+        gray,
+        bottom,
+        min(word.y0 for word in x_group),
+        label_left=min(word.x0 for word in x_group),
+        label_right=max(word.x1 for word in x_group),
+    )
+    x_pairs = _snap_x_to_ticks(x_pairs, marks)
+    label_left = min(pos for pos, _value in x_pairs)
+    label_right = max(pos for pos, _value in x_pairs)
+    if spine is not None:
+        _spine_y, spine_left, spine_right = spine
+        left, right = _span_from_labels(
+            label_left,
+            label_right,
+            spine_left=spine_left,
+            spine_right=spine_right,
+        )
+    else:
+        left, right = _span_from_labels(label_left, label_right)
     top = min(pos for pos, _value in y_pairs)
     top = _raise_top_along_stroke(rgb, left, right, top, spacing)
+    bottom = _lower_bottom_along_stroke(rgb, left, right, bottom, spacing)
     if right - left < 30.0 or bottom - top < 30.0:
         return None
     # Pad past the stroke. The foreground mask insets by one pixel, and a

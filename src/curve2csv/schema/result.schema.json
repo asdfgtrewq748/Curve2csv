@@ -86,7 +86,8 @@
                 "px": { "type": "number" },
                 "py": { "type": "number" },
                 "confidence": { "type": "number" },
-                "flags": { "type": "array", "items": { "type": "string" } }
+                "flags": { "type": "array", "items": { "type": "string" } },
+                "interpolated": { "type": "integer", "enum": [0, 1] }
               }
             }
           }

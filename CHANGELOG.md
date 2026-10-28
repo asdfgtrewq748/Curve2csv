@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Core digitizing pipeline for linear-axis line, scatter, and bar charts: plot-area detection, sidecar/manual calibration, color separation, extraction, confidence, and flags.
 - Export of CSV, JSON (`schema_version` 1.0), a QA overlay PNG, and a metrics file on every extraction.
+- Point-level `status` (`ok`, `flagged`, `bridge`, `empty`), `segment_id`, and `calibration_id` in CSV and JSON. Each JSON series also carries a `segments` summary; a plain missing column starts a new segment while a short occlusion bridge stays in the same one. QA overlays draw plain gaps as pale red bands and bridges as magenta squares.
+- Human-confirm API: `confirm_plot_box`, `confirm_axis_calibration`, `pick_series` (click or short stroke), and `clear_range` (force an x range empty, never interpolate). CLI hooks `--plot-box` and `--clear-range` re-export the edited result.
+- Report-only evidence metrics: `ink_support` (fraction of measured points with same-color ink within 2 px) in synthetic and real evaluate JSON, and a narrower per-figure `fabrication_count` on the real OWID set (unflagged points outside the published axis ranges). Neither changes a pass threshold. The synthetic aggregate is asserted equal to the sum of per-sample counters.
 - Reproducible synthetic benchmark generator (`synth-v0.1`), evaluator, and smoke regression gate.
 - Unit, property, golden, and generator tests. GitHub Actions runs lint, mypy, pytest, and `make bench-smoke`.
 - `curve2csv extract IMAGE -o DIR` with `--axes` or `--xmin/--xmax/--ymin/--ymax` (optional `--x-log` / `--y-log`).

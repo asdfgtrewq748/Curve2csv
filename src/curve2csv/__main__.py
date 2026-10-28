@@ -8,9 +8,16 @@ import logging
 import sys
 from pathlib import Path
 
-from curve2csv.api import extract, extract_with_limits
+from curve2csv.api import clear_range, extract, extract_with_limits
 from curve2csv.errors import InputError
-from curve2csv.types import AxesOverride, AxisCalibration, AxisScale, ExtractionResult, TickInput
+from curve2csv.types import (
+    AxesOverride,
+    AxisCalibration,
+    AxisScale,
+    BBox,
+    ExtractionResult,
+    TickInput,
+)
 
 
 def _load_axes(path: Path) -> AxesOverride:
@@ -53,6 +60,31 @@ def _calibrated(result: ExtractionResult) -> bool:
     return all(isinstance(result.calibration.get(name), AxisCalibration) for name in ("x", "y"))
 
 
+def _parse_box(text: str) -> BBox:
+    parts = text.replace(",", " ").split()
+    if len(parts) != 4:
+        raise InputError("--plot-box needs x0,y0,x1,y1")
+    try:
+        x0, y0, x1, y1 = (int(round(float(part))) for part in parts)
+    except ValueError as exc:
+        raise InputError("--plot-box values must be numbers") from exc
+    return (x0, y0, x1, y1)
+
+
+def _parse_clear(text: str) -> tuple[str | None, float, float]:
+    parts = text.split(":")
+    if len(parts) == 3:
+        series_id, lo, hi = parts
+    elif len(parts) == 2:
+        series_id, lo, hi = None, parts[0], parts[1]
+    else:
+        raise InputError("--clear-range needs XMIN:XMAX or SERIES:XMIN:XMAX")
+    try:
+        return (series_id or None, float(lo), float(hi))
+    except ValueError as exc:
+        raise InputError("--clear-range bounds must be numbers") from exc
+
+
 def _run_extract(
     image: Path,
     out: Path,
@@ -60,10 +92,12 @@ def _run_extract(
     limits: dict[str, float] | None,
     x_log: bool,
     y_log: bool,
+    plot_box: BBox | None = None,
+    clear_ranges: list[str] | None = None,
 ) -> int:
     try:
         if axes_path is not None:
-            result = extract(image, axes=_load_axes(axes_path), out=out)
+            result = extract(image, axes=_load_axes(axes_path), out=out, plot_box=plot_box)
         elif limits is not None:
             result = extract_with_limits(
                 image,
@@ -74,13 +108,17 @@ def _run_extract(
                 x_scale=AxisScale.LOG10 if x_log else AxisScale.LINEAR,
                 y_scale=AxisScale.LOG10 if y_log else AxisScale.LINEAR,
                 out=out,
+                plot_box=plot_box,
             )
         else:
-            result = extract(image, out=out)
+            result = extract(image, out=out, plot_box=plot_box)
             if not _calibrated(result):
                 raise InputError(
                     "tick labels were not read. Pass --axes or --xmin/--xmax/--ymin/--ymax."
                 )
+        for spec in clear_ranges or []:
+            series_id, lo, hi = _parse_clear(spec)
+            result = clear_range(result, lo, hi, series_id=series_id, out=out)
     except InputError as exc:
         logging.error("%s", exc)
         return 2
@@ -115,6 +153,13 @@ def _extract_command(argv: list[str]) -> int:
     parser.add_argument("--ymax", type=float)
     parser.add_argument("--x-log", action="store_true")
     parser.add_argument("--y-log", action="store_true")
+    parser.add_argument("--plot-box", help="confirmed plot box x0,y0,x1,y1")
+    parser.add_argument(
+        "--clear-range",
+        action="append",
+        default=[],
+        help="force an x range empty: XMIN:XMAX or SERIES:XMIN:XMAX (repeatable)",
+    )
     parser.add_argument("-v", action="count", default=0)
     args = parser.parse_args(argv)
     logging.basicConfig(
@@ -129,7 +174,21 @@ def _extract_command(argv: list[str]) -> int:
         assert args.xmin is not None and args.xmax is not None
         assert args.ymin is not None and args.ymax is not None
         limits = {"xmin": args.xmin, "xmax": args.xmax, "ymin": args.ymin, "ymax": args.ymax}
-    return _run_extract(args.image, args.out, args.axes, limits, args.x_log, args.y_log)
+    try:
+        plot_box = _parse_box(args.plot_box) if args.plot_box else None
+    except InputError as exc:
+        logging.error("%s", exc)
+        return 2
+    return _run_extract(
+        args.image,
+        args.out,
+        args.axes,
+        limits,
+        args.x_log,
+        args.y_log,
+        plot_box,
+        args.clear_range,
+    )
 
 
 def _headless_smoke(argv: list[str]) -> int:

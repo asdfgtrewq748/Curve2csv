@@ -37,9 +37,54 @@ def render_overlay(result: ExtractionResult) -> np.ndarray:
         (148, 103, 189),
         (140, 86, 75),
     )
+    gap_color = (210, 30, 30)
+    bridge_color = (170, 20, 170)
+
+    # Plain gaps are missing columns: a pale red band inside the plot plus a
+    # solid red rule below the axis. Bridges stay magenta and are drawn only on
+    # their own points, so the two remain visually distinct.
+    if isinstance(result.plot_area, PlotArea):
+        x0, y0, x1, y1 = result.plot_area.bbox
+        x_cal = result.calibration.get("x")
+        if isinstance(x_cal, AxisCalibration):
+            for series in result.series:
+                if series.kind != "line":
+                    continue
+                for lo, hi in series.gaps:
+                    c0 = float(x_cal.data_to_px(np.asarray([lo], dtype=np.float64))[0])
+                    c1 = float(x_cal.data_to_px(np.asarray([hi], dtype=np.float64))[0])
+                    a, b = sorted((int(round(c0)), int(round(c1))))
+                    a = max(x0, min(x1 - 1, a))
+                    b = max(a + 1, min(x1, b))
+                    band = canvas.copy()
+                    cv2.rectangle(band, (a, y0), (b, y1), (255, 210, 210), -1)
+                    cv2.addWeighted(band, 0.30, canvas, 0.70, 0.0, canvas)
+                    cv2.line(canvas, (a, y1 + 4), (b, y1 + 4), gap_color, 2)
+                    for edge in (a, b):
+                        for row in range(y0 + 2, y1 - 2, 6):
+                            cv2.line(
+                                canvas,
+                                (edge, row),
+                                (edge, min(row + 3, y1 - 2)),
+                                gap_color,
+                                1,
+                                cv2.LINE_AA,
+                            )
+                    if b - a >= 16:
+                        cv2.putText(
+                            canvas,
+                            "gap",
+                            (a + 2, y1 + 16),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.35,
+                            gap_color,
+                            1,
+                            cv2.LINE_AA,
+                        )
+
     for index, series in enumerate(result.series):
         color = palette[index % len(palette)]
-        previous: tuple[float, float] | None = None
+        previous: tuple[float, float, int] | None = None
         for point in series.points:
             cx, cy = int(round(point.px)), int(round(point.py))
             emitted = (
@@ -51,6 +96,7 @@ def render_overlay(result: ExtractionResult) -> np.ndarray:
             if bridged and emitted:
                 if (
                     previous is not None
+                    and previous[2] == point.segment_id
                     and abs(point.px - previous[0]) <= 3.5
                     and int(round(point.px)) % 2 == 0
                 ):
@@ -58,17 +104,18 @@ def render_overlay(result: ExtractionResult) -> np.ndarray:
                         canvas,
                         (int(round(previous[0])), int(round(previous[1]))),
                         (cx, cy),
-                        (170, 20, 170),
+                        bridge_color,
                         1,
                         cv2.LINE_AA,
                     )
-                cv2.rectangle(canvas, (cx - 3, cy - 3), (cx + 3, cy + 3), (170, 20, 170), 1)
-                previous = (point.px, point.py)
+                cv2.rectangle(canvas, (cx - 3, cy - 3), (cx + 3, cy + 3), bridge_color, 1)
+                previous = (point.px, point.py, point.segment_id)
                 continue
             if (
                 series.kind == "line"
                 and emitted
                 and previous is not None
+                and previous[2] == point.segment_id
                 and abs(point.px - previous[0]) <= 3.5
             ):
                 cv2.line(
@@ -81,20 +128,11 @@ def render_overlay(result: ExtractionResult) -> np.ndarray:
                 )
             if emitted:
                 cv2.circle(canvas, (cx, cy), 2, color, -1, cv2.LINE_AA)
-                previous = (point.px, point.py)
+                previous = (point.px, point.py, point.segment_id)
             else:
                 cv2.circle(canvas, (cx, cy), 3, (220, 30, 30), 1, cv2.LINE_AA)
                 previous = None
-        if isinstance(result.plot_area, PlotArea) and series.kind == "line":
-            x_cal = result.calibration.get("x")
-            y0b = result.plot_area.bbox[3]
-            if isinstance(x_cal, AxisCalibration):
-                for lo, hi in series.gaps:
-                    c0 = float(x_cal.data_to_px(np.asarray([lo], dtype=np.float64))[0])
-                    c1 = float(x_cal.data_to_px(np.asarray([hi], dtype=np.float64))[0])
-                    a, b = sorted((int(round(c0)), int(round(c1))))
-                    cv2.line(canvas, (a, y0b + 4), (b, y0b + 4), (220, 30, 30), 2)
-    bar_h = 64
+    bar_h = 78
     bar = np.full((bar_h, canvas.shape[1], 3), 250, np.uint8)
     lines = [
         f"curve2csv {__version__}  series={len(result.series)}  conf={result.image_confidence:.2f}",
@@ -111,8 +149,9 @@ def render_overlay(result: ExtractionResult) -> np.ndarray:
         lines.append(
             f"{series.series_id} {series.kind} {series.color_hex or ''} cov={series.coverage:.2f} conf={series.confidence:.2f}"
         )
+    lines.append("gap = red band / red rule below axis; bridge = magenta open squares")
     y_text = 16
-    for line in lines[:4]:
+    for line in lines[:5]:
         cv2.putText(
             bar,
             line[:110],

@@ -35,6 +35,28 @@ python -m curve2csv extract IMG -o DIR --xmin 0 --xmax 1 --ymin 0 --ymax 1
 
 `axes.json` is `{"x": {"ticks": [{"px", "py", "value"}]}, "y": {...}}`. `--x-log` and `--y-log` mark an endpoint pair as log10. With neither `--axes` nor the four limits, `extract` reads tick labels with RapidOCR (the `ocr` extra) and calibrates a linear or log10 axis when the labels agree. If the labels are not read, the command exits 2. Typed endpoints remain the fallback.
 
+A plot box can be confirmed with `--plot-box x0,y0,x1,y1`. A range can be forced empty with `--clear-range XMIN:XMAX` or `--clear-range SERIES:XMIN:XMAX` (repeatable).
+
+## Output fields
+
+CSV columns are `series_id,series_label,kind,x,y,confidence,flags,px,py,interpolated,status,segment_id,calibration_id`. `status` is `ok`, `flagged`, `bridge`, or `empty`. `empty` rows keep the pixel evidence but have blank `x`/`y`; they never become interpolation. `bridge` is the only filled gap and is always `interpolated=1`. A plain missing column starts a new `segment_id`; a short occlusion bridge stays in the same segment. JSON points carry the same fields, each series has a `segments` summary, and `calibration_id` names the exact x/y calibration.
+
+The QA overlay draws plain gaps as a pale red band with a red rule below the axis and bridges as magenta open squares.
+
+## Human-confirm API
+
+```python
+from curve2csv import (
+    clear_range, confirm_axis_calibration, confirm_plot_box, extract, pick_series,
+)
+
+result = extract("figure.png")
+result = confirm_plot_box(result, (120, 40, 1540, 1080))
+result = pick_series(result, (412, 188))          # or a short list of pixels
+result = clear_range(result, 4.0, 6.0)            # blank, never interpolate
+result = confirm_axis_calibration(result, axes)   # keep the confirmed box
+```
+
 ## Desktop window
 
 With no arguments, `curve2csv` opens a window (Tkinter): open an image or one PDF page, click two corners to crop, read tick labels (or type the endpoints), extract, rename a series label, and export the CSV, JSON, and overlay. `pip install -e ".[gui,ocr]"` adds PDF rendering (`pypdfium2`), drag-and-drop (`tkinterdnd2`), and RapidOCR. The Windows build collects the ONNX models into `curve2csv-windows-exe`.

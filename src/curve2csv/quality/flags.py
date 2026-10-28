@@ -26,3 +26,34 @@ def strip_interpolation(series: list[Series]) -> list[Series]:
     """
 
     return series
+
+
+def assign_segment_ids(series: list[Series]) -> list[Series]:
+    """Number contiguous line runs, breaking on plain empty columns.
+
+    A short occlusion bridge is inserted as adjacent columns, so it stays in
+    the same segment. An empty point or a real hole (>= 2 px between emitted
+    columns) starts the next segment. Scatter and bar points keep segment 0.
+    """
+
+    from dataclasses import replace
+
+    for item in series:
+        if item.kind != "line" or not item.points:
+            item.points = [replace(point, segment_id=0) for point in item.points]
+            continue
+        ordered = sorted(item.points, key=lambda point: (point.px, point.py))
+        numbered = []
+        segment = -1
+        previous_px: float | None = None
+        previous_empty = True
+        for point in ordered:
+            empty = point.status == "empty"
+            starts = previous_px is None or point.px - previous_px > 1.6 or empty or previous_empty
+            if starts:
+                segment += 1
+            numbered.append(replace(point, segment_id=segment))
+            previous_px = point.px
+            previous_empty = empty
+        item.points = numbered
+    return series

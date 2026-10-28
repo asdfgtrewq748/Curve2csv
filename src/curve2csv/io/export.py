@@ -11,9 +11,11 @@ from curve2csv.types import (
     SCHEMA_VERSION,
     Abstain,
     AxisCalibration,
+    DataPoint,
     ExtractionResult,
     PlotArea,
     PointFlag,
+    Series,
     flag_names,
 )
 
@@ -28,6 +30,9 @@ CSV_COLUMNS = (
     "px",
     "py",
     "interpolated",
+    "status",
+    "segment_id",
+    "calibration_id",
 )
 
 DISCLAIMER = "Values digitized from a published figure; not original measurements."
@@ -39,9 +44,33 @@ def _num(value: float | None) -> str:
     return format(float(value), ".10g")
 
 
+def _segments(series: Series) -> list[dict[str, object]]:
+    groups: dict[int, list[DataPoint]] = {}
+    for point in series.points:
+        groups.setdefault(point.segment_id, []).append(point)
+    rows: list[dict[str, object]] = []
+    for segment_id, points in sorted(groups.items()):
+        xs = [float(point.x) for point in points if point.x is not None]
+        pxs = [float(point.px) for point in points]
+        rows.append(
+            {
+                "segment_id": int(segment_id),
+                "start_x": min(xs) if xs else None,
+                "end_x": max(xs) if xs else None,
+                "start_px": min(pxs) if pxs else None,
+                "end_px": max(pxs) if pxs else None,
+                "n_points": len(points),
+                "n_bridged": sum(1 for point in points if PointFlag.INTERPOLATED in point.flags),
+                "n_empty": sum(1 for point in points if point.status == "empty"),
+            }
+        )
+    return rows
+
+
 def write_csv(result: ExtractionResult, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     lines = [",".join(CSV_COLUMNS)]
+    calibration_id = result.calibration_id
     for series in result.series:
         label = series.label or ""
         for point in series.points:
@@ -56,6 +85,9 @@ def write_csv(result: ExtractionResult, path: Path) -> None:
                 _num(point.px),
                 _num(point.py),
                 "1" if PointFlag.INTERPOLATED in point.flags else "0",
+                point.status,
+                str(point.segment_id),
+                calibration_id,
             ]
             lines.append(",".join(fields))
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -83,6 +115,7 @@ def result_document(
             "x_axis_px": result.plot_area.x_axis_px,
             "y_axis_px": result.plot_area.y_axis_px,
             "score": result.plot_area.score,
+            "source": result.plot_area.source,
         }
     else:
         plot = None
@@ -92,6 +125,7 @@ def result_document(
             axes[name] = _calib_dict(cal)
         else:
             axes[name] = {"abstain": True, "stage": cal.stage, "reason": cal.reason}
+    calibration_id = result.calibration_id
     series_docs: list[dict[str, object]] = []
     for series in result.series:
         series_docs.append(
@@ -104,6 +138,7 @@ def result_document(
                 "confidence": series.confidence,
                 "coverage": series.coverage,
                 "gaps": [[lo, hi] for lo, hi in series.gaps],
+                "segments": _segments(series),
                 "points": [
                     {
                         "x": point.x,
@@ -113,6 +148,9 @@ def result_document(
                         "confidence": point.confidence,
                         "flags": flag_names(point.flags),
                         "interpolated": 1 if PointFlag.INTERPOLATED in point.flags else 0,
+                        "status": point.status,
+                        "segment_id": point.segment_id,
+                        "calibration_id": calibration_id,
                     }
                     for point in series.points
                 ],
@@ -137,6 +175,7 @@ def result_document(
         "disclaimer": DISCLAIMER,
         "plot_area": plot,
         "axes": axes,
+        "calibration_id": calibration_id,
         "series": series_docs,
         "image_confidence": result.image_confidence,
         "abstentions": [

@@ -8,6 +8,7 @@ from typing import cast
 import numpy as np
 
 from curve2csv.calibrate.manual import calibrate_manual
+from curve2csv.calibrate.model import PlaneMap
 from curve2csv.color_math import rgb2lab
 from curve2csv.config import PipelineConfig
 from curve2csv.detect.axes import detect_ticks
@@ -16,7 +17,7 @@ from curve2csv.extract.bar import extract_bar
 from curve2csv.extract.curve import classify_mask, extract_curve
 from curve2csv.extract.scatter import extract_scatter
 from curve2csv.quality.confidence import calibration_residual, plot_score_of, score_series
-from curve2csv.quality.flags import strip_interpolation
+from curve2csv.quality.flags import assign_segment_ids, strip_interpolation
 from curve2csv.separate.color import lab_to_hex, separate_series
 from curve2csv.separate.foreground import build_masks
 from curve2csv.types import (
@@ -54,24 +55,40 @@ def _empty(
     )
 
 
+def _plane_from_calibration(
+    calibration: dict[str, AxisCalibration | Abstain],
+) -> PlaneMap | None:
+    x_cal = calibration.get("x")
+    y_cal = calibration.get("y")
+    if isinstance(x_cal, AxisCalibration) and isinstance(y_cal, AxisCalibration):
+        return PlaneMap(x=x_cal, y=y_cal)
+    return None
+
+
 def run_pipeline(
     loaded: LoadedImage,
     *,
     axes: AxesOverride | None = None,
     config: PipelineConfig | None = None,
+    plot_area_override: PlotArea | None = None,
+    calibration_override: dict[str, AxisCalibration | Abstain] | None = None,
 ) -> ExtractionResult:
     cfg = config or PipelineConfig()
     timings: dict[str, float] = {}
     abstentions: list[Abstain] = []
 
     t0 = time.perf_counter()
-    area = detect_plot_area(loaded.rgb, cfg)
-    timings["plot_area"] = (time.perf_counter() - t0) * 1000.0
     # Spine detection is unchanged when it succeeds. Charts whose axes are
     # lighter than the ink threshold (Our World in Data grapher exports, for
     # example) fall through to tick-label positions. That path needs RapidOCR;
     # without it the result stays an abstain and typed endpoints still work.
     framed_axes: AxesOverride | None = None
+    area: PlotArea | Abstain
+    if plot_area_override is not None:
+        area = plot_area_override
+    else:
+        area = detect_plot_area(loaded.rgb, cfg)
+    timings["plot_area"] = (time.perf_counter() - t0) * 1000.0
     if isinstance(area, Abstain) and axes is None:
         from curve2csv.ocr.read import read_frame
 
@@ -96,37 +113,42 @@ def run_pipeline(
         )
 
     t0 = time.perf_counter()
-    detected = detect_ticks(loaded.rgb, area, cfg)
+    detected = [] if calibration_override is not None else detect_ticks(loaded.rgb, area, cfg)
     timings["ticks"] = (time.perf_counter() - t0) * 1000.0
 
     t0 = time.perf_counter()
     plane = None
-    if axes is None and framed_axes is not None:
-        axes = framed_axes
-    elif axes is None:
-        from curve2csv.ocr.read import read_axes, read_frame
-
-        axes = read_axes(loaded.rgb, area, cfg)
-        # A detected box that does not line up with the labels (a footer rule
-        # or a short interior line) is replaced by the label frame. Callers
-        # that pass axes, including the synthetic benchmark, never reach this.
-        if axes is None:
-            framed = read_frame(loaded.rgb, cfg)
-            if framed is not None:
-                area, axes = framed
-        timings["ocr"] = (time.perf_counter() - t0) * 1000.0
-        t0 = time.perf_counter()
-    if axes is None:
-        calibration = {
-            "x": Abstain("calibrate", "no_ticks"),
-            "y": Abstain("calibrate", "no_ticks"),
-        }
-        abstentions.extend([cast(Abstain, calibration["x"]), cast(Abstain, calibration["y"])])
+    if calibration_override is not None:
+        calibration = calibration_override
+        plane = _plane_from_calibration(calibration)
+        abstentions.extend(value for value in calibration.values() if isinstance(value, Abstain))
     else:
-        calibration, plane = calibrate_manual(axes, cfg)
-        for value in calibration.values():
-            if isinstance(value, Abstain):
-                abstentions.append(value)
+        if axes is None and framed_axes is not None:
+            axes = framed_axes
+        elif axes is None:
+            from curve2csv.ocr.read import read_axes, read_frame
+
+            axes = read_axes(loaded.rgb, area, cfg)
+            # A detected box that does not line up with the labels (a footer rule
+            # or a short interior line) is replaced by the label frame. Callers
+            # that pass axes or a confirmed box never reach this.
+            if axes is None and plot_area_override is None:
+                framed = read_frame(loaded.rgb, cfg)
+                if framed is not None:
+                    area, axes = framed
+            timings["ocr"] = (time.perf_counter() - t0) * 1000.0
+            t0 = time.perf_counter()
+        if axes is None:
+            calibration = {
+                "x": Abstain("calibrate", "no_ticks"),
+                "y": Abstain("calibrate", "no_ticks"),
+            }
+            abstentions.extend([cast(Abstain, calibration["x"]), cast(Abstain, calibration["y"])])
+        else:
+            calibration, plane = calibrate_manual(axes, cfg)
+            for value in calibration.values():
+                if isinstance(value, Abstain):
+                    abstentions.append(value)
     timings["calibrate"] = (time.perf_counter() - t0) * 1000.0
 
     t0 = time.perf_counter()
@@ -183,7 +205,7 @@ def run_pipeline(
             )
         if extracted.points:
             series.append(extracted)
-    series = strip_interpolation(series)
+    series = assign_segment_ids(strip_interpolation(series))
 
     # Stable order: top-to-bottom, then left-to-right, using the median pixel.
     def _sort_key(item: Series) -> tuple[float, float]:
@@ -210,8 +232,9 @@ def run_pipeline(
         "n_series_masks": len(separated),
         "aligned": plane.is_axis_aligned(),
         "bridged_count": bridged,
+        "plot_area_source": area.source,
     }
-    return ExtractionResult(
+    result = ExtractionResult(
         schema_version=SCHEMA_VERSION,
         source=loaded,
         plot_area=area,
@@ -223,6 +246,8 @@ def run_pipeline(
         mapper=plane,
         config_hash=cfg.config_hash(),
     )
+    diagnostics["calibration_id"] = result.calibration_id
+    return result
 
 
 def np_median(values: list[float]) -> float:

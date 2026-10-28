@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import json
 from pathlib import Path
 
@@ -66,6 +67,39 @@ def test_extract_subcommand_uses_axis_limits(tmp_path: Path) -> None:
     blank = tmp_path / "blank.png"
     save_image(blank, np.full((80, 80, 3), 255, dtype=np.uint8))
     assert main(["extract", str(blank), "-o", str(out)]) == 2
+
+
+def test_extract_subcommand_clear_range_writes_empty_rows(tmp_path: Path) -> None:
+    x = np.linspace(0.0, 3.0, 120)
+    image, _axes = line_figure(x, [(np.sin(x), "#d62728")])
+    image_path = tmp_path / "fig.png"
+    save_image(image_path, image)
+    out = tmp_path / "out"
+    code = main(
+        [
+            "extract",
+            str(image_path),
+            "-o",
+            str(out),
+            "--xmin",
+            "0",
+            "--xmax",
+            "3",
+            "--ymin",
+            "-1.2",
+            "--ymax",
+            "1.2",
+            "--clear-range",
+            "1:2",
+        ]
+    )
+    assert code == 0
+    with (out / "fig.csv").open(encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    cleared = [row for row in rows if row["status"] == "empty"]
+    assert cleared
+    assert all(row["x"] == "" and row["y"] == "" for row in cleared)
+    assert all(row["interpolated"] == "0" for row in cleared)
 
 
 def test_cli_rejects_bad_input(tmp_path: Path) -> None:

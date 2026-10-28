@@ -2,8 +2,12 @@
 
 A figure is correct when the predicted series count equals the ground-truth
 count and every matched series has NRMSE ≤ 2% of the axis range and
-x-coverage ≥ 0.90. Flagged or null points are removed first: they shrink
+x-coverage ≥ 0.90. ``x_coverage`` is accurate coverage: a uniform sample counts
+only when the nearest prediction is within 1px in x and the y error is at most
+2% of the axis range. Flagged or null points are removed first: they shrink
 coverage and do not enter the error. Log axes are scored in log10 space.
+``score_figure`` does not apply a fabrication gate; that counter is only on
+the synthetic scorer.
 """
 
 from __future__ import annotations

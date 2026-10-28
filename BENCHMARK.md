@@ -208,3 +208,5 @@ x 方向在真值系列自己的 x 范围内均匀取 200 个点。某点算对�
 把裂成短段的 1 像素笔画改成折线跟踪之后（`c567941`）：dev、held-out、全体的通过数不变，仍是 32/49、39/61、71/110。`cumulative-space-visits` 的俄罗斯从 31 个散点、覆盖率 0.075 变成折线，覆盖率 0.855，NRMSE 0.139。`land-natural-share` 的德国从覆盖率 0.115、NRMSE 0.21 变成覆盖率 0.725、NRMSE 0.089。两张仍因覆盖率失败。蒙版里没有该系列像素的列保持为空。smoke 与 `e7dc53d` 相同。
 
 单系列刻度（`e5dcdf7`）：`803.719BCE`、`30million` 这类粘连标签可以读出，BCE 标签落在文字外缘。held-out 40/61（65.6%），dev 33/49，全体 73/110。新通过的是 held-out 的 `co2-long-term-concentration`（NRMSE 0.985，覆盖率 0.920）和 dev 的 `foreign-born-population-of-the-united-states`（NRMSE 0.130，覆盖率 1.0）。`nitrous-oxide-long` 现在能标定，仍失败（NRMSE 5.19，覆盖率 0.375）。单系列 held-out 从 35/46 到 36/46。smoke 不变，`fabrication_count` 59。
+
+图框沿笔画向下延伸，并补回左侧漏读的 y 刻度（`8c12888`）：held-out 42/61，全体 75/110，dev 仍是 33/49。新通过的是 `same-sex-marriage-country-count`（NRMSE 0.175，覆盖率 0.990）和 `mention-of-the-word-capitalism-in-new-york-times-articles`（NRMSE 1.163，覆盖率 0.900）。单系列 held-out 38/46。这两张都是算法，GT 未改。smoke 的 `fabrication_count` 仍是 59。

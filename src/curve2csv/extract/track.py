@@ -181,6 +181,7 @@ def track_series(
     color_lab: tuple[float, float, float] | None,
     lab_image: np.ndarray | None,
     other_mask: np.ndarray | None,
+    keep_short_segments: bool = False,
 ) -> list[TrackNode]:
     """Return the ink path and any approved occlusion bridges, in column order."""
 
@@ -366,7 +367,10 @@ def track_series(
     if current:
         segments.append(current)
 
-    kept = [segment for segment in segments if len(segment) >= _MIN_SUPPORT]
+    # Short pieces of a broken stroke stay. A bridge still requires
+    # _MIN_SUPPORT columns on both sides, so a speck cannot be glued across a hole.
+    minimum = 1 if keep_short_segments else _MIN_SUPPORT
+    kept = [segment for segment in segments if len(segment) >= minimum]
     nodes: list[TrackNode] = []
     for seg_index, segment in enumerate(kept):
         if seg_index > 0:

@@ -2,8 +2,12 @@
 
 A figure is correct when the predicted series count equals the ground-truth
 count and every matched series has NRMSE ≤ 2% of the axis range and
-x-coverage ≥ 0.90. Flagged or null points are removed first: they shrink
+x-coverage ≥ 0.90. ``x_coverage`` is accurate coverage: a uniform sample counts
+only when the nearest prediction is within 1px in x and the y error is at most
+2% of the axis range. Flagged or null points are removed first: they shrink
 coverage and do not enter the error. Log axes are scored in log10 space.
+``score_figure`` does not apply a fabrication gate; that counter is only on
+the synthetic scorer.
 """
 
 from __future__ import annotations
@@ -20,14 +24,21 @@ COVERAGE_MIN = 0.90
 _UNMATCHED = 1.0e6
 
 
-def valid_xy(series: Series) -> np.ndarray:
-    """Unflagged finite points, shape (N, 2)."""
+def valid_xy(series: Series, *, include_interpolated: bool = False) -> np.ndarray:
+    """Finite points used for one scoring mode, shape (N, 2).
+
+    Strict mode keeps unflagged points. With-bridge mode also keeps points
+    flagged ``INTERPOLATED``. Every other flag stays out of both modes.
+    """
 
     rows: list[list[float]] = []
     for point in series.points:
-        if point.flags != PointFlag.NONE or point.x is None or point.y is None:
+        if point.x is None or point.y is None:
             continue
         if not np.isfinite(point.x) or not np.isfinite(point.y):
+            continue
+        bridged = PointFlag.INTERPOLATED in point.flags
+        if point.flags != PointFlag.NONE and not (include_interpolated and bridged):
             continue
         rows.append([float(point.x), float(point.y)])
     if not rows:

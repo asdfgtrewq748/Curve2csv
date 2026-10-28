@@ -8,6 +8,7 @@ from typing import cast
 import numpy as np
 
 from curve2csv.calibrate.manual import calibrate_manual
+from curve2csv.color_math import rgb2lab
 from curve2csv.config import PipelineConfig
 from curve2csv.detect.axes import detect_ticks
 from curve2csv.detect.plot_area import detect_plot_area
@@ -26,6 +27,7 @@ from curve2csv.types import (
     ExtractionResult,
     LoadedImage,
     PlotArea,
+    PointFlag,
     Series,
 )
 
@@ -149,6 +151,7 @@ def run_pipeline(
     t0 = time.perf_counter()
     series: list[Series] = []
     separated_masks = [item.mask for item in separated]
+    lab_image = rgb2lab(loaded.rgb)
     for index, mask in enumerate(separated):
         kind = classify_mask(mask.mask, area.bbox)
         color = lab_to_hex(mask.color_lab) if mask.color_lab is not None else None
@@ -176,6 +179,7 @@ def run_pipeline(
                 color_hex=color,
                 other_mask=other,
                 gray=gray,
+                lab_image=lab_image,
             )
         if extracted.points:
             series.append(extracted)
@@ -195,11 +199,17 @@ def run_pipeline(
     image_confidence = score_series(
         series, plot_score_of(area), calibration_residual(cast(dict[str, object], calibration))
     )
+    bridged = 0
+    for found in series:
+        for point in found.points:
+            if PointFlag.INTERPOLATED in point.flags and point.x is not None:
+                bridged += 1
     diagnostics: dict[str, object] = {
         "timings_ms": {key: round(value, 3) for key, value in timings.items()},
         "n_detected_ticks": len(detected),
         "n_series_masks": len(separated),
         "aligned": plane.is_axis_aligned(),
+        "bridged_count": bridged,
     }
     return ExtractionResult(
         schema_version=SCHEMA_VERSION,

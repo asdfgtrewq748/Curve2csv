@@ -6,8 +6,19 @@ import numpy as np
 from tests.helpers import line_figure
 
 from curve2csv.api import extract
-from curve2csv.extract.curve import _component_mask
+from curve2csv.extract.curve import _component_mask, classify_mask
 from curve2csv.types import PointFlag
+
+
+def test_broken_thin_stroke_is_a_line_and_round_markers_stay_scatter() -> None:
+    stroke = np.zeros((80, 400), dtype=bool)
+    stroke[40, 10:390] = True
+    stroke[40, 60:390:50] = False
+    assert classify_mask(stroke, (0, 0, 400, 80)) == "line"
+    markers = np.zeros((80, 400), dtype=bool)
+    for center in range(30, 370, 40):
+        markers[36:44, center - 4 : center + 4] = True
+    assert classify_mask(markers, (0, 0, 400, 80)) == "scatter"
 
 
 def test_line_component_keeps_the_stroke_and_drops_a_swatch() -> None:

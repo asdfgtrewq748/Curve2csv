@@ -49,6 +49,26 @@ def test_stroke_and_its_fringe_are_one_series() -> None:
     assert len(series) == 2
 
 
+def test_bleed_sitting_on_another_ridge_is_removed() -> None:
+    image = np.full((160, 240, 3), 255, dtype=np.uint8)
+    image[20, 15:225] = 0
+    image[140, 15:225] = 0
+    image[20:141, 15] = 0
+    image[20:141, 224] = 0
+    image[50:53, 30:210] = (214, 39, 40)
+    image[100:103, 30:210] = (31, 119, 180)
+    image[50:52, 80:110] = (31, 119, 180)
+    area = PlotArea(bbox=(15, 20, 224, 140), x_axis_px=140.0, y_axis_px=15.0, score=1.0)
+    masks = build_masks(image, area, PipelineConfig())
+    series = separate_series(image, masks, PipelineConfig())
+    assert len(series) == 2
+    blue = max(series, key=lambda item: int(item.mask[100:103, 30:210].sum()))
+    red = max(series, key=lambda item: int(item.mask[50:53, 30:70].sum()))
+    assert int(blue.mask[50:52, 80:110].sum()) == 0
+    assert int(red.mask[50:53, 30:70].sum()) > 0
+    assert int(blue.mask[100:103, 30:210].sum()) > 0
+
+
 def test_close_colors_merge_or_stay_pure() -> None:
     first = (176, 48, 48)
     second = (180, 52, 50)

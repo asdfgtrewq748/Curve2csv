@@ -1,4 +1,10 @@
-"""Flag helpers. ``INTERPOLATED`` is rejected from the main output."""
+"""Flag helpers.
+
+``INTERPOLATED`` is allowed only on an occlusion bridge: another series covers
+a hole no wider than the stroke plus a few pixels, with this series' ink on
+both sides. ``strip_interpolation`` keeps those points. ``assert_no_interpolation``
+still rejects them, and the plain-gap tests use that assertion.
+"""
 
 from __future__ import annotations
 
@@ -13,38 +19,10 @@ def assert_no_interpolation(series: list[Series]) -> None:
 
 
 def strip_interpolation(series: list[Series]) -> list[Series]:
-    """Defensive copy that drops the forbidden flag and nulls any such point."""
+    """Keep occlusion bridges. They are already marked ``INTERPOLATED``.
 
-    cleaned: list[Series] = []
-    for item in series:
-        points = []
-        for point in item.points:
-            if PointFlag.INTERPOLATED in point.flags:
-                flags = point.flags & ~PointFlag.INTERPOLATED
-                flags |= PointFlag.LOW_CONFIDENCE
-                points.append(
-                    type(point)(
-                        x=None,
-                        y=None,
-                        px=point.px,
-                        py=point.py,
-                        confidence=min(point.confidence, 0.2),
-                        flags=flags,
-                    )
-                )
-            else:
-                points.append(point)
-        cleaned.append(
-            Series(
-                series_id=item.series_id,
-                kind=item.kind,
-                label=item.label,
-                color_hex=item.color_hex,
-                points=points,
-                gaps=list(item.gaps),
-                coverage=item.coverage,
-                confidence=item.confidence,
-                style=item.style,
-            )
-        )
-    return cleaned
+    Plain gaps never produce that flag. The points stay in the CSV and JSON
+    with ``interpolated=1`` and are excluded from the strict score.
+    """
+
+    return series

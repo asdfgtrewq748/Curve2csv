@@ -47,6 +47,24 @@ def render_overlay(result: ExtractionResult) -> np.ndarray:
                 and point.y is not None
                 and PointFlag.LOW_CONFIDENCE not in point.flags
             )
+            bridged = PointFlag.INTERPOLATED in point.flags
+            if bridged and emitted:
+                if (
+                    previous is not None
+                    and abs(point.px - previous[0]) <= 3.5
+                    and int(round(point.px)) % 2 == 0
+                ):
+                    cv2.line(
+                        canvas,
+                        (int(round(previous[0])), int(round(previous[1]))),
+                        (cx, cy),
+                        (170, 20, 170),
+                        1,
+                        cv2.LINE_AA,
+                    )
+                cv2.rectangle(canvas, (cx - 3, cy - 3), (cx + 3, cy + 3), (170, 20, 170), 1)
+                previous = (point.px, point.py)
+                continue
             if (
                 series.kind == "line"
                 and emitted

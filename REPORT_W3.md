@@ -78,7 +78,7 @@
 
 - fabrication 0，ink_support 中位数 1.0。
 - 原先 4 个 held-out 失败全部通过；无需新增「补描区段」确认 API。
-- 单测：67 passed，1 skipped；ruff / mypy --strict 通过。
+- 单测：66 passed，2 skipped（既有 degenerate span + 缺 pypdfium2）；ruff / mypy --strict 通过。
 - smoke：fabrication_count = **59**（未变差），regression ok。
 
 - 覆盖率修复后，上述 4 张 held-out 已自动通过；确认模拟不再需要为补覆盖服务（clear_range 仍只能删点）。

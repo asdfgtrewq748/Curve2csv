@@ -18,8 +18,14 @@ from curve2csv.extract.curve import classify_mask, extract_curve
 from curve2csv.extract.scatter import extract_scatter
 from curve2csv.quality.confidence import calibration_residual, plot_score_of, score_series
 from curve2csv.quality.flags import assign_segment_ids, strip_interpolation
+from curve2csv.separate.achromatic import (
+    achromatic_text_exclusion,
+    achromatic_width_hint,
+    grow_along_spine_band,
+    separate_achromatic_series,
+)
 from curve2csv.separate.color import lab_to_hex, separate_series
-from curve2csv.separate.foreground import build_masks
+from curve2csv.separate.foreground import build_masks, chromatic_mask
 from curve2csv.types import (
     SCHEMA_VERSION,
     Abstain,
@@ -27,9 +33,11 @@ from curve2csv.types import (
     AxisCalibration,
     ExtractionResult,
     LoadedImage,
+    Masks,
     PlotArea,
     PointFlag,
     Series,
+    SeriesMask,
 )
 
 
@@ -157,6 +165,10 @@ def run_pipeline(
 
     t0 = time.perf_counter()
     separated = separate_series(loaded.rgb, masks, cfg)
+    achromatic_fallback = False
+    if not separated:
+        separated = separate_achromatic_series(loaded.rgb, masks, area, cfg)
+        achromatic_fallback = bool(separated)
     timings["separate"] = (time.perf_counter() - t0) * 1000.0
 
     if plane is None:
@@ -172,8 +184,57 @@ def run_pipeline(
 
     t0 = time.perf_counter()
     series: list[Series] = []
-    separated_masks = [item.mask for item in separated]
     lab_image = rgb2lab(loaded.rgb)
+    if not achromatic_fallback and len(separated) == 1:
+        single = separated[0]
+        lab = lab_image.astype(np.float64)
+        chroma = np.sqrt(lab[:, :, 1] ** 2 + lab[:, :, 2] ** 2)
+        ys_single, xs_single = np.nonzero(single.mask)
+        if xs_single.size:
+            series_chroma = float(np.median(chroma[ys_single, xs_single]))
+            chromatic_ink = chromatic_mask(
+                loaded.rgb, max(cfg.chroma_min, 0.4 * series_chroma)
+            )
+            # Keep the band ink dark enough to be the stroke, not a light fill.
+            chromatic_ink &= (lab[:, :, 0] >= 8.0) & (lab[:, :, 0] < 98.0)
+            text_exclusion = achromatic_text_exclusion(masks.text, area.bbox)
+            grown = grow_along_spine_band(
+                single.mask,
+                chromatic_ink,
+                text_exclusion,
+                masks.grid,
+                masks.legend,
+                area.bbox,
+                cfg.edge_band_px,
+            )
+            if int(grown.sum()) > int(single.mask.sum()):
+                recovered = grown & ~single.mask
+                if np.any(recovered) and single.color_lab is not None:
+                    # The recovered axis-band pixels are anti-aliased fringe;
+                    # give the color-constrained tracker the one series' core
+                    # color so it stays on that ink instead of rejecting it.
+                    lab_image = np.array(lab_image, copy=True)
+                    lab_image[recovered] = np.asarray(single.color_lab, dtype=np.float64)
+                separated = [
+                    SeriesMask(
+                        series_id=single.series_id,
+                        color_lab=single.color_lab,
+                        style=single.style,
+                        mask=grown,
+                        separation_score=single.separation_score,
+                        ambiguous=single.ambiguous,
+                    )
+                ]
+    separated_masks = [item.mask for item in separated]
+    curve_masks = masks
+    if achromatic_fallback:
+        curve_masks = Masks(
+            foreground=masks.foreground,
+            text=achromatic_text_exclusion(masks.text, area.bbox),
+            grid=masks.grid,
+            legend=masks.legend,
+            axes=masks.axes,
+        )
     for index, mask in enumerate(separated):
         kind = classify_mask(mask.mask, area.bbox)
         color = lab_to_hex(mask.color_lab) if mask.color_lab is not None else None
@@ -196,12 +257,15 @@ def run_pipeline(
                 mask,
                 area,
                 plane,
-                masks,
+                curve_masks,
                 cfg,
                 color_hex=color,
                 other_mask=other,
                 gray=gray,
                 lab_image=lab_image,
+                width_hint=(
+                    achromatic_width_hint(mask.mask, area.bbox) if achromatic_fallback else None
+                ),
             )
         if extracted.points:
             series.append(extracted)
@@ -230,6 +294,7 @@ def run_pipeline(
         "timings_ms": {key: round(value, 3) for key, value in timings.items()},
         "n_detected_ticks": len(detected),
         "n_series_masks": len(separated),
+        "achromatic_fallback": achromatic_fallback,
         "aligned": plane.is_axis_aligned(),
         "bridged_count": bridged,
         "plot_area_source": area.source,

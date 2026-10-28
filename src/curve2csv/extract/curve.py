@@ -197,6 +197,7 @@ def extract_curve(
     gray: np.ndarray | None = None,
     other_mask: np.ndarray | None = None,
     lab_image: np.ndarray | None = None,
+    width_hint: float | None = None,
 ) -> Series:
     cfg = config or PipelineConfig()
     x0, y0, x1, y1 = area.bbox
@@ -229,6 +230,11 @@ def extract_curve(
     else:
         est_width = float(np.median(crop.sum(axis=0)[covered_cols]))
     est_width = max(1.0, est_width)
+    if width_hint is not None and np.isfinite(width_hint):
+        # The achromatic fallback can contain a near-vertical stroke whose tall
+        # column run is real ink, not a swatch. A larger nominal width keeps the
+        # classical tracker on that ink instead of skipping it as occluded.
+        est_width = max(est_width, float(width_hint))
     run_sizes: list[int] = []
     for col in range(x0, x1):
         col_rows = np.flatnonzero(mask[y0:y1, col])

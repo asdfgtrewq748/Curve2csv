@@ -1,0 +1,1234 @@
+{
+ "dataset": "domain-single-curve-v1",
+ "split_rule": "sort slugs by sha256(slug) hex; first 8 dev, rest held-out",
+ "truth": "points copied from the cited open dataset (x strictly increasing; arc-length subset of <=300 raw rows); the figure is re-plotted from exactly these points",
+ "n_figures": 24,
+ "n_dev": 8,
+ "n_held_out": 16,
+ "figures": [
+  {
+   "slug": "anchor-coal1",
+   "split": "held-out",
+   "title": "An investigation on the effect of high energy storage anchor on surrounding rock conditions",
+   "source_url": "https://doi.org/10.5281/zenodo.4072158",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx/strain-stress/Coal 1",
+   "figure_id": "Data.xlsx/strain-stress/Coal 1",
+   "kind": "stress-strain",
+   "x_label": "Strain (%)",
+   "y_label": "Stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "sheet strain-stress, columns 'Coal 1'",
+   "n_raw": 83,
+   "n_points": 83,
+   "plot_w": 787.9375,
+   "plot_box_px": [
+    135.625,
+    59.75,
+    923.5625,
+    626.75
+   ],
+   "x_range": [
+    0.0,
+    1.5
+   ],
+   "y_range": [
+    0.0,
+    8.0
+   ],
+   "style": {
+    "size_in": [
+     3.35,
+     2.6
+    ],
+    "dpi": 300,
+    "color": "black",
+    "lw": 1.5,
+    "marker": "",
+    "mirror_ticks": false,
+    "legend": true,
+    "panel_label": true,
+    "jpeg_q": 65,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    1005,
+    780
+   ]
+  },
+  {
+   "slug": "anchor-sandstone1",
+   "split": "held-out",
+   "title": "An investigation on the effect of high energy storage anchor on surrounding rock conditions",
+   "source_url": "https://doi.org/10.5281/zenodo.4072158",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx/strain-stress/Sandstone 1",
+   "figure_id": "Data.xlsx/strain-stress/Sandstone 1",
+   "kind": "stress-strain",
+   "x_label": "Strain (%)",
+   "y_label": "Stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "sheet strain-stress, columns 'Sandstone 1'",
+   "n_raw": 130,
+   "n_points": 130,
+   "plot_w": 866.5104166666666,
+   "plot_box_px": [
+    103.48958333333336,
+    39.500000000000114,
+    970.0,
+    619.1354166666666
+   ],
+   "x_range": [
+    0.0,
+    1.25
+   ],
+   "y_range": [
+    0.0,
+    50.0
+   ],
+   "style": {
+    "size_in": [
+     5.0,
+     3.6
+    ],
+    "dpi": 200,
+    "color": "#d62728",
+    "lw": 0.8,
+    "marker": "^",
+    "mirror_ticks": false,
+    "legend": true,
+    "panel_label": true,
+    "jpeg_q": 0,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    1000,
+    720
+   ]
+  },
+  {
+   "slug": "anchor-sandymudstone1",
+   "split": "dev",
+   "title": "An investigation on the effect of high energy storage anchor on surrounding rock conditions",
+   "source_url": "https://doi.org/10.5281/zenodo.4072158",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx/strain-stress/Sandy mudstone 1",
+   "figure_id": "Data.xlsx/strain-stress/Sandy mudstone 1",
+   "kind": "stress-strain",
+   "x_label": "Strain (%)",
+   "y_label": "Stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "sheet strain-stress, columns 'Sandy mudstone 1'",
+   "n_raw": 110,
+   "n_points": 110,
+   "plot_w": 812.2500000000001,
+   "plot_box_px": [
+    156.375,
+    59.750000000000114,
+    968.6250000000001,
+    686.75
+   ],
+   "x_range": [
+    0.0,
+    1.25
+   ],
+   "y_range": [
+    0.0,
+    30.0
+   ],
+   "style": {
+    "size_in": [
+     3.5,
+     2.8
+    ],
+    "dpi": 300,
+    "color": "#404040",
+    "lw": 0.8,
+    "marker": "",
+    "mirror_ticks": true,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 92,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    1050,
+    840
+   ]
+  },
+  {
+   "slug": "clay-creep-c4k-s1",
+   "split": "dev",
+   "title": "Experimental data for \"The creep coefficient in clays: evolution and interpretation\"",
+   "source_url": "https://doi.org/10.5281/zenodo.23666827",
+   "license": "CC-BY-4.0",
+   "source_file": "stage_data/C4K_s1.csv",
+   "figure_id": "stage_data/C4K_s1.csv",
+   "kind": "settlement-time",
+   "x_label": "Elapsed time (min)",
+   "y_label": "Settlement (mm)",
+   "x_scale": "log10",
+   "y_scale": "linear",
+   "notes": "stage C4K_s1 sigma_v=25 kPa; time since t0_load; settlement=|dial-dial_first_row|",
+   "n_raw": 1699,
+   "n_points": 211,
+   "plot_w": 490.92218749999995,
+   "plot_box_px": [
+    79.00000000000001,
+    24.0,
+    569.9221875,
+    382.475
+   ],
+   "x_range": [
+    0.01,
+    100000.0
+   ],
+   "y_range": [
+    0.0,
+    2.0
+   ],
+   "style": {
+    "size_in": [
+     4.0,
+     3.0
+    ],
+    "dpi": 150,
+    "color": "#404040",
+    "lw": 1.0,
+    "marker": "o",
+    "mirror_ticks": true,
+    "legend": true,
+    "panel_label": false,
+    "jpeg_q": 65,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    600,
+    450
+   ]
+  },
+  {
+   "slug": "clay-creep-nc1b-s1",
+   "split": "held-out",
+   "title": "Experimental data for \"The creep coefficient in clays: evolution and interpretation\"",
+   "source_url": "https://doi.org/10.5281/zenodo.23666827",
+   "license": "CC-BY-4.0",
+   "source_file": "stage_data/NC1B_s1.csv",
+   "figure_id": "stage_data/NC1B_s1.csv",
+   "kind": "settlement-time",
+   "x_label": "Elapsed time (min)",
+   "y_label": "Settlement (mm)",
+   "x_scale": "log10",
+   "y_scale": "linear",
+   "notes": "stage NC1B_s1 sigma_v=50 kPa; time since t0_load; settlement=|dial-dial_first_row|",
+   "n_raw": 50352,
+   "n_points": 281,
+   "plot_w": 470.82291666666663,
+   "plot_box_px": [
+    102.17708333333336,
+    35.49999999999994,
+    573.0,
+    384.7729166666667
+   ],
+   "x_range": [
+    0.01,
+    100000.0
+   ],
+   "y_range": [
+    0.0,
+    3.0
+   ],
+   "style": {
+    "size_in": [
+     3.0,
+     2.4
+    ],
+    "dpi": 200,
+    "color": "black",
+    "lw": 1.5,
+    "marker": "",
+    "mirror_ticks": true,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 0,
+    "font_pt": 9.0
+   },
+   "png_size": [
+    600,
+    480
+   ]
+  },
+  {
+   "slug": "clay-creep-tcb7b-s2",
+   "split": "held-out",
+   "title": "Experimental data for \"The creep coefficient in clays: evolution and interpretation\"",
+   "source_url": "https://doi.org/10.5281/zenodo.23666827",
+   "license": "CC-BY-4.0",
+   "source_file": "stage_data/TCB7B_s2.csv",
+   "figure_id": "stage_data/TCB7B_s2.csv",
+   "kind": "settlement-time",
+   "x_label": "Elapsed time (min)",
+   "y_label": "Settlement (mm)",
+   "x_scale": "log10",
+   "y_scale": "linear",
+   "notes": "stage TCB7B_s2 sigma_v=100 kPa; time since t0_load; settlement=|dial-dial_first_row|",
+   "n_raw": 10066,
+   "n_points": 285,
+   "plot_w": 688.09375,
+   "plot_box_px": [
+    166.90625,
+    59.750000000000114,
+    855.0,
+    566.21875
+   ],
+   "x_range": [
+    0.01,
+    100000.0
+   ],
+   "y_range": [
+    0.0,
+    3.0
+   ],
+   "style": {
+    "size_in": [
+     3.0,
+     2.4
+    ],
+    "dpi": 300,
+    "color": "#404040",
+    "lw": 1.25,
+    "marker": "^",
+    "mirror_ticks": false,
+    "legend": false,
+    "panel_label": true,
+    "jpeg_q": 0,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    900,
+    720
+   ]
+  },
+  {
+   "slug": "gateroad-sandstone-0mpa",
+   "split": "dev",
+   "title": "Data from: Strain energy analysis of floor heave in longwall gateroads",
+   "source_url": "https://doi.org/10.5281/zenodo.4959298",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx/sandstones/confining 0 MPa",
+   "figure_id": "Data.xlsx/sandstones/confining 0 MPa",
+   "kind": "triaxial stress-strain",
+   "x_label": "Axial strain (mm/mm)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "sandstones, confining pressure 0 MPa, cols axial strain/axial stress",
+   "n_raw": 899,
+   "n_points": 152,
+   "plot_w": 695.015625,
+   "plot_box_px": [
+    131.421875,
+    47.75000000000023,
+    826.4375,
+    591.453125
+   ],
+   "x_range": [
+    0.0,
+    0.025
+   ],
+   "y_range": [
+    0.0,
+    50.0
+   ],
+   "style": {
+    "size_in": [
+     3.0,
+     2.4
+    ],
+    "dpi": 300,
+    "color": "black",
+    "lw": 1.0,
+    "marker": "o",
+    "mirror_ticks": false,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 0,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    900,
+    720
+   ]
+  },
+  {
+   "slug": "gateroad-sandstone-15mpa",
+   "split": "dev",
+   "title": "Data from: Strain energy analysis of floor heave in longwall gateroads",
+   "source_url": "https://doi.org/10.5281/zenodo.4959298",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx/sandstones/confining 15 MPa",
+   "figure_id": "Data.xlsx/sandstones/confining 15 MPa",
+   "kind": "triaxial stress-strain",
+   "x_label": "Axial strain (mm/mm)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "sandstones, confining pressure 15 MPa, cols axial strain/axial stress",
+   "n_raw": 2068,
+   "n_points": 287,
+   "plot_w": 529.0416666666665,
+   "plot_box_px": [
+    97.45833333333334,
+    31.0,
+    626.4999999999999,
+    436.9166666666667
+   ],
+   "x_range": [
+    0.0,
+    0.05
+   ],
+   "y_range": [
+    0.0,
+    200.0
+   ],
+   "style": {
+    "size_in": [
+     3.35,
+     2.6
+    ],
+    "dpi": 200,
+    "color": "#d62728",
+    "lw": 1.5,
+    "marker": "",
+    "mirror_ticks": true,
+    "legend": true,
+    "panel_label": false,
+    "jpeg_q": 0,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    670,
+    520
+   ]
+  },
+  {
+   "slug": "gateroad-shale-0mpa",
+   "split": "held-out",
+   "title": "Data from: Strain energy analysis of floor heave in longwall gateroads",
+   "source_url": "https://doi.org/10.5281/zenodo.4959298",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx/shales/confining 0 MPa",
+   "figure_id": "Data.xlsx/shales/confining 0 MPa",
+   "kind": "triaxial stress-strain",
+   "x_label": "Axial strain (mm/mm)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "shales, confining pressure 0 MPa, cols axial strain/axial stress",
+   "n_raw": 1116,
+   "n_points": 187,
+   "plot_w": 459.04166666666663,
+   "plot_box_px": [
+    86.33333333333334,
+    31.000000000000057,
+    545.375,
+    396.9166666666667
+   ],
+   "x_range": [
+    0.0,
+    0.0125
+   ],
+   "y_range": [
+    0.0,
+    40.0
+   ],
+   "style": {
+    "size_in": [
+     3.0,
+     2.4
+    ],
+    "dpi": 200,
+    "color": "#d62728",
+    "lw": 1.5,
+    "marker": "s",
+    "mirror_ticks": true,
+    "legend": true,
+    "panel_label": false,
+    "jpeg_q": 65,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    600,
+    480
+   ]
+  },
+  {
+   "slug": "gateroad-shale-15mpa",
+   "split": "held-out",
+   "title": "Data from: Strain energy analysis of floor heave in longwall gateroads",
+   "source_url": "https://doi.org/10.5281/zenodo.4959298",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx/shales/confining 15 MPa",
+   "figure_id": "Data.xlsx/shales/confining 15 MPa",
+   "kind": "triaxial stress-strain",
+   "x_label": "Axial strain (mm/mm)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "shales, confining pressure 15 MPa, cols axial strain/axial stress",
+   "n_raw": 2707,
+   "n_points": 281,
+   "plot_w": 379.8125,
+   "plot_box_px": [
+    81.3125,
+    26.75,
+    461.125,
+    319.8125
+   ],
+   "x_range": [
+    0.0,
+    0.02
+   ],
+   "y_range": [
+    0.0,
+    120.0
+   ],
+   "style": {
+    "size_in": [
+     3.35,
+     2.6
+    ],
+    "dpi": 150,
+    "color": "black",
+    "lw": 1.0,
+    "marker": "",
+    "mirror_ticks": true,
+    "legend": true,
+    "panel_label": true,
+    "jpeg_q": 0,
+    "font_pt": 9.0
+   },
+   "png_size": [
+    502,
+    390
+   ]
+  },
+  {
+   "slug": "gob-compaction-testa",
+   "split": "held-out",
+   "title": "Continuous compaction and permeability evolution in longwall gob materials",
+   "source_url": "https://doi.org/10.5281/zenodo.3929410",
+   "license": "CC-BY-4.0",
+   "source_file": "Raw data .../Test A",
+   "figure_id": "Raw data .../Test A",
+   "kind": "force-displacement",
+   "x_label": "Displacement (mm)",
+   "y_label": "Force (kN)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "cols Force kN, Displacement mm",
+   "n_raw": 26496,
+   "n_points": 293,
+   "plot_w": 398.3125000000001,
+   "plot_box_px": [
+    88.62500000000001,
+    29.500000000000114,
+    486.9375000000001,
+    343.140625
+   ],
+   "x_range": [
+    0.0,
+    100.0
+   ],
+   "y_range": [
+    0.0,
+    300.0
+   ],
+   "style": {
+    "size_in": [
+     3.5,
+     2.8
+    ],
+    "dpi": 150,
+    "color": "#d62728",
+    "lw": 0.8,
+    "marker": "s",
+    "mirror_ticks": true,
+    "legend": true,
+    "panel_label": false,
+    "jpeg_q": 0,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    525,
+    420
+   ]
+  },
+  {
+   "slug": "gob-compaction-testb",
+   "split": "held-out",
+   "title": "Continuous compaction and permeability evolution in longwall gob materials",
+   "source_url": "https://doi.org/10.5281/zenodo.3929410",
+   "license": "CC-BY-4.0",
+   "source_file": "Raw data .../Test B",
+   "figure_id": "Raw data .../Test B",
+   "kind": "force-displacement",
+   "x_label": "Displacement (mm)",
+   "y_label": "Force (kN)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "cols Force kN, Displacement mm",
+   "n_raw": 20729,
+   "n_points": 300,
+   "plot_w": 1256.90625,
+   "plot_box_px": [
+    177.28125000000006,
+    59.75,
+    1434.1875,
+    926.71875
+   ],
+   "x_range": [
+    0.0,
+    60.0
+   ],
+   "y_range": [
+    0.0,
+    300.0
+   ],
+   "style": {
+    "size_in": [
+     5.0,
+     3.6
+    ],
+    "dpi": 300,
+    "color": "#404040",
+    "lw": 1.25,
+    "marker": "s",
+    "mirror_ticks": false,
+    "legend": true,
+    "panel_label": false,
+    "jpeg_q": 92,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    1500,
+    1080
+   ]
+  },
+  {
+   "slug": "kaiser-uct1",
+   "split": "dev",
+   "title": "Data from: A novel in-situ stress measurement method based on acoustic emission kaiser effect: a theoretical and experimental study",
+   "source_url": "https://doi.org/10.5281/zenodo.4942609",
+   "license": "CC0-1.0",
+   "source_file": "UCT and AE test date/#1.csv",
+   "figure_id": "UCT and AE test date/#1.csv",
+   "kind": "stress-time",
+   "x_label": "Time (s)",
+   "y_label": "Stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "cols time(s), stress(MPa)",
+   "n_raw": 28754,
+   "n_points": 300,
+   "plot_w": 393.1875,
+   "plot_box_px": [
+    88.50000000000001,
+    29.500000000000057,
+    481.6875,
+    343.625
+   ],
+   "x_range": [
+    0.0,
+    1500.0
+   ],
+   "y_range": [
+    0.0,
+    120.0
+   ],
+   "style": {
+    "size_in": [
+     3.5,
+     2.8
+    ],
+    "dpi": 150,
+    "color": "#d62728",
+    "lw": 1.0,
+    "marker": "",
+    "mirror_ticks": true,
+    "legend": true,
+    "panel_label": false,
+    "jpeg_q": 65,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    525,
+    420
+   ]
+  },
+  {
+   "slug": "kaiser-uct3",
+   "split": "held-out",
+   "title": "Data from: A novel in-situ stress measurement method based on acoustic emission kaiser effect: a theoretical and experimental study",
+   "source_url": "https://doi.org/10.5281/zenodo.4942609",
+   "license": "CC0-1.0",
+   "source_file": "UCT and AE test date/#3.csv",
+   "figure_id": "UCT and AE test date/#3.csv",
+   "kind": "stress-time",
+   "x_label": "Time (s)",
+   "y_label": "Stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "cols time(s), stress(MPa)",
+   "n_raw": 28821,
+   "n_points": 299,
+   "plot_w": 524.9166666666666,
+   "plot_box_px": [
+    98.83333333333334,
+    31.000000000000057,
+    623.75,
+    436.9166666666667
+   ],
+   "x_range": [
+    0.0,
+    1500.0
+   ],
+   "y_range": [
+    -20.0,
+    60.0
+   ],
+   "style": {
+    "size_in": [
+     3.35,
+     2.6
+    ],
+    "dpi": 200,
+    "color": "#404040",
+    "lw": 1.5,
+    "marker": "s",
+    "mirror_ticks": true,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 80,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    670,
+    520
+   ]
+  },
+  {
+   "slug": "kaiser-uct5",
+   "split": "dev",
+   "title": "Data from: A novel in-situ stress measurement method based on acoustic emission kaiser effect: a theoretical and experimental study",
+   "source_url": "https://doi.org/10.5281/zenodo.4942609",
+   "license": "CC0-1.0",
+   "source_file": "UCT and AE test date/#5.csv",
+   "figure_id": "UCT and AE test date/#5.csv",
+   "kind": "stress-time",
+   "x_label": "Time (s)",
+   "y_label": "Stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "cols time(s), stress(MPa)",
+   "n_raw": 34387,
+   "n_points": 300,
+   "plot_w": 956.9375,
+   "plot_box_px": [
+    156.37500000000003,
+    59.75,
+    1113.3125,
+    746.75
+   ],
+   "x_range": [
+    0.0,
+    2000.0
+   ],
+   "y_range": [
+    0.0,
+    30.0
+   ],
+   "style": {
+    "size_in": [
+     4.0,
+     3.0
+    ],
+    "dpi": 300,
+    "color": "#1f4e9c",
+    "lw": 1.0,
+    "marker": "",
+    "mirror_ticks": false,
+    "legend": false,
+    "panel_label": true,
+    "jpeg_q": 0,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    1200,
+    900
+   ]
+  },
+  {
+   "slug": "limestone-ucs-in1u-dry",
+   "split": "held-out",
+   "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
+   "source_url": "https://doi.org/10.5281/zenodo.10598216",
+   "license": "CC-BY-4.0",
+   "source_file": "Uniaxial compression/In1U_dry.txt",
+   "figure_id": "Uniaxial compression/In1U_dry.txt",
+   "kind": "stress-strain",
+   "x_label": "Axial strain (%)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "col2 strain*100, col1 stress",
+   "n_raw": 973,
+   "n_points": 179,
+   "plot_w": 421.0625,
+   "plot_box_px": [
+    71.93750000000001,
+    26.750000000000114,
+    493.0,
+    349.8125
+   ],
+   "x_range": [
+    0.0,
+    0.5
+   ],
+   "y_range": [
+    0.0,
+    80.0
+   ],
+   "style": {
+    "size_in": [
+     3.5,
+     2.8
+    ],
+    "dpi": 150,
+    "color": "black",
+    "lw": 1.0,
+    "marker": "",
+    "mirror_ticks": false,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 0,
+    "font_pt": 9.0
+   },
+   "png_size": [
+    525,
+    420
+   ]
+  },
+  {
+   "slug": "limestone-ucs-l1u-dry",
+   "split": "held-out",
+   "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
+   "source_url": "https://doi.org/10.5281/zenodo.10598216",
+   "license": "CC-BY-4.0",
+   "source_file": "Uniaxial compression/L1U_dry.txt",
+   "figure_id": "Uniaxial compression/L1U_dry.txt",
+   "kind": "stress-strain",
+   "x_label": "Axial strain (%)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "col2 strain*100, col1 stress",
+   "n_raw": 1687,
+   "n_points": 300,
+   "plot_w": 561.4479166666665,
+   "plot_box_px": [
+    95.92708333333334,
+    35.500000000000114,
+    657.3749999999999,
+    467.0729166666667
+   ],
+   "x_range": [
+    0.0,
+    1.0
+   ],
+   "y_range": [
+    0.0,
+    10.0
+   ],
+   "style": {
+    "size_in": [
+     3.5,
+     2.8
+    ],
+    "dpi": 200,
+    "color": "black",
+    "lw": 1.25,
+    "marker": "o",
+    "mirror_ticks": true,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 65,
+    "font_pt": 9.0
+   },
+   "png_size": [
+    700,
+    560
+   ]
+  },
+  {
+   "slug": "limestone-ucs-s1u-sat",
+   "split": "held-out",
+   "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
+   "source_url": "https://doi.org/10.5281/zenodo.10598216",
+   "license": "CC-BY-4.0",
+   "source_file": "Uniaxial compression/S1U_sat.txt",
+   "figure_id": "Uniaxial compression/S1U_sat.txt",
+   "kind": "stress-strain",
+   "x_label": "Axial strain (%)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "col2 strain*100, col1 stress",
+   "n_raw": 1385,
+   "n_points": 169,
+   "plot_w": 695.078125,
+   "plot_box_px": [
+    148.046875,
+    47.75000000000023,
+    843.125,
+    591.453125
+   ],
+   "x_range": [
+    -0.2,
+    0.8
+   ],
+   "y_range": [
+    0.0,
+    200.0
+   ],
+   "style": {
+    "size_in": [
+     3.0,
+     2.4
+    ],
+    "dpi": 300,
+    "color": "black",
+    "lw": 0.8,
+    "marker": "^",
+    "mirror_ticks": true,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 0,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    900,
+    720
+   ]
+  },
+  {
+   "slug": "limestone-ucs-st1u-sat",
+   "split": "held-out",
+   "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
+   "source_url": "https://doi.org/10.5281/zenodo.10598216",
+   "license": "CC-BY-4.0",
+   "source_file": "Uniaxial compression/St1U_sat.txt",
+   "figure_id": "Uniaxial compression/St1U_sat.txt",
+   "kind": "stress-strain",
+   "x_label": "Axial strain (%)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "col2 strain*100, col1 stress",
+   "n_raw": 726,
+   "n_points": 287,
+   "plot_w": 1282.90625,
+   "plot_box_px": [
+    135.65625,
+    59.74999999999977,
+    1418.5625,
+    926.71875
+   ],
+   "x_range": [
+    0.0,
+    0.4
+   ],
+   "y_range": [
+    0.0,
+    6.0
+   ],
+   "style": {
+    "size_in": [
+     5.0,
+     3.6
+    ],
+    "dpi": 300,
+    "color": "#d62728",
+    "lw": 1.5,
+    "marker": "",
+    "mirror_ticks": false,
+    "legend": true,
+    "panel_label": true,
+    "jpeg_q": 65,
+    "font_pt": 10.0
+   },
+   "png_size": [
+    1500,
+    1080
+   ]
+  },
+  {
+   "slug": "limestone-ucs-t2u-sat",
+   "split": "held-out",
+   "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
+   "source_url": "https://doi.org/10.5281/zenodo.10598216",
+   "license": "CC-BY-4.0",
+   "source_file": "Uniaxial compression/T2U_sat.txt",
+   "figure_id": "Uniaxial compression/T2U_sat.txt",
+   "kind": "stress-strain",
+   "x_label": "Axial strain (%)",
+   "y_label": "Axial stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "col2 strain*100, col1 stress",
+   "n_raw": 1365,
+   "n_points": 179,
+   "plot_w": 1295.078125,
+   "plot_box_px": [
+    148.04687500000003,
+    36.0,
+    1443.125,
+    951.453125
+   ],
+   "x_range": [
+    -0.2,
+    0.8
+   ],
+   "y_range": [
+    0.0,
+    125.0
+   ],
+   "style": {
+    "size_in": [
+     5.0,
+     3.6
+    ],
+    "dpi": 300,
+    "color": "#d62728",
+    "lw": 1.5,
+    "marker": "o",
+    "mirror_ticks": true,
+    "legend": false,
+    "panel_label": true,
+    "jpeg_q": 65,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    1500,
+    1080
+   ]
+  },
+  {
+   "slug": "oedometer-cu-control",
+   "split": "dev",
+   "title": "Dataset for: Compressibility, pH, and Electrical Conductivity of Cu\u00b2\u207a- and Zn\u00b2\u207a-Contaminated Tropical Residual Soil from Penang, Malaysia",
+   "source_url": "https://doi.org/10.5281/zenodo.23356064",
+   "license": "CC-BY-4.0",
+   "source_file": "Cu_oedometer_raw.xlsx/Raw Measurements/Control",
+   "figure_id": "Cu_oedometer_raw.xlsx/Raw Measurements/Control",
+   "kind": "e-log p",
+   "x_label": "Vertical stress (kPa)",
+   "y_label": "Void ratio, e",
+   "x_scale": "log10",
+   "y_scale": "linear",
+   "notes": "Control specimen, 6 load stages",
+   "n_raw": 6,
+   "n_points": 6,
+   "plot_w": 680.405,
+   "plot_box_px": [
+    153.12500000000003,
+    40.50000000000023,
+    833.53,
+    579.125
+   ],
+   "x_range": [
+    10.0,
+    1000.0
+   ],
+   "y_range": [
+    0.35000000000000003,
+    0.75
+   ],
+   "style": {
+    "size_in": [
+     3.0,
+     2.4
+    ],
+    "dpi": 300,
+    "color": "#404040",
+    "lw": 1.5,
+    "marker": "^",
+    "mirror_ticks": true,
+    "legend": true,
+    "panel_label": false,
+    "jpeg_q": 92,
+    "font_pt": 9.0
+   },
+   "png_size": [
+    900,
+    720
+   ]
+  },
+  {
+   "slug": "roofcut-pillar-fig7a",
+   "split": "dev",
+   "title": "Research on stress release for gob-side roadway using roof-cutting technology with chainsaw arm",
+   "source_url": "https://doi.org/10.5281/zenodo.4991755",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx Fig.7(a)",
+   "figure_id": "Data.xlsx Fig.7(a)",
+   "kind": "stress profile",
+   "x_label": "Horizontal position (m)",
+   "y_label": "Vertical stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "published data of Fig.7; rows 4.. until blank",
+   "n_raw": 29,
+   "n_points": 29,
+   "plot_w": 511.5625,
+   "plot_box_px": [
+    66.25000000000001,
+    24.0,
+    577.8125,
+    384.375
+   ],
+   "x_range": [
+    0.0,
+    8.0
+   ],
+   "y_range": [
+    2.0,
+    10.0
+   ],
+   "style": {
+    "size_in": [
+     4.0,
+     3.0
+    ],
+    "dpi": 150,
+    "color": "#404040",
+    "lw": 1.5,
+    "marker": "^",
+    "mirror_ticks": true,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 80,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    600,
+    450
+   ]
+  },
+  {
+   "slug": "roofcut-pillar-fig7b",
+   "split": "held-out",
+   "title": "Research on stress release for gob-side roadway using roof-cutting technology with chainsaw arm",
+   "source_url": "https://doi.org/10.5281/zenodo.4991755",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx Fig.7(b)",
+   "figure_id": "Data.xlsx Fig.7(b)",
+   "kind": "stress profile",
+   "x_label": "Horizontal position (m)",
+   "y_label": "Vertical stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "published data of Fig.7; rows 4.. until blank",
+   "n_raw": 29,
+   "n_points": 29,
+   "plot_w": 519.8125,
+   "plot_box_px": [
+    58.00000000000001,
+    24.0,
+    577.8125,
+    384.375
+   ],
+   "x_range": [
+    0.0,
+    8.0
+   ],
+   "y_range": [
+    3.0,
+    9.0
+   ],
+   "style": {
+    "size_in": [
+     4.0,
+     3.0
+    ],
+    "dpi": 150,
+    "color": "#404040",
+    "lw": 1.25,
+    "marker": "s",
+    "mirror_ticks": true,
+    "legend": false,
+    "panel_label": false,
+    "jpeg_q": 65,
+    "font_pt": 8.0
+   },
+   "png_size": [
+    600,
+    450
+   ]
+  },
+  {
+   "slug": "roofcut-pillar-fig7c",
+   "split": "held-out",
+   "title": "Research on stress release for gob-side roadway using roof-cutting technology with chainsaw arm",
+   "source_url": "https://doi.org/10.5281/zenodo.4991755",
+   "license": "CC0-1.0",
+   "source_file": "Data.xlsx Fig.7(c)",
+   "figure_id": "Data.xlsx Fig.7(c)",
+   "kind": "stress profile",
+   "x_label": "Horizontal position (m)",
+   "y_label": "Vertical stress (MPa)",
+   "x_scale": "linear",
+   "y_scale": "linear",
+   "notes": "published data of Fig.7; rows 4.. until blank",
+   "n_raw": 29,
+   "n_points": 29,
+   "plot_w": 405.625,
+   "plot_box_px": [
+    71.9375,
+    26.75,
+    477.5625,
+    319.8125
+   ],
+   "x_range": [
+    0.0,
+    8.0
+   ],
+   "y_range": [
+    2.0,
+    12.0
+   ],
+   "style": {
+    "size_in": [
+     3.35,
+     2.6
+    ],
+    "dpi": 150,
+    "color": "#d62728",
+    "lw": 1.25,
+    "marker": "^",
+    "mirror_ticks": false,
+    "legend": false,
+    "panel_label": true,
+    "jpeg_q": 0,
+    "font_pt": 9.0
+   },
+   "png_size": [
+    502,
+    390
+   ]
+  }
+ ]
+}

@@ -230,6 +230,30 @@ def _expand_glued_years(words: list[_Word]) -> list[_Word]:
     return expanded
 
 
+def _anchor_era_endpoints(group: list[_Word]) -> list[_Word]:
+    """Put a BCE label on the outer edge of its text, not the glyph center.
+
+    ``803,719 BCE`` is start-anchored and ``2025`` beside it is end-anchored.
+    Their centers sit inside the axis and stretch the year scale.
+    """
+
+    if len(group) < 2:
+        return group
+    ordered = sorted(group, key=lambda word: word.cx)
+    left, right = ordered[0], ordered[-1]
+    upper = left.text.upper()
+    if "BCE" not in upper and not upper.endswith("BC") and " BC" not in upper:
+        return group
+
+    def _move(word: _Word, cx: float) -> _Word:
+        return _Word(word.text, word.score, cx, word.cy, word.x0, word.x1, word.y0, word.y1)
+
+    return [
+        _move(word, word.x0) if word is left else _move(word, word.x1) if word is right else word
+        for word in group
+    ]
+
+
 def _split(words: list[_Word], area: PlotArea) -> tuple[list[_Word], list[_Word]]:
     x0, y0, x1, y1 = area.bbox
     width = max(1.0, x1 - x0)
@@ -503,6 +527,7 @@ def read_frame(
             x_group = group
     if x_group is None:
         return None
+    x_group = _anchor_era_endpoints(x_group)
     x_choice = choose_axis([(word.cx, word.text) for word in x_group], vertical=False, config=cfg)
     y_choice = choose_axis([(word.cy, word.text) for word in y_group], vertical=True, config=cfg)
     if x_choice is None or y_choice is None:

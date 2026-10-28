@@ -51,7 +51,16 @@ def _base(text: str) -> str:
         out.append(char)
         index += 1
     # Thousands separators are punctuation, not decimals: "1,000" → "1000".
-    return re.sub(r"(?<=\d),(?=\d)", "", "".join(out))
+    # "803.719 BCE" uses a dot the same way. A one-digit left side ("1.500")
+    # stays a decimal.
+    joined = re.sub(r"(?<=\d),(?=\d)", "", "".join(out))
+    joined = joined.replace("℃", "").replace("°", "")
+    return re.sub(
+        r"\d{2,3}(?:\.\d{3})+(?=\s*(?:BCE|BC|CE|AD)\b)",
+        lambda match: match.group(0).replace(".", ""),
+        joined,
+        flags=re.IGNORECASE,
+    )
 
 
 def _is_concat_power(text: str) -> bool:
@@ -81,7 +90,7 @@ def parse_label(text: str) -> list[tuple[float, str]]:
         return found
 
     unit = re.fullmatch(
-        rf"({_NUMBER})%?(?:\s+(thousand|million|billion|trillion))?(?:\s+(BCE|BC|CE|AD))?(?:\s+[A-Za-z%/°]+)*",
+        rf"({_NUMBER})%?(?:\s*(thousand|million|billion|trillion))?(?:\s*(BCE|BC|CE|AD))?(?:\s*[A-Za-z%/]*)*",
         raw,
         flags=re.IGNORECASE,
     )

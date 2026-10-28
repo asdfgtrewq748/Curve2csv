@@ -91,12 +91,18 @@ def _curve_like_text(text: NDArray[np.bool_], bbox: BBox) -> NDArray[np.bool_]:
         text.astype(np.uint8), connectivity=8
     )
     max_h = max(4, min(14, int(round(0.02 * plot_h)) + 2))
-    max_w = max(40, int(round(0.08 * plot_w)))
+    # A flat stretch of a thin curve can survive the long-rule filter and then
+    # be dilated into one very long text component. Any length is still a stroke
+    # when it stays shallow; give the long ones a slightly taller dilation cap
+    # so JPEG fringes and a 3x3 text dilation do not evict them.
+    long_min_w = max(40, int(round(0.12 * plot_w)))
+    long_max_h = max(max_h, min(22, int(round(0.06 * plot_h)) + 4))
     for idx in range(1, count):
         x, y, w, h, area = (int(v) for v in stats[idx])
         if x + w <= left or x >= right or y + h <= top or y >= bottom:
             continue
-        if area < 12 or h > max_h or w > max_w:
+        height_cap = long_max_h if w >= long_min_w else max_h
+        if area < 12 or h > height_cap:
             continue
         if w < max(12, 3 * h):
             continue
@@ -233,6 +239,97 @@ def _dominant_curve_mask(
     return np.asarray(keep, dtype=bool)
 
 
+def _spine_band_zone(
+    dark_ink: NDArray[np.bool_], bbox: BBox, band: int
+) -> NDArray[np.bool_]:
+    """Top/bottom spine rows plus the border depth strips inside the box."""
+
+    x0, y0, x1, y1 = bbox
+    height, width = dark_ink.shape
+    left, right = max(0, x0), min(width, x1)
+    top, bottom = max(0, y0), min(height, y1)
+    zone = np.zeros((height, width), dtype=bool)
+    if right <= left or bottom <= top:
+        return zone
+    plot_w = right - left
+    plot_h = bottom - top
+    depth = band + 1
+    zone[top : min(bottom, top + depth), left:right] = True
+    zone[max(top, bottom - depth) : bottom, left:right] = True
+    near = max(band + 4, int(round(0.02 * plot_h)))
+    rows = np.unique(
+        np.concatenate(
+            [
+                np.arange(max(0, top - near), min(height, top + near + 1)),
+                np.arange(max(0, bottom - near), min(height, bottom + near + 1)),
+            ]
+        )
+    )
+    min_span = 0.75 * plot_w
+    for row in rows:
+        if int(dark_ink[int(row), left:right].sum()) >= min_span:
+            zone[int(row), left:right] = True
+    return zone
+
+
+def grow_along_spine_band(
+    mask: NDArray[np.bool_],
+    dark_ink: NDArray[np.bool_],
+    text_exclusion: NDArray[np.bool_],
+    grid: NDArray[np.bool_],
+    legend: NDArray[np.bool_],
+    bbox: BBox,
+    band: int,
+) -> NDArray[np.bool_]:
+    """Geodesically recover axis-band ink in columns that have no curve yet.
+
+    A curve segment that lies on the x axis is removed with the spine by the
+    border clear. Grow the dominant stroke through the leftover spine band, but
+    only into columns without any current curve ink so the spine cannot be
+    painted underneath the rest of the curve.
+    """
+
+    grown = np.array(mask, copy=True)
+    x0, y0, x1, y1 = bbox
+    height, width = mask.shape
+    left, right = max(0, x0), min(width, x1)
+    top, bottom = max(0, y0), min(height, y1)
+    if right <= left or bottom <= top:
+        return grown
+    if not np.any(grown[top:bottom, left:right]):
+        return grown
+    inside = np.zeros((height, width), dtype=bool)
+    inside[top:bottom, left:right] = True
+    band_zone = _spine_band_zone(dark_ink, bbox, band)
+    if not np.any(band_zone):
+        return grown
+    box_columns = np.any(grown[top:bottom, left:right], axis=0)
+    empty_cols = np.zeros(width, dtype=bool)
+    empty_cols[left:right] = ~box_columns
+    # A thick spine or an anti-aliased stroke may put the only inside-box ink
+    # one pixel away from the dark core. Tolerate that fringe, but only inside
+    # the axis band.
+    kernel = np.ones((3, 3), dtype=np.uint8)
+    band_ink = cv2.dilate(dark_ink.astype(np.uint8), kernel, iterations=1) > 0
+    allow = (
+        band_zone
+        & band_ink
+        & inside
+        & ~text_exclusion
+        & ~grid
+        & ~legend
+        & empty_cols[None, :]
+    ) | grown
+    current = grown
+    for _ in range(150):
+        dilated = cv2.dilate(current.astype(np.uint8), kernel, iterations=1) > 0
+        updated = dilated & allow
+        if np.array_equal(updated, current):
+            break
+        current = updated
+    return np.asarray(current, dtype=bool)
+
+
 def achromatic_width_hint(mask: NDArray[np.bool_], bbox: BBox) -> float:
     """Nominal width that keeps a steep, tall ink run out of the swatch rule.
 
@@ -278,7 +375,8 @@ def separate_achromatic_series(
     # Text glyphs use a slightly wider chroma tolerance than the chromatic
     # separator; JPEG fringes around a grey stroke must not split the candidate.
     low_chroma = chroma < max(cfg.chroma_min, 18.0)
-    candidate = (gray < cfg.ink_threshold) & low_chroma & inside
+    dark_ink = (gray < cfg.ink_threshold) & low_chroma
+    candidate = dark_ink & inside
     text_exclusion = achromatic_text_exclusion(masks.text, area.bbox)
     candidate &= ~text_exclusion
     candidate &= ~masks.grid
@@ -289,7 +387,26 @@ def separate_achromatic_series(
     handle = _legend_handle_mask(candidate, masks.text, area.bbox, cfg)
     if np.any(handle):
         candidate &= ~handle
+    # Bridge one-pixel holes such as open marker outlines before choosing the
+    # dominant stroke. Never let the close pull in text, grid, or axis ink.
+    closed = cv2.morphologyEx(
+        candidate.astype(np.uint8), cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8), iterations=1
+    )
+    candidate = (closed > 0) & dark_ink & inside
+    candidate &= ~text_exclusion
+    candidate &= ~masks.grid
+    candidate &= ~masks.axes
+    candidate &= ~masks.legend
     candidate = _dominant_curve_mask(candidate, area.bbox, cfg)
+    candidate = grow_along_spine_band(
+        candidate,
+        dark_ink,
+        text_exclusion,
+        masks.grid,
+        masks.legend,
+        area.bbox,
+        _frame_band(cfg),
+    )
     ys, xs = np.nonzero(candidate)
     if xs.size < 10:
         return []

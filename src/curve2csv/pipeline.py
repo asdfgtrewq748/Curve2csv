@@ -21,10 +21,11 @@ from curve2csv.quality.flags import assign_segment_ids, strip_interpolation
 from curve2csv.separate.achromatic import (
     achromatic_text_exclusion,
     achromatic_width_hint,
+    grow_along_spine_band,
     separate_achromatic_series,
 )
 from curve2csv.separate.color import lab_to_hex, separate_series
-from curve2csv.separate.foreground import build_masks
+from curve2csv.separate.foreground import build_masks, chromatic_mask
 from curve2csv.types import (
     SCHEMA_VERSION,
     Abstain,
@@ -36,6 +37,7 @@ from curve2csv.types import (
     PlotArea,
     PointFlag,
     Series,
+    SeriesMask,
 )
 
 
@@ -182,8 +184,48 @@ def run_pipeline(
 
     t0 = time.perf_counter()
     series: list[Series] = []
-    separated_masks = [item.mask for item in separated]
     lab_image = rgb2lab(loaded.rgb)
+    if not achromatic_fallback and len(separated) == 1:
+        single = separated[0]
+        lab = lab_image.astype(np.float64)
+        chroma = np.sqrt(lab[:, :, 1] ** 2 + lab[:, :, 2] ** 2)
+        ys_single, xs_single = np.nonzero(single.mask)
+        if xs_single.size:
+            series_chroma = float(np.median(chroma[ys_single, xs_single]))
+            chromatic_ink = chromatic_mask(
+                loaded.rgb, max(cfg.chroma_min, 0.4 * series_chroma)
+            )
+            # Keep the band ink dark enough to be the stroke, not a light fill.
+            chromatic_ink &= (lab[:, :, 0] >= 8.0) & (lab[:, :, 0] < 98.0)
+            text_exclusion = achromatic_text_exclusion(masks.text, area.bbox)
+            grown = grow_along_spine_band(
+                single.mask,
+                chromatic_ink,
+                text_exclusion,
+                masks.grid,
+                masks.legend,
+                area.bbox,
+                cfg.edge_band_px,
+            )
+            if int(grown.sum()) > int(single.mask.sum()):
+                recovered = grown & ~single.mask
+                if np.any(recovered) and single.color_lab is not None:
+                    # The recovered axis-band pixels are anti-aliased fringe;
+                    # give the color-constrained tracker the one series' core
+                    # color so it stays on that ink instead of rejecting it.
+                    lab_image = np.array(lab_image, copy=True)
+                    lab_image[recovered] = np.asarray(single.color_lab, dtype=np.float64)
+                separated = [
+                    SeriesMask(
+                        series_id=single.series_id,
+                        color_lab=single.color_lab,
+                        style=single.style,
+                        mask=grown,
+                        separation_score=single.separation_score,
+                        ambiguous=single.ambiguous,
+                    )
+                ]
+    separated_masks = [item.mask for item in separated]
     curve_masks = masks
     if achromatic_fallback:
         curve_masks = Masks(

@@ -1,6 +1,6 @@
 # Real-figure results (domain-single-curve-v1)
 
-Commit `60766b0bc458f536bb41ffde1f368c9907d56b46`. Python 3.13.5.
+Commit `a2d8088fe23be4348ae0590de04ea60c01f86ba4`. Python 3.13.5.
 
 Strict scoring drops every flagged point, including occlusion bridges. With-bridge scoring keeps points flagged `INTERPOLATED` and still drops every other flag. A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90.
 
@@ -9,16 +9,16 @@ Strict scoring drops every flagged point, including occlusion bridges. With-brid
 | split | n | strict | strict accuracy | with-bridge | with-bridge accuracy |
 |---|---:|---:|---:|---:|---:|
 | dev | 8 | 8 | 100.00% | 8 | 100.00% |
-| held-out | 16 | 12 | 75.00% | 12 | 75.00% |
-| all | 24 | 20 | 83.33% | 20 | 83.33% |
+| held-out | 16 | 16 | 100.00% | 16 | 100.00% |
+| all | 24 | 24 | 100.00% | 24 | 100.00% |
 
-Mean CPU time 1.536s/image. Bridged points: 0. Report-only fabrication points: 0.
+Mean CPU time 1.243s/image. Bridged points: 0. Report-only fabrication points: 0.
 
 Parameter error is the worst relative slope error on series whose ground truth is a straight line (R² ≥ 0.98) in axis space. It is not part of the pass rule. Median over figures where a fit applies:
 
-- dev: n_fit=1, median |Δslope|/|slope|=0.010, median |Δintercept|/range=0.003, median ink_support=1.000, fabrication=0
+- dev: n_fit=1, median |Δslope|/|slope|=0.007, median |Δintercept|/range=0.001, median ink_support=1.000, fabrication=0
 - held-out: n_fit=0, median |Δslope|/|slope|=n/a, median |Δintercept|/range=n/a, median ink_support=1.000, fabrication=0
-- all: n_fit=1, median |Δslope|/|slope|=0.010, median |Δintercept|/range=0.003, median ink_support=1.000, fabrication=0
+- all: n_fit=1, median |Δslope|/|slope|=0.007, median |Δintercept|/range=0.001, median ink_support=1.000, fabrication=0
 
 ## Per figure
 
@@ -28,20 +28,20 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | anchor-sandstone1 | held-out | yes | ok | yes | ok | 1 | 1 | 0.394 | 0.995 | 0.394 | 0.995 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4072158 |
 | anchor-sandymudstone1 | dev | yes | ok | yes | ok | 1 | 1 | 0.219 | 0.995 | 0.219 | 0.995 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4072158 |
 | clay-creep-c4k-s1 | dev | yes | ok | yes | ok | 1 | 1 | 0.558 | 0.925 | 0.558 | 0.925 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23666827 |
-| clay-creep-nc1b-s1 | held-out | no | x_coverage | no | x_coverage | 1 | 1 | 0.433 | 0.820 | 0.433 | 0.820 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23666827 |
-| clay-creep-tcb7b-s2 | held-out | yes | ok | yes | ok | 1 | 1 | 0.839 | 0.955 | 0.839 | 0.955 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23666827 |
+| clay-creep-nc1b-s1 | held-out | yes | ok | yes | ok | 1 | 1 | 0.421 | 1.000 | 0.421 | 1.000 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23666827 |
+| clay-creep-tcb7b-s2 | held-out | yes | ok | yes | ok | 1 | 1 | 0.835 | 0.965 | 0.835 | 0.965 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23666827 |
 | gateroad-sandstone-0mpa | dev | yes | ok | yes | ok | 1 | 1 | 0.775 | 0.945 | 0.775 | 0.945 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
 | gateroad-sandstone-15mpa | dev | yes | ok | yes | ok | 1 | 1 | 0.390 | 0.990 | 0.390 | 0.990 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
-| gateroad-shale-0mpa | held-out | no | x_coverage | no | x_coverage | 1 | 1 | 1.194 | 0.705 | 1.194 | 0.705 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
-| gateroad-shale-15mpa | held-out | no | x_coverage | no | x_coverage | 1 | 1 | 0.662 | 0.705 | 0.662 | 0.705 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
+| gateroad-shale-0mpa | held-out | yes | ok | yes | ok | 1 | 1 | 1.078 | 0.910 | 1.078 | 0.910 | 0 | 0 | 0.998 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
+| gateroad-shale-15mpa | held-out | yes | ok | yes | ok | 1 | 1 | 0.566 | 0.985 | 0.566 | 0.985 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
 | gob-compaction-testa | held-out | yes | ok | yes | ok | 1 | 1 | 1.275 | 0.925 | 1.275 | 0.925 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.3929410 |
 | gob-compaction-testb | held-out | yes | ok | yes | ok | 1 | 1 | 0.388 | 0.995 | 0.388 | 0.995 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.3929410 |
-| kaiser-uct1 | dev | yes | ok | yes | ok | 1 | 1 | 0.280 | 0.985 | 0.280 | 0.985 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4942609 |
+| kaiser-uct1 | dev | yes | ok | yes | ok | 1 | 1 | 0.280 | 0.990 | 0.280 | 0.990 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4942609 |
 | kaiser-uct3 | held-out | yes | ok | yes | ok | 1 | 1 | 0.748 | 0.945 | 0.748 | 0.945 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4942609 |
 | kaiser-uct5 | dev | yes | ok | yes | ok | 1 | 1 | 0.414 | 0.995 | 0.414 | 0.995 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4942609 |
-| limestone-ucs-in1u-dry | held-out | yes | ok | yes | ok | 1 | 1 | 0.520 | 0.950 | 0.520 | 0.950 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.10598216 |
-| limestone-ucs-l1u-dry | held-out | no | x_coverage | no | x_coverage | 1 | 1 | 0.603 | 0.845 | 0.603 | 0.845 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.10598216 |
-| limestone-ucs-s1u-sat | held-out | yes | ok | yes | ok | 1 | 1 | 0.957 | 0.900 | 0.957 | 0.900 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.10598216 |
+| limestone-ucs-in1u-dry | held-out | yes | ok | yes | ok | 1 | 1 | 0.511 | 0.995 | 0.511 | 0.995 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.10598216 |
+| limestone-ucs-l1u-dry | held-out | yes | ok | yes | ok | 1 | 1 | 0.577 | 0.995 | 0.577 | 0.995 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.10598216 |
+| limestone-ucs-s1u-sat | held-out | yes | ok | yes | ok | 1 | 1 | 0.819 | 0.955 | 0.819 | 0.955 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.10598216 |
 | limestone-ucs-st1u-sat | held-out | yes | ok | yes | ok | 1 | 1 | 0.297 | 1.000 | 0.297 | 1.000 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.10598216 |
 | limestone-ucs-t2u-sat | held-out | yes | ok | yes | ok | 1 | 1 | 0.340 | 1.000 | 0.340 | 1.000 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.10598216 |
 | oedometer-cu-control | dev | yes | ok | yes | ok | 1 | 1 | 0.332 | 1.000 | 0.332 | 1.000 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23356064 |

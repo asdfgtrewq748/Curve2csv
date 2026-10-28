@@ -12,8 +12,10 @@ from curve2csv.ocr.read import (
     _labels_present,
     _merge_words,
     _raise_top_along_stroke,
+    _snap_x_to_ticks,
     _span_from_labels,
     _Word,
+    _x_tick_marks,
 )
 from curve2csv.types import AxisCalibration, AxisScale
 
@@ -95,6 +97,27 @@ def test_short_spine_does_not_shrink_the_frame() -> None:
     assert right == 769.0
     left, right = _span_from_labels(80.0, 700.0)
     assert (left, right) == (80.0, 700.0)
+
+
+def test_x_tick_marks_put_edge_labels_on_the_axis() -> None:
+    # Grapher edge-anchors the first and last label, so their centers sit
+    # inside the ticks. The marks below the baseline are the true positions.
+    gray = np.full((40, 100), 255, dtype=np.uint8)
+    for x in (9, 29, 49, 69, 89):
+        gray[10:14, x : x + 2] = 100
+    marks = _x_tick_marks(gray, bottom=9.0, label_top=20.0)
+    assert marks == [9.5, 29.5, 49.5, 69.5, 89.5]
+    pairs = [(15.0, 1200.0), (30.0, 1300.0), (50.0, 1400.0), (70.0, 1500.0), (85.0, 1600.0)]
+    snapped = _snap_x_to_ticks(pairs, marks)
+    assert snapped == [
+        (9.5, 1200.0),
+        (30.0, 1300.0),
+        (50.0, 1400.0),
+        (70.0, 1500.0),
+        (89.5, 1600.0),
+    ]
+    # A label row without visible marks stays where OCR put it.
+    assert _snap_x_to_ticks(pairs, []) == pairs
 
 
 def test_stroke_above_the_top_tick_raises_the_frame() -> None:

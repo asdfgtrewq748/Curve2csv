@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/asdfgtrewq748/Curve2csv/schema/result-1.0.json",
+  "title": "curve2csv extraction result",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "tool",
+    "source",
+    "data_origin",
+    "disclaimer",
+    "plot_area",
+    "axes",
+    "series",
+    "image_confidence",
+    "abstentions",
+    "qa"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "tool": {
+      "type": "object",
+      "required": ["name", "version", "config_hash"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "config_hash": { "type": "string" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["path", "sha256", "width", "height"],
+      "properties": {
+        "path": { "type": "string" },
+        "sha256": { "type": "string" },
+        "page": { "type": ["integer", "null"] },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "dpi": { "type": ["number", "null"] }
+      }
+    },
+    "data_origin": { "const": "digitized_from_figure" },
+    "disclaimer": { "type": "string" },
+    "plot_area": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["bbox", "score"],
+          "properties": {
+            "bbox": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": { "type": "number" }
+            },
+            "score": { "type": "number" }
+          }
+        }
+      ]
+    },
+    "axes": { "type": "object" },
+    "series": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["series_id", "kind", "points", "gaps", "coverage", "confidence"],
+        "properties": {
+          "series_id": { "type": "string" },
+          "label": { "type": ["string", "null"] },
+          "kind": { "type": "string" },
+          "color_hex": { "type": ["string", "null"] },
+          "style": { "type": ["string", "null"] },
+          "confidence": { "type": "number" },
+          "coverage": { "type": "number" },
+          "gaps": { "type": "array" },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["x", "y", "px", "py", "confidence", "flags"],
+              "properties": {
+                "x": { "type": ["number", "null"] },
+                "y": { "type": ["number", "null"] },
+                "px": { "type": "number" },
+                "py": { "type": "number" },
+                "confidence": { "type": "number" },
+                "flags": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "image_confidence": { "type": "number" },
+    "abstentions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stage", "reason"],
+        "properties": {
+          "stage": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "qa": {
+      "type": "object",
+      "required": ["overlay", "metrics"],
+      "properties": {
+        "overlay": { "type": "string" },
+        "metrics": { "type": "object" }
+      }
+    },
+    "diagnostics": { "type": "object" }
+  }
+}

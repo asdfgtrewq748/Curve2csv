@@ -1,0 +1,10 @@
+{
+  "split": "smoke",
+  "metrics": {
+    "curve_nrmse_range_median": 0.8593745041152288,
+    "x_coverage_median": 0.79,
+    "series_match_acc": 0.7896825396825397,
+    "scatter_f1_median": 0.896551724137931,
+    "axis_calib_rel_err_median": 3.0597098809780654e-15
+  }
+}

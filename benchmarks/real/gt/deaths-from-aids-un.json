@@ -1,0 +1,163 @@
+{
+  "slug": "deaths-from-aids-un",
+  "split": "dev",
+  "title": "HIV/AIDS deaths",
+  "source_url": "https://ourworldindata.org/grapher/deaths-from-aids-un",
+  "csv_url": "https://ourworldindata.org/grapher/deaths-from-aids-un.csv",
+  "svg_url": "https://ourworldindata.org/grapher/deaths-from-aids-un.svg",
+  "png_url": "https://ourworldindata.org/grapher/deaths-from-aids-un.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "AIDS-related deaths",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1990.0,
+    2024.0
+  ],
+  "y_range": [
+    0.0,
+    2000000.0
+  ],
+  "plot_w": 684.91,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        1990.0,
+        430358.94
+      ],
+      [
+        1991.0,
+        548294.25
+      ],
+      [
+        1992.0,
+        680113.3
+      ],
+      [
+        1993.0,
+        823871.5
+      ],
+      [
+        1994.0,
+        974899.25
+      ],
+      [
+        1995.0,
+        1125248.8
+      ],
+      [
+        1996.0,
+        1271292.4
+      ],
+      [
+        1997.0,
+        1415484.9
+      ],
+      [
+        1998.0,
+        1556299.8
+      ],
+      [
+        1999.0,
+        1696746.5
+      ],
+      [
+        2000.0,
+        1825907.6
+      ],
+      [
+        2001.0,
+        1937882.8
+      ],
+      [
+        2002.0,
+        2030360.9
+      ],
+      [
+        2006.0,
+        1948298.2
+      ],
+      [
+        2007.0,
+        1791220.5
+      ],
+      [
+        2008.0,
+        1616830.9
+      ],
+      [
+        2009.0,
+        1476023.0
+      ],
+      [
+        2010.0,
+        1362874.5
+      ],
+      [
+        2011.0,
+        1260757.8
+      ],
+      [
+        2012.0,
+        1164119.2
+      ],
+      [
+        2013.0,
+        1074219.5
+      ],
+      [
+        2014.0,
+        1007809.06
+      ],
+      [
+        2015.0,
+        959040.3
+      ],
+      [
+        2016.0,
+        907010.3
+      ],
+      [
+        2017.0,
+        856846.56
+      ],
+      [
+        2018.0,
+        809570.9
+      ],
+      [
+        2019.0,
+        772654.75
+      ],
+      [
+        2020.0,
+        735870.2
+      ],
+      [
+        2021.0,
+        709716.06
+      ],
+      [
+        2022.0,
+        682940.0
+      ],
+      [
+        2023.0,
+        651211.5
+      ],
+      [
+        2024.0,
+        627811.25
+      ]
+    ]
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "slug": "tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv",
+  "split": "held-out",
+  "title": "Tuberculosis death rate in people without HIV",
+  "source_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv",
+  "csv_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv.csv",
+  "svg_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv.svg",
+  "png_url": "https://ourworldindata.org/grapher/tuberculosis-mortality-rates-excludes-people-who-are-also-infected-with-hiv.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "Deaths due to tuberculosis among HIV-negative people (per 100 000 population)",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    2000.0,
+    2024.0
+  ],
+  "y_range": [
+    0.0,
+    35.0
+  ],
+  "plot_w": 730.95,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        2000.0,
+        34.0
+      ],
+      [
+        2001.0,
+        32.0
+      ],
+      [
+        2002.0,
+        31.0
+      ],
+      [
+        2003.0,
+        29.0
+      ],
+      [
+        2004.0,
+        28.0
+      ],
+      [
+        2005.0,
+        27.0
+      ],
+      [
+        2006.0,
+        26.0
+      ],
+      [
+        2007.0,
+        25.0
+      ],
+      [
+        2008.0,
+        24.0
+      ],
+      [
+        2009.0,
+        23.0
+      ],
+      [
+        2010.0,
+        22.0
+      ],
+      [
+        2011.0,
+        21.0
+      ],
+      [
+        2012.0,
+        20.0
+      ],
+      [
+        2013.0,
+        19.0
+      ],
+      [
+        2014.0,
+        19.0
+      ],
+      [
+        2015.0,
+        18.0
+      ],
+      [
+        2016.0,
+        17.0
+      ],
+      [
+        2017.0,
+        17.0
+      ],
+      [
+        2018.0,
+        16.0
+      ],
+      [
+        2019.0,
+        15.0
+      ],
+      [
+        2020.0,
+        15.0
+      ],
+      [
+        2021.0,
+        15.0
+      ],
+      [
+        2022.0,
+        15.0
+      ],
+      [
+        2023.0,
+        14.0
+      ],
+      [
+        2024.0,
+        13.0
+      ]
+    ]
+  }
+}

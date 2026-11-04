@@ -1,0 +1,155 @@
+{
+  "slug": "international-capital-flows",
+  "split": "dev",
+  "title": "International capital flows",
+  "source_url": "https://ourworldindata.org/grapher/international-capital-flows",
+  "csv_url": "https://ourworldindata.org/grapher/international-capital-flows.csv",
+  "svg_url": "https://ourworldindata.org/grapher/international-capital-flows.svg",
+  "png_url": "https://ourworldindata.org/grapher/international-capital-flows.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "Average absolute current account balances (15 countries, as a % of GDP)",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1872.0,
+    2017.0
+  ],
+  "y_range": [
+    0.0,
+    7.0
+  ],
+  "plot_w": 727.98,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        1872.0,
+        3.6598
+      ],
+      [
+        1877.0,
+        3.3922
+      ],
+      [
+        1882.0,
+        3.4839
+      ],
+      [
+        1887.0,
+        5.0699
+      ],
+      [
+        1892.0,
+        3.3851
+      ],
+      [
+        1897.0,
+        3.51
+      ],
+      [
+        1902.0,
+        3.1467
+      ],
+      [
+        1907.0,
+        4.0448
+      ],
+      [
+        1912.0,
+        4.1165
+      ],
+      [
+        1917.0,
+        6.6153
+      ],
+      [
+        1922.0,
+        5.0517
+      ],
+      [
+        1927.0,
+        2.3875
+      ],
+      [
+        1932.0,
+        2.1108
+      ],
+      [
+        1937.0,
+        1.5019
+      ],
+      [
+        1942.0,
+        3.6394
+      ],
+      [
+        1947.0,
+        3.1734
+      ],
+      [
+        1952.0,
+        2.121
+      ],
+      [
+        1957.0,
+        1.7211
+      ],
+      [
+        1962.0,
+        1.3335
+      ],
+      [
+        1967.0,
+        1.3646
+      ],
+      [
+        1972.0,
+        1.5048
+      ],
+      [
+        1977.0,
+        2.066
+      ],
+      [
+        1982.0,
+        1.9682
+      ],
+      [
+        1987.0,
+        2.4974
+      ],
+      [
+        1992.0,
+        2.3113573
+      ],
+      [
+        1997.0,
+        2.5828714
+      ],
+      [
+        2002.0,
+        4.0544
+      ],
+      [
+        2007.0,
+        4.8286285
+      ],
+      [
+        2012.0,
+        4.3391285
+      ],
+      [
+        2017.0,
+        3.9037285
+      ]
+    ]
+  }
+}

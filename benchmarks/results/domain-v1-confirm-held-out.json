@@ -1,0 +1,276 @@
+{
+  "summary": {
+    "n": 16,
+    "auto_pass": 12,
+    "pass_after_confirm": 12,
+    "confirmed_figures": 4,
+    "mean_clicks_failing": 5.25,
+    "mean_typed_failing": 4.0,
+    "mean_est_seconds_all": 16.625,
+    "timing_model": {
+      "click_s": 2.0,
+      "typed_value_s": 4.0,
+      "review_s_per_figure": 10.0
+    }
+  },
+  "figures": [
+    {
+      "slug": "anchor-coal1",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "anchor-sandstone1",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "clay-creep-nc1b-s1",
+      "auto": false,
+      "passed": false,
+      "clicks": 4,
+      "typed": 4,
+      "steps": [
+        {
+          "step": "box+limits",
+          "clicks": 2,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 0.39483503197134606,
+          "worst_coverage": 0.825
+        },
+        {
+          "step": "clear[5.066e+04,5.722e+04]",
+          "clicks": 4,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 0.39716871611025784,
+          "worst_coverage": 0.825
+        }
+      ],
+      "est_seconds": 34.0
+    },
+    {
+      "slug": "clay-creep-tcb7b-s2",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "gateroad-shale-0mpa",
+      "auto": false,
+      "passed": false,
+      "clicks": 7,
+      "typed": 4,
+      "steps": [
+        {
+          "step": "box+limits",
+          "clicks": 2,
+          "typed": 4,
+          "correct": false,
+          "reason": "series_count",
+          "n_pred": 2,
+          "worst_nrmse": 0.6740306319937255,
+          "worst_coverage": 0.225
+        },
+        {
+          "step": "box+limits+pick",
+          "clicks": 3,
+          "typed": 4,
+          "correct": false,
+          "reason": "nrmse_and_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 33.05786219277754,
+          "worst_coverage": 0.425
+        },
+        {
+          "step": "clear[0.0004709,0.001799]",
+          "clicks": 5,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 1.3349136344379984,
+          "worst_coverage": 0.425
+        },
+        {
+          "step": "clear[0.006352,0.007133]",
+          "clicks": 7,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 0.9205111903252728,
+          "worst_coverage": 0.405
+        }
+      ],
+      "est_seconds": 40.0
+    },
+    {
+      "slug": "gateroad-shale-15mpa",
+      "auto": false,
+      "passed": false,
+      "clicks": 4,
+      "typed": 4,
+      "steps": [
+        {
+          "step": "box+limits",
+          "clicks": 2,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 0.6049350284883336,
+          "worst_coverage": 0.71
+        },
+        {
+          "step": "clear[0.008604,0.00891]",
+          "clicks": 4,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 0.3958233529416331,
+          "worst_coverage": 0.7
+        }
+      ],
+      "est_seconds": 34.0
+    },
+    {
+      "slug": "gob-compaction-testa",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "gob-compaction-testb",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "kaiser-uct3",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "limestone-ucs-in1u-dry",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "limestone-ucs-l1u-dry",
+      "auto": false,
+      "passed": false,
+      "clicks": 6,
+      "typed": 4,
+      "steps": [
+        {
+          "step": "box+limits",
+          "clicks": 2,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 0.7018024550802683,
+          "worst_coverage": 0.84
+        },
+        {
+          "step": "clear[0.00305,0.02021]",
+          "clicks": 4,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 0.6937996004985337,
+          "worst_coverage": 0.835
+        },
+        {
+          "step": "clear[0.06924,0.0864]",
+          "clicks": 6,
+          "typed": 4,
+          "correct": false,
+          "reason": "x_coverage",
+          "n_pred": 1,
+          "worst_nrmse": 0.6699434921173612,
+          "worst_coverage": 0.815
+        }
+      ],
+      "est_seconds": 38.0
+    },
+    {
+      "slug": "limestone-ucs-s1u-sat",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "limestone-ucs-st1u-sat",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "limestone-ucs-t2u-sat",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "roofcut-pillar-fig7b",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    },
+    {
+      "slug": "roofcut-pillar-fig7c",
+      "auto": true,
+      "passed": true,
+      "clicks": 0,
+      "typed": 0,
+      "steps": [],
+      "est_seconds": 10.0
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "slug": "javan-rhinos",
+  "split": "held-out",
+  "title": "Javan rhino population",
+  "source_url": "https://ourworldindata.org/grapher/javan-rhinos",
+  "csv_url": "https://ourworldindata.org/grapher/javan-rhinos.csv",
+  "svg_url": "https://ourworldindata.org/grapher/javan-rhinos.svg",
+  "png_url": "https://ourworldindata.org/grapher/javan-rhinos.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "Javan Rhino",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1965.0,
+    2021.0
+  ],
+  "y_range": [
+    0.0,
+    80.0
+  ],
+  "plot_w": 730.95,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        1965.0,
+        25.0
+      ],
+      [
+        1975.0,
+        30.0
+      ],
+      [
+        1980.0,
+        50.0
+      ],
+      [
+        1985.0,
+        60.0
+      ],
+      [
+        1990.0,
+        60.0
+      ],
+      [
+        1995.0,
+        50.0
+      ],
+      [
+        2000.0,
+        45.0
+      ],
+      [
+        2005.0,
+        40.0
+      ],
+      [
+        2007.0,
+        49.0
+      ],
+      [
+        2009.0,
+        44.0
+      ],
+      [
+        2010.0,
+        40.0
+      ],
+      [
+        2012.0,
+        40.0
+      ],
+      [
+        2013.0,
+        58.0
+      ],
+      [
+        2016.0,
+        63.0
+      ],
+      [
+        2018.0,
+        72.0
+      ],
+      [
+        2021.0,
+        76.0
+      ]
+    ]
+  }
+}

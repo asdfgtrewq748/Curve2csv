@@ -1,0 +1,139 @@
+{
+  "slug": "same-sex-marriage-country-count",
+  "split": "held-out",
+  "title": "Number of countries where same-sex marriage is legal",
+  "source_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count",
+  "csv_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count.csv",
+  "svg_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count.svg",
+  "png_url": "https://ourworldindata.org/grapher/same-sex-marriage-country-count.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "Legal",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    2000.0,
+    2025.0
+  ],
+  "y_range": [
+    0.0,
+    40.0
+  ],
+  "plot_w": 796.34,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        2000.0,
+        0.0
+      ],
+      [
+        2001.0,
+        1.0
+      ],
+      [
+        2002.0,
+        1.0
+      ],
+      [
+        2003.0,
+        2.0
+      ],
+      [
+        2004.0,
+        2.0
+      ],
+      [
+        2005.0,
+        4.0
+      ],
+      [
+        2006.0,
+        5.0
+      ],
+      [
+        2007.0,
+        5.0
+      ],
+      [
+        2008.0,
+        5.0
+      ],
+      [
+        2009.0,
+        7.0
+      ],
+      [
+        2010.0,
+        10.0
+      ],
+      [
+        2011.0,
+        10.0
+      ],
+      [
+        2012.0,
+        11.0
+      ],
+      [
+        2013.0,
+        15.0
+      ],
+      [
+        2014.0,
+        16.0
+      ],
+      [
+        2015.0,
+        19.0
+      ],
+      [
+        2016.0,
+        20.0
+      ],
+      [
+        2017.0,
+        24.0
+      ],
+      [
+        2018.0,
+        24.0
+      ],
+      [
+        2019.0,
+        27.0
+      ],
+      [
+        2020.0,
+        28.0
+      ],
+      [
+        2021.0,
+        28.0
+      ],
+      [
+        2022.0,
+        33.0
+      ],
+      [
+        2023.0,
+        34.0
+      ],
+      [
+        2024.0,
+        37.0
+      ],
+      [
+        2025.0,
+        39.0
+      ]
+    ]
+  }
+}

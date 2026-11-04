@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Curve2csv</string>
+    <string name="take_photo">Take photo</string>
+    <string name="pick_image">Pick image</string>
+    <string name="crop_hint">Tap two corners on the image to crop to the figure. Extract uses the whole image until you do.</string>
+    <string name="xmin">x min</string>
+    <string name="xmax">x max</string>
+    <string name="ymin">y min</string>
+    <string name="ymax">y max</string>
+    <string name="x_log">x log10</string>
+    <string name="y_log">y log10</string>
+    <string name="extract">Extract</string>
+    <string name="share">Share CSV</string>
+    <string name="axis_hint">Type the axis endpoints. Tick labels are not read on the device.</string>
+</resources>

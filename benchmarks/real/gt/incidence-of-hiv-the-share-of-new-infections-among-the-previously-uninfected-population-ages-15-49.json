@@ -1,0 +1,175 @@
+{
+  "slug": "incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49",
+  "split": "dev",
+  "title": "New infections of HIV per 1,000 people",
+  "source_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49",
+  "csv_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49.csv",
+  "svg_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49.svg",
+  "png_url": "https://ourworldindata.org/grapher/incidence-of-hiv-the-share-of-new-infections-among-the-previously-uninfected-population-ages-15-49.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "New infections of HIV per 1,000 people",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1990.0,
+    2024.0
+  ],
+  "y_range": [
+    0.0,
+    1.0
+  ],
+  "plot_w": 727.71,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        1990.0,
+        0.78115845
+      ],
+      [
+        1991.0,
+        0.8484088
+      ],
+      [
+        1992.0,
+        0.8709189
+      ],
+      [
+        1993.0,
+        0.8788315
+      ],
+      [
+        1994.0,
+        0.9103456
+      ],
+      [
+        1995.0,
+        0.9059265
+      ],
+      [
+        1996.0,
+        0.8958281
+      ],
+      [
+        1997.0,
+        0.85500914
+      ],
+      [
+        1998.0,
+        0.8007412
+      ],
+      [
+        1999.0,
+        0.7427063
+      ],
+      [
+        2000.0,
+        0.7027618
+      ],
+      [
+        2001.0,
+        0.6645271
+      ],
+      [
+        2002.0,
+        0.6329063
+      ],
+      [
+        2003.0,
+        0.60005033
+      ],
+      [
+        2004.0,
+        0.5795926
+      ],
+      [
+        2005.0,
+        0.55922854
+      ],
+      [
+        2006.0,
+        0.53889245
+      ],
+      [
+        2007.0,
+        0.5218061
+      ],
+      [
+        2008.0,
+        0.50807655
+      ],
+      [
+        2009.0,
+        0.49527046
+      ],
+      [
+        2010.0,
+        0.48271012
+      ],
+      [
+        2011.0,
+        0.47074512
+      ],
+      [
+        2012.0,
+        0.4568095
+      ],
+      [
+        2013.0,
+        0.4417834
+      ],
+      [
+        2014.0,
+        0.42540243
+      ],
+      [
+        2015.0,
+        0.4113438
+      ],
+      [
+        2016.0,
+        0.3961158
+      ],
+      [
+        2017.0,
+        0.37654027
+      ],
+      [
+        2018.0,
+        0.36216095
+      ],
+      [
+        2019.0,
+        0.3469178
+      ],
+      [
+        2020.0,
+        0.32859454
+      ],
+      [
+        2021.0,
+        0.31848934
+      ],
+      [
+        2022.0,
+        0.30214617
+      ],
+      [
+        2023.0,
+        0.2899535
+      ],
+      [
+        2024.0,
+        0.2763019
+      ]
+    ]
+  }
+}

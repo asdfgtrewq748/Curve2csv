@@ -1,0 +1,79 @@
+{
+ "slug": "oedometer-cu-control",
+ "split": "dev",
+ "title": "Dataset for: Compressibility, pH, and Electrical Conductivity of Cu\u00b2\u207a- and Zn\u00b2\u207a-Contaminated Tropical Residual Soil from Penang, Malaysia",
+ "source_url": "https://doi.org/10.5281/zenodo.23356064",
+ "license": "CC-BY-4.0",
+ "source_file": "Cu_oedometer_raw.xlsx/Raw Measurements/Control",
+ "figure_id": "Cu_oedometer_raw.xlsx/Raw Measurements/Control",
+ "kind": "e-log p",
+ "x_label": "Vertical stress (kPa)",
+ "y_label": "Void ratio, e",
+ "x_scale": "log10",
+ "y_scale": "linear",
+ "notes": "Control specimen, 6 load stages",
+ "n_raw": 6,
+ "n_points": 6,
+ "plot_w": 680.405,
+ "plot_box_px": [
+  153.12500000000003,
+  40.50000000000023,
+  833.53,
+  579.125
+ ],
+ "x_range": [
+  10.0,
+  1000.0
+ ],
+ "y_range": [
+  0.35000000000000003,
+  0.75
+ ],
+ "style": {
+  "size_in": [
+   3.0,
+   2.4
+  ],
+  "dpi": 300,
+  "color": "#404040",
+  "lw": 1.5,
+  "marker": "^",
+  "mirror_ticks": true,
+  "legend": true,
+  "panel_label": false,
+  "jpeg_q": 92,
+  "font_pt": 9.0
+ },
+ "png_size": [
+  900,
+  720
+ ],
+ "series": {
+  "curve": [
+   [
+    24.946,
+    0.601
+   ],
+   [
+    49.859,
+    0.579
+   ],
+   [
+    99.31,
+    0.547
+   ],
+   [
+    198.493,
+    0.505
+   ],
+   [
+    396.731,
+    0.452
+   ],
+   [
+    795.705,
+    0.379
+   ]
+  ]
+ }
+}

@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import cv2
 import numpy as np
-from skimage.color import rgb2lab
 
+from curve2csv.color_math import rgb2lab
 from curve2csv.config import PipelineConfig
 from curve2csv.detect.grid import detect_grid_mask
 from curve2csv.detect.text import detect_legend_mask, detect_text_mask

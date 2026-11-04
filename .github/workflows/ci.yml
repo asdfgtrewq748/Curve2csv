@@ -30,7 +30,11 @@ jobs:
       - name: Install
         # Floating ruff/mypy releases change format and types under the feet of
         # the locked benchmark environment. The lock is the CI pin.
-        run: pip install -e ".[dev,bench]" -c benchmarks/requirements.lock
+        run: |
+          pip install -e ".[dev,bench,ocr]" -c benchmarks/requirements.lock
+          # rapidocr depends on opencv-python, which would replace the headless
+          # 4.10 pin with OpenCV 5 and break cv2. Put the locked wheel back.
+          pip install --force-reinstall --no-deps opencv-python-headless==4.10.0.84
       - name: Lint
         run: |
           ruff check src tests benchmarks
@@ -54,7 +58,11 @@ jobs:
       - name: Install
         # Floating ruff/mypy releases change format and types under the feet of
         # the locked benchmark environment. The lock is the CI pin.
-        run: pip install -e ".[dev,bench]" -c benchmarks/requirements.lock
+        run: |
+          pip install -e ".[dev,bench,ocr]" -c benchmarks/requirements.lock
+          # rapidocr depends on opencv-python, which would replace the headless
+          # 4.10 pin with OpenCV 5 and break cv2. Put the locked wheel back.
+          pip install --force-reinstall --no-deps opencv-python-headless==4.10.0.84
       - name: Full synthetic test split
         run: make bench-test
       - uses: actions/upload-artifact@v4

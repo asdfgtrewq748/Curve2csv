@@ -1,0 +1,171 @@
+{
+  "slug": "ozone-depleting-substances-index",
+  "split": "held-out",
+  "title": "Change in the consumption of ozone-depleting substances",
+  "source_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index",
+  "csv_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index.csv",
+  "svg_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index.svg",
+  "png_url": "https://ourworldindata.org/grapher/ozone-depleting-substances-index.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "Consumption of controlled substance (relative to 1986) - Chemical: All (Ozone-depleting)",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1986.0,
+    2021.0
+  ],
+  "y_range": [
+    0.0,
+    140.0
+  ],
+  "plot_w": 723.12,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        1986.0,
+        100.0
+      ],
+      [
+        1989.0,
+        127.62
+      ],
+      [
+        1990.0,
+        75.07
+      ],
+      [
+        1991.0,
+        68.65
+      ],
+      [
+        1992.0,
+        66.01
+      ],
+      [
+        1993.0,
+        58.89
+      ],
+      [
+        1994.0,
+        37.75
+      ],
+      [
+        1995.0,
+        31.26
+      ],
+      [
+        1996.0,
+        22.5
+      ],
+      [
+        1997.0,
+        20.73
+      ],
+      [
+        1998.0,
+        25.96
+      ],
+      [
+        1999.0,
+        22.09
+      ],
+      [
+        2000.0,
+        20.21
+      ],
+      [
+        2001.0,
+        15.96
+      ],
+      [
+        2002.0,
+        12.49
+      ],
+      [
+        2003.0,
+        13.1
+      ],
+      [
+        2004.0,
+        9.71
+      ],
+      [
+        2005.0,
+        7.11
+      ],
+      [
+        2006.0,
+        6.64
+      ],
+      [
+        2007.0,
+        4.73
+      ],
+      [
+        2008.0,
+        3.36
+      ],
+      [
+        2009.0,
+        3.77
+      ],
+      [
+        2010.0,
+        3.35
+      ],
+      [
+        2011.0,
+        3.08
+      ],
+      [
+        2012.0,
+        3.37
+      ],
+      [
+        2013.0,
+        2.24
+      ],
+      [
+        2014.0,
+        2.36
+      ],
+      [
+        2015.0,
+        1.77
+      ],
+      [
+        2016.0,
+        1.65
+      ],
+      [
+        2017.0,
+        1.58
+      ],
+      [
+        2018.0,
+        1.59
+      ],
+      [
+        2019.0,
+        1.63
+      ],
+      [
+        2020.0,
+        0.73
+      ],
+      [
+        2021.0,
+        1.28
+      ]
+    ]
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "slug": "material-footprint-per-capita",
+  "split": "held-out",
+  "title": "Material footprint per capita",
+  "source_url": "https://ourworldindata.org/grapher/material-footprint-per-capita",
+  "csv_url": "https://ourworldindata.org/grapher/material-footprint-per-capita.csv",
+  "svg_url": "https://ourworldindata.org/grapher/material-footprint-per-capita.svg",
+  "png_url": "https://ourworldindata.org/grapher/material-footprint-per-capita.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "Material footprint per capita, by type of raw material (tonnes) - Total or no breakdown",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    2000.0,
+    2022.0
+  ],
+  "y_range": [
+    0.0,
+    14.0
+  ],
+  "plot_w": 722.58,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        2000.0,
+        8.99
+      ],
+      [
+        2001.0,
+        9.01
+      ],
+      [
+        2002.0,
+        9.06
+      ],
+      [
+        2003.0,
+        9.34
+      ],
+      [
+        2004.0,
+        9.73
+      ],
+      [
+        2005.0,
+        9.98
+      ],
+      [
+        2006.0,
+        10.27
+      ],
+      [
+        2007.0,
+        10.54
+      ],
+      [
+        2008.0,
+        10.57
+      ],
+      [
+        2009.0,
+        10.51
+      ],
+      [
+        2010.0,
+        10.97
+      ],
+      [
+        2011.0,
+        11.52
+      ],
+      [
+        2012.0,
+        11.72
+      ],
+      [
+        2013.0,
+        11.99
+      ],
+      [
+        2014.0,
+        12.12
+      ],
+      [
+        2015.0,
+        11.98
+      ],
+      [
+        2016.0,
+        11.98
+      ],
+      [
+        2017.0,
+        11.99
+      ],
+      [
+        2018.0,
+        11.94
+      ],
+      [
+        2019.0,
+        12.32
+      ],
+      [
+        2020.0,
+        13.08
+      ],
+      [
+        2021.0,
+        13.6
+      ],
+      [
+        2022.0,
+        13.76
+      ]
+    ]
+  }
+}

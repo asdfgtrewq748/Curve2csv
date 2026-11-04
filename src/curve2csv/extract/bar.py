@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 
 from curve2csv.config import PipelineConfig
-from curve2csv.extract.curve import _component_mask
+from curve2csv.extract.curve import _component_mask, column_is_occluded
 from curve2csv.types import DataPoint, PixelMapper, PlotArea, PointFlag, Series, SeriesMask
 
 
@@ -17,6 +17,7 @@ def extract_bar(
     config: PipelineConfig | None = None,
     *,
     color_hex: str | None = None,
+    gray: np.ndarray | None = None,
 ) -> Series:
     _ = config
     mask = _component_mask(series_mask.mask, area.bbox, kind="bar")
@@ -45,6 +46,8 @@ def extract_bar(
         py = top
         data = mapper.pixel_to_data(cx, py)
         flags = PointFlag.AMBIGUOUS_SERIES if series_mask.ambiguous else PointFlag.NONE
+        if column_is_occluded(gray, area.bbox, cx):
+            flags |= PointFlag.THICK_SEGMENT
         if data is None:
             flags |= PointFlag.LOW_CONFIDENCE
             x_val: float | None = None

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import json
 from pathlib import Path
 
@@ -38,6 +39,69 @@ def test_cli_extracts(tmp_path: Path) -> None:
     assert (tmp_path / "out" / "fig.csv").is_file()
 
 
+def test_extract_subcommand_uses_axis_limits(tmp_path: Path) -> None:
+    x = np.linspace(0.0, 3.0, 40)
+    image, _axes = line_figure(x, [(np.sin(x), "#d62728")])
+    image_path = tmp_path / "fig.png"
+    save_image(image_path, image)
+    out = tmp_path / "out"
+    code = main(
+        [
+            "extract",
+            str(image_path),
+            "-o",
+            str(out),
+            "--xmin",
+            "0",
+            "--xmax",
+            "3",
+            "--ymin",
+            "-1.2",
+            "--ymax",
+            "1.2",
+        ]
+    )
+    assert code == 0
+    assert (out / "fig.csv").is_file()
+    assert (out / "fig.overlay.png").is_file()
+    blank = tmp_path / "blank.png"
+    save_image(blank, np.full((80, 80, 3), 255, dtype=np.uint8))
+    assert main(["extract", str(blank), "-o", str(out)]) == 2
+
+
+def test_extract_subcommand_clear_range_writes_empty_rows(tmp_path: Path) -> None:
+    x = np.linspace(0.0, 3.0, 120)
+    image, _axes = line_figure(x, [(np.sin(x), "#d62728")])
+    image_path = tmp_path / "fig.png"
+    save_image(image_path, image)
+    out = tmp_path / "out"
+    code = main(
+        [
+            "extract",
+            str(image_path),
+            "-o",
+            str(out),
+            "--xmin",
+            "0",
+            "--xmax",
+            "3",
+            "--ymin",
+            "-1.2",
+            "--ymax",
+            "1.2",
+            "--clear-range",
+            "1:2",
+        ]
+    )
+    assert code == 0
+    with (out / "fig.csv").open(encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    cleared = [row for row in rows if row["status"] == "empty"]
+    assert cleared
+    assert all(row["x"] == "" and row["y"] == "" for row in cleared)
+    assert all(row["interpolated"] == "0" for row in cleared)
+
+
 def test_cli_rejects_bad_input(tmp_path: Path) -> None:
     axes_path = tmp_path / "axes.json"
     axes_path.write_text("[]", encoding="utf-8")
@@ -66,3 +130,53 @@ def test_loader_rgba_gray_and_errors(tmp_path: Path) -> None:
     bad.write_bytes(b"not an image")
     with pytest.raises(InputError):
         load_image(bad)
+
+
+def test_headless_smoke_prints_ok(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    x = np.linspace(0.0, 3.0, 40)
+    image, _axes = line_figure(x, [(np.sin(x), "#d62728")])
+    image_path = tmp_path / "smoke.png"
+    save_image(image_path, image)
+    code = main(["--headless-smoke", str(image_path), "-o", str(tmp_path / "out")])
+    captured = capsys.readouterr()
+    assert code == 0
+    assert "SMOKE_OK" in captured.out
+    assert (tmp_path / "out" / "smoke.csv").is_file()
+
+
+def test_pdf_page_and_series_rename(tmp_path: Path) -> None:
+    pypdfium2 = pytest.importorskip("pypdfium2")
+    matplotlib = pytest.importorskip("matplotlib")
+    matplotlib.use("Agg")
+    from matplotlib.backends.backend_pdf import PdfPages
+
+    pdf_path = tmp_path / "pages.pdf"
+    with PdfPages(pdf_path) as pdf:
+        for color in ("#ffffff", "#000000"):
+            fig = matplotlib.figure.Figure()
+            ax = fig.add_subplot(1, 1, 1)
+            ax.plot([0, 1], [0, 1], color=color)
+            pdf.savefig(fig)
+    first = load_image(pdf_path, page=1)
+    second = load_image(pdf_path, page=2)
+    assert first.page == 1 and second.page == 2
+    assert first.rgb.shape[2] == 3
+    assert int(first.rgb.mean()) != int(second.rgb.mean())
+    with pytest.raises(InputError):
+        load_image(pdf_path, page=3)
+    del pypdfium2
+
+    from curve2csv.io.labels import rename_series_label
+
+    csv_path = tmp_path / "fig.csv"
+    json_path = tmp_path / "fig.json"
+    csv_path.write_text(
+        "series_id,series_label,kind,x,y,confidence,flags,px,py\ns1,,line,0,1,1,,1,2\n",
+        encoding="utf-8",
+    )
+    json_path.write_text('{"series": [{"series_id": "s1", "label": ""}]}\n', encoding="utf-8")
+    rename_series_label(csv_path, json_path, "s1", "measured")
+    assert "s1,measured,line" in csv_path.read_text(encoding="utf-8")
+    assert '"label": "measured"' in json_path.read_text(encoding="utf-8")
+    with pytest.raises(InputError):
+        rename_series_label(csv_path, json_path, "s1", "a,b")

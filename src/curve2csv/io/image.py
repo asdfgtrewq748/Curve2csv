@@ -32,7 +32,26 @@ def _to_rgb_array(image: Image.Image) -> NDArray[np.uint8]:
     return np.ascontiguousarray(array)
 
 
-def load_image(src: str | Path | NDArray[np.uint8]) -> LoadedImage:
+def _load_pdf_page(path: Path, page: int) -> tuple[NDArray[np.uint8], int]:
+    if page < 1:
+        raise InputError("PDF page numbers start at 1")
+    try:
+        import pypdfium2 as pdfium
+    except ImportError as exc:
+        raise InputError("reading a PDF needs the gui extra: pip install curve2csv[gui]") from exc
+    document = pdfium.PdfDocument(str(path))
+    try:
+        count = len(document)
+        if page > count:
+            raise InputError(f"PDF has {count} page(s); asked for page {page}")
+        rendered = document[page - 1].render(scale=2.0)
+        pil = rendered.to_pil().convert("RGB")
+        return _to_rgb_array(pil), page
+    finally:
+        document.close()
+
+
+def load_image(src: str | Path | NDArray[np.uint8], *, page: int = 1) -> LoadedImage:
     if isinstance(src, np.ndarray):
         array = np.asarray(src)
         if array.ndim == 2:
@@ -50,11 +69,20 @@ def load_image(src: str | Path | NDArray[np.uint8]) -> LoadedImage:
     path = Path(src)
     if not path.is_file():
         raise InputError(f"image not found: {path}")
+    page_index: int | None = None
     try:
-        with Image.open(path) as handle:
-            loaded = _to_rgb_array(handle)
+        if path.suffix.lower() == ".pdf":
+            loaded, page_index = _load_pdf_page(path, page)
+        else:
+            with Image.open(path) as handle:
+                loaded = _to_rgb_array(handle)
     except InputError:
         raise
     except Exception as exc:  # Pillow raises several image-specific errors.
         raise InputError(f"could not read image: {path}") from exc
-    return LoadedImage(rgb=loaded, source=str(path), sha256=_hash_bytes(path.read_bytes()))
+    return LoadedImage(
+        rgb=loaded,
+        source=str(path),
+        sha256=_hash_bytes(path.read_bytes()),
+        page=page_index,
+    )

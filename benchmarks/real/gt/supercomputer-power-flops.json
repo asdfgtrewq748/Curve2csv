@@ -1,0 +1,143 @@
+{
+  "slug": "supercomputer-power-flops",
+  "split": "dev",
+  "title": "Computational capacity of the fastest supercomputers",
+  "source_url": "https://ourworldindata.org/grapher/supercomputer-power-flops",
+  "csv_url": "https://ourworldindata.org/grapher/supercomputer-power-flops.csv",
+  "svg_url": "https://ourworldindata.org/grapher/supercomputer-power-flops.svg",
+  "png_url": "https://ourworldindata.org/grapher/supercomputer-power-flops.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "World"
+  ],
+  "y_column": "Computational capacity of the fastest supercomputer",
+  "x_scale": "linear",
+  "y_scale": "log10",
+  "x_range": [
+    1993.0,
+    2025.0
+  ],
+  "y_range": [
+    1000.0,
+    1000000000.0
+  ],
+  "plot_w": 697.25,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "World": [
+      [
+        1997.0,
+        1338.0
+      ],
+      [
+        1998.0,
+        1338.0
+      ],
+      [
+        1999.0,
+        2379.0
+      ],
+      [
+        2000.0,
+        4938.0
+      ],
+      [
+        2001.0,
+        7226.0
+      ],
+      [
+        2002.0,
+        35860.0
+      ],
+      [
+        2003.0,
+        35860.0
+      ],
+      [
+        2004.0,
+        70720.0
+      ],
+      [
+        2005.0,
+        280600.0
+      ],
+      [
+        2006.0,
+        280600.0
+      ],
+      [
+        2007.0,
+        478200.0
+      ],
+      [
+        2008.0,
+        1105000.0
+      ],
+      [
+        2009.0,
+        1759000.0
+      ],
+      [
+        2010.0,
+        2566000.0
+      ],
+      [
+        2011.0,
+        10510000.0
+      ],
+      [
+        2012.0,
+        17590000.0
+      ],
+      [
+        2013.0,
+        33862700.0
+      ],
+      [
+        2014.0,
+        33862700.0
+      ],
+      [
+        2015.0,
+        33862700.0
+      ],
+      [
+        2016.0,
+        93014590.0
+      ],
+      [
+        2017.0,
+        93014590.0
+      ],
+      [
+        2018.0,
+        143500000.0
+      ],
+      [
+        2019.0,
+        148600000.0
+      ],
+      [
+        2020.0,
+        442010000.0
+      ],
+      [
+        2021.0,
+        442010000.0
+      ],
+      [
+        2022.0,
+        1102000000.0
+      ],
+      [
+        2023.0,
+        1194000000.0
+      ]
+    ]
+  }
+}

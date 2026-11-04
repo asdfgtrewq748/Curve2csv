@@ -1,0 +1,211 @@
+{
+  "slug": "cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009",
+  "split": "held-out",
+  "title": "Cost of generating electricity (new capacity) using photovoltaic cells in the US",
+  "source_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009",
+  "csv_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009.csv",
+  "svg_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009.svg",
+  "png_url": "https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Our World in Data",
+  "entities": [
+    "United States"
+  ],
+  "y_column": "Cost (2005 $ per kWh)",
+  "x_scale": "linear",
+  "y_scale": "linear",
+  "x_range": [
+    1976.0,
+    2019.0
+  ],
+  "y_range": [
+    0.0,
+    120.0
+  ],
+  "plot_w": 788.51,
+  "png_size": [
+    850,
+    600
+  ],
+  "series": {
+    "United States": [
+      [
+        1976.0,
+        106.08622
+      ],
+      [
+        1977.0,
+        80.62553
+      ],
+      [
+        1978.0,
+        56.225697
+      ],
+      [
+        1979.0,
+        47.7388
+      ],
+      [
+        1980.0,
+        35.008453
+      ],
+      [
+        1981.0,
+        26.521555
+      ],
+      [
+        1982.0,
+        22.278107
+      ],
+      [
+        1983.0,
+        19.09552
+      ],
+      [
+        1984.0,
+        16.973795
+      ],
+      [
+        1985.0,
+        14.852071
+      ],
+      [
+        1986.0,
+        11.139053
+      ],
+      [
+        1987.0,
+        8.486897
+      ],
+      [
+        1988.0,
+        7.5321217
+      ],
+      [
+        1989.0,
+        8.168639
+      ],
+      [
+        1990.0,
+        8.805157
+      ],
+      [
+        1991.0,
+        7.9564667
+      ],
+      [
+        1992.0,
+        7.213863
+      ],
+      [
+        1993.0,
+        7.1077766
+      ],
+      [
+        1994.0,
+        6.3651733
+      ],
+      [
+        1995.0,
+        5.834742
+      ],
+      [
+        1996.0,
+        6.0469146
+      ],
+      [
+        1997.0,
+        6.3651733
+      ],
+      [
+        1998.0,
+        5.728656
+      ],
+      [
+        1999.0,
+        5.092139
+      ],
+      [
+        2000.0,
+        4.8799663
+      ],
+      [
+        2001.0,
+        4.77388
+      ],
+      [
+        2002.0,
+        4.031276
+      ],
+      [
+        2003.0,
+        3.9782333
+      ],
+      [
+        2004.0,
+        4.1373625
+      ],
+      [
+        2005.0,
+        4.2434487
+      ],
+      [
+        2006.0,
+        4.4556212
+      ],
+      [
+        2007.0,
+        4.1373625
+      ],
+      [
+        2008.0,
+        3.4478023
+      ],
+      [
+        2009.0,
+        2.38694
+      ],
+      [
+        2010.0,
+        2.04475
+      ],
+      [
+        2011.0,
+        1.67725
+      ],
+      [
+        2012.0,
+        0.8764167
+      ],
+      [
+        2013.0,
+        0.69633335
+      ],
+      [
+        2014.0,
+        0.6415
+      ],
+      [
+        2015.0,
+        0.5965
+      ],
+      [
+        2016.0,
+        0.5505
+      ],
+      [
+        2017.0,
+        0.46216667
+      ],
+      [
+        2018.0,
+        0.4115
+      ],
+      [
+        2019.0,
+        0.37725
+      ]
+    ]
+  }
+}

@@ -9,8 +9,8 @@ from __future__ import annotations
 
 import cv2
 import numpy as np
-from skimage.color import rgb2lab
 
+from curve2csv.color_math import rgb2lab
 from curve2csv.config import PipelineConfig
 from curve2csv.types import BBox
 

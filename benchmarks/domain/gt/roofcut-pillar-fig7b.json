@@ -1,0 +1,171 @@
+{
+ "slug": "roofcut-pillar-fig7b",
+ "split": "held-out",
+ "title": "Research on stress release for gob-side roadway using roof-cutting technology with chainsaw arm",
+ "source_url": "https://doi.org/10.5281/zenodo.4991755",
+ "license": "CC0-1.0",
+ "source_file": "Data.xlsx Fig.7(b)",
+ "figure_id": "Data.xlsx Fig.7(b)",
+ "kind": "stress profile",
+ "x_label": "Horizontal position (m)",
+ "y_label": "Vertical stress (MPa)",
+ "x_scale": "linear",
+ "y_scale": "linear",
+ "notes": "published data of Fig.7; rows 4.. until blank",
+ "n_raw": 29,
+ "n_points": 29,
+ "plot_w": 519.8125,
+ "plot_box_px": [
+  58.00000000000001,
+  24.0,
+  577.8125,
+  384.375
+ ],
+ "x_range": [
+  0.0,
+  8.0
+ ],
+ "y_range": [
+  3.0,
+  9.0
+ ],
+ "style": {
+  "size_in": [
+   4.0,
+   3.0
+  ],
+  "dpi": 150,
+  "color": "#404040",
+  "lw": 1.25,
+  "marker": "s",
+  "mirror_ticks": true,
+  "legend": false,
+  "panel_label": false,
+  "jpeg_q": 65,
+  "font_pt": 8.0
+ },
+ "png_size": [
+  600,
+  450
+ ],
+ "series": {
+  "curve": [
+   [
+    0.20762,
+    4.43287
+   ],
+   [
+    0.41524,
+    4.45777
+   ],
+   [
+    0.62286,
+    4.45674
+   ],
+   [
+    0.83048,
+    4.55623
+   ],
+   [
+    1.0381,
+    5.21729
+   ],
+   [
+    1.24572,
+    6.01357
+   ],
+   [
+    1.45334,
+    6.65268
+   ],
+   [
+    1.66097,
+    6.98803
+   ],
+   [
+    1.86859,
+    7.07268
+   ],
+   [
+    2.07621,
+    7.23561
+   ],
+   [
+    2.28383,
+    7.4473
+   ],
+   [
+    2.49145,
+    7.75579
+   ],
+   [
+    2.69907,
+    7.99738
+   ],
+   [
+    2.90669,
+    8.05996
+   ],
+   [
+    3.11431,
+    8.05892
+   ],
+   [
+    3.32193,
+    7.91313
+   ],
+   [
+    3.52955,
+    7.7485
+   ],
+   [
+    3.73717,
+    7.47116
+   ],
+   [
+    3.94479,
+    7.06642
+   ],
+   [
+    4.15241,
+    6.86849
+   ],
+   [
+    4.36003,
+    6.52042
+   ],
+   [
+    4.56766,
+    6.12515
+   ],
+   [
+    4.77528,
+    5.71496
+   ],
+   [
+    4.9829,
+    5.28414
+   ],
+   [
+    5.19052,
+    4.82165
+   ],
+   [
+    5.39814,
+    4.35917
+   ],
+   [
+    5.60576,
+    4.01799
+   ],
+   [
+    5.81338,
+    3.81732
+   ],
+   [
+    6.021,
+    3.65658
+   ]
+  ]
+ }
+}

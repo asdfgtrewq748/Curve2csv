@@ -122,7 +122,8 @@
 - `flag_precision` / `flag_recall`：把被 flag（任何非空 flag）当作预测"错误"时的精确率和召回率。
 - 可靠性图（reliability diagram）：把 confidence 分成 10 个 bin，统计每个 bin 内的实际正确率，并计算 `ece`（Expected Calibration Error）。
 - **区域级检查**：GT 中不可见（被遮挡）的 x 区间应满足"无输出"或"有 flag"。
-  - `fabrication_count`：落在 GT 不可见区间内（或绘图区外）、**无 flag**，且 confidence ≥ 0.5 的输出点数。**门槛：0**。
+  - `fabrication_count`：落在 GT 不可见区间内（或绘图区外）、**无 flag**，且 confidence ≥ 0.5 的输出点数。**门槛：0**。合成评测的 `aggregates.fabrication_count` 就是 `per_sample` 中该字段的求和；评测器在写 JSON 前会断言两者相等。桥接点带 `INTERPOLATED`，不计入。真实 OWID 集没有不可见区间掩膜，其逐图 `fabrication_count` 是更窄的报告项：无 flag、confidence ≥ 0.5、且落在已发布 x/y 量程外的点，不参与通过规则。
+  - `ink_support`：对每个非空、非桥接的输出点，检查其 2px 邻域内是否存在 CIEDE2000 ≤ 18 的同色墨迹；报告被支持点的比例。只报告，不参与通过规则。
   - `abstain_precision`：输出为空或被 flag 的 x 区间中，真实不可见或误差大的比例（反映是否过度保守）。
 - 图级：`image_confidence` 与 `curve_nrmse_range` 的 Spearman ρ，期望为负相关（M2 起报告）。
 
@@ -176,3 +177,39 @@
 - 只引用 `results/*.json` 中的实测值，并注明数据集（synth/real）、版本、切分和 commit。
 - 合成集与真实集的结果分开呈现，**不得用合成集数字代表真实论文表现**。
 - 局限（失败类别、弃权率）与优点一起列出。`scripts/check_claims.py` 会扫描 README 和文档中的数字，与结果文件比对。
+
+## 9. v1 真实图（`owid-grapher-v1`）
+
+来源是 Our World in Data 的 grapher 导出，不是人工描点。收录规则在评分之前定死，不看提取是否成功：
+
+- 图类型：grapher 的第一个 `chartTypes` 是 `LineChart` 或 `ScatterPlot`。没有该字段时，SVG 里不能出现 `Areas` 或 `Bars`。堆叠面积和条形图不进入集合。
+- 输入图像：该图的 PNG（出版页面上的栅格）。
+- 系列真值：同页 CSV，只保留图上 `selectedEntityNames` 的 1–6 条系列（与提取器 `max_series` 相同），并且年份和数值落在 SVG 刻度范围内。1–3 条在目录抽样里大约只占三分之一，凑不满 100 张，所以上限在评分前改成 6。
+- 轴范围和 linear/log：同页 SVG 里 `<text>` 的刻度文字和坐标。这与 PNG 上的 OCR 无关。log 轴在 log10 空间算误差。
+- 许可：CC BY 4.0（https://creativecommons.org/licenses/by/4.0/）。PNG 可以再分发，放在 `benchmarks/real/figures/`。每张图的 URL 记在 `benchmarks/real/gt/<slug>.json`。
+
+切分在评分之前冻结：`int(sha256(slug).hexdigest(), 16) % 5 < 2` 为 dev，其余为 held-out。改提取器只看 dev。
+
+一张图算正确，当且仅当下面三条同时成立：
+
+1. 去掉 flag 或空坐标之后仍有点的预测系列数，等于真值系列数。
+2. 用 NRMSE 做 Hungarian 配对后，每个系列的 `curve_nrmse_range ≤ 2`（占轴量程的百分比）。
+3. 每个系列的 `x_coverage ≥ 0.90`。
+
+x 方向在真值系列自己的 x 范围内均匀取 200 个点。某点算对齐，当最近的预测点与它的 x 距离不超过 1 个像素（像素宽度用 SVG 两端刻度的跨度）。NRMSE 只在对齐的点上计算，缺失点不进入误差。`x_coverage` 是这些采样点里、y 误差也 ≤ 2% 量程的比例。flag 或空坐标的点在评分前删除，所以它们降低 coverage，不记成误差。
+
+直线参数误差：真值在轴空间里线性拟合 R² ≥ 0.98 时，报告斜率相对误差和截距占 y 量程的比例。它不是通过条件。实测写在 `benchmarks/results/real-v1.json`，按 dev、held-out、全体分开。
+
+同一规则下的实测（Python 3.12.3）：修正前 held-out 27/61（44.3%）、全体 52/110（47.3%）；修正绘图框和陡段之后 held-out 38/61（62.3%）、全体 69/110（62.7%）。把同一笔画的抗锯齿色边并回该笔画之后，held-out 39/61（63.9%）、全体 70/110（63.6%），dev 仍是 31/49（63.3%）。90% 目标未达到。held-out 剩余失败是 x_coverage 8、nrmse_and_coverage 7、series_count 4。`global-smallpox-cases`、`diphtheria-cases-in-the-united-states`、`rubella-cases-in-the-united-states` 的中位有符号误差约为 0，但有一段年份的描线与已发布 CSV 相差数十像素，这些图保持失败，不按 CSV 改几何。smoke 的 `fabrication_count` 仍是 46，硬门禁仍是 0。
+
+去掉落在另一条脊线上、又离自身中心线超过 6px 的渗色像素之后（`df05503`）：dev 32/49（65.3%），held-out 仍是 39/61（63.9%），全体 71/110（64.5%）。90% 目标未达到。新通过的只有 dev 的 `population-unwpp`（第二条系列的 x-coverage 从 0.20 到 0.97）。`06d9965` 上已通过的图全部仍然通过。held-out 失败桶不变：x_coverage 8、nrmse_and_coverage 7、series_count 4、no_calibration 3。全体失败：x_coverage 15、nrmse_and_coverage 13、series_count 6、no_calibration 5。held-out 上覆盖率上升但仍低于 0.90 的有 `annual-fish-catch-taxa`（0.165→0.610）、`breast-cancer-death-rate-in-women`（0.130→0.535）、`maize-production`（0.125→0.485）、`difference-in-female-and-male-life-expectancy-at-age-45`（0.030→0.245）。`cumulative-space-visits` 的覆盖率仍是 0.075，标记之间的空档保持为空。四张描线与已发布 CSV 不一致的图保持失败。dev 的 `stratospheric-ozone-concentration-projections` 预测系列从 3 条变成 4 条（真值 3），原因从 nrmse_and_coverage 变为 series_count，该图在上一版已经失败。同一 60 张 smoke、sidecar 轴、结果未写入 `benchmarks/results/smoke.json`：`fabrication_count` 48（00052 与 00053 各多 1 点，仍是生成器不可见区间里的同色墨迹），`curve_nrmse_range_median` 0.859，`x_coverage_median` 0.811，`series_match_acc` 0.790。硬门禁仍是 0。按列改跟最近脊线的跟踪器把 smoke 的 `x_coverage_median` 从 0.811 降到 0.731，并把 `fabrication_count` 从 48 升到 50，因此留在测量记录里。下一步只做更严的脊线连续性：沿父笔画的颜色走，只在很短的交叉处取消 flag，36px 跳跃上限保持不变。
+
+颜色约束的动态规划跟踪，加上只在另一条系列墨迹遮挡处补的短桥（`e7dc53d`）。缺口不超过线宽加 2 像素，两侧各有至少 16 列本系列支撑，补上的点带 `interpolated=1`。严格评分丢掉这些点，with-bridge 评分把它们算进覆盖率。两套分数相同：dev 32/49（65.3%），held-out 39/61（63.9%），全体 71/110（64.5%）。90% 目标未达到。`df05503` 上已通过的图全部仍然通过，也没有新通过的图。held-out 失败桶不变：x_coverage 8、nrmse_and_coverage 7、series_count 4、no_calibration 3。全体失败：x_coverage 15、nrmse_and_coverage 13、series_count 6、no_calibration 5。110 张图共 59 个桥接点。含 OCR 的平均 CPU 时间 1.026 秒/张，中位 0.959 秒/张。覆盖率上升但仍低于 0.90 的有 dev 的 `stratospheric-chlorine-concentrations`（0.770→0.855）、`cohort-fertility-rate`（0.410→0.645）、`stomach-cancer-death-rate`（0.440→0.605），held-out 的 `breast-cancer-death-rate-in-women`（0.535→0.620）、`maize-production`（0.485→0.585）、`difference-in-female-and-male-life-expectancy-at-age-45`（0.245→0.390）。`cumulative-space-visits` 的覆盖率仍是 0.075。四张描线与已发布 CSV 不一致的图保持失败。同一 60 张 smoke、sidecar 轴、结果未写入 `benchmarks/results/smoke.json`：`fabrication_count` 59（上一版 48），`bridged_count` 92，`curve_nrmse_range_median` 0.859，`x_coverage_median` 0.798，`series_match_acc` 0.813。硬门禁仍是 0。下一步只在两侧斜率一致、且缺口上仍有另一条系列墨迹时把桥加长，补点继续标 `interpolated=1`。
+
+把裂成短段的 1 像素笔画改成折线跟踪之后（`c567941`）：dev、held-out、全体的通过数不变，仍是 32/49、39/61、71/110。`cumulative-space-visits` 的俄罗斯从 31 个散点、覆盖率 0.075 变成折线，覆盖率 0.855，NRMSE 0.139。`land-natural-share` 的德国从覆盖率 0.115、NRMSE 0.21 变成覆盖率 0.725、NRMSE 0.089。两张仍因覆盖率失败。蒙版里没有该系列像素的列保持为空。smoke 与 `e7dc53d` 相同。
+
+单系列刻度（`e5dcdf7`）：`803.719BCE`、`30million` 这类粘连标签可以读出，BCE 标签落在文字外缘。held-out 40/61（65.6%），dev 33/49，全体 73/110。新通过的是 held-out 的 `co2-long-term-concentration`（NRMSE 0.985，覆盖率 0.920）和 dev 的 `foreign-born-population-of-the-united-states`（NRMSE 0.130，覆盖率 1.0）。`nitrous-oxide-long` 现在能标定，仍失败（NRMSE 5.19，覆盖率 0.375）。单系列 held-out 从 35/46 到 36/46。smoke 不变，`fabrication_count` 59。
+
+图框沿笔画向下延伸，并补回左侧漏读的 y 刻度（`8c12888`）：held-out 42/61，全体 75/110，dev 仍是 33/49。新通过的是 `same-sex-marriage-country-count`（NRMSE 0.175，覆盖率 0.990）和 `mention-of-the-word-capitalism-in-new-york-times-articles`（NRMSE 1.163，覆盖率 0.900）。单系列 held-out 38/46。这两张都是算法，GT 未改。smoke 的 `fabrication_count` 仍是 59。
+
+x 端点刻度（波次 2）：Grapher 把首个和末个 x 标签贴在图框边缘，OCR 文字中心比真实刻度向内偏约半个标签。`read_frame` 读取基线下方的短竖刻度，只把偏移 ≥ 2.5px 的标签挪到刻度上，再用它们重算图框。用 lock 版本复现的基线是 held-out 42/61、dev 33/49、全体 75/110；改后 held-out 47/61、dev 35/49、全体 82/110。strict 与 with-bridge 相同，单系列 held-out 38/46 → 43/46，原先通过的图没有退回。新通过：工匠工资 2.686/0.750 → 0.266/1.000，全球贸易 1.533/0.870 → 0.159/1.000，英国 GDP 增长 7.211/0.465 → 0.785/0.970，风疹 3.047/0.800 → 0.560/0.945，白喉 3.646/0.835 → 0.651/0.965，以及 dev 的英国工时与北半球温度。CO2 保持 0.985/0.920；把它的内圈标签也挪 1px 会让 NRMSE 变成 2.76，所以加了 2.5px 下限。GT、阈值、跟踪器、桥接长度都没改。smoke 不变：`fabrication_count` 59，`bridged_count` 92，`curve_nrmse_range_median` 0.859。细节在 `docs/W1_WAVE2.md`。

@@ -108,6 +108,14 @@ def evaluate_split(
         if (index + 1) % 25 == 0 or index + 1 == count:
             print(f"evaluated {split} {index + 1}/{count}", flush=True)
     summary = aggregate(rows)
+    # ``fabrication_count`` is the sum of the per-sample counters. Fail loudly
+    # if the aggregate and the per-sample scorer ever disagree.
+    row_fabrication = sum(int(row.get("fabrication_count") or 0) for row in rows)
+    if int(summary["fabrication_count"]) != row_fabrication:
+        raise RuntimeError(
+            "fabrication_count aggregate mismatch: "
+            f"{summary['fabrication_count']} != {row_fabrication}"
+        )
     gates = evaluate_gates(summary, config.get("gates", {}))
     # Keep the worst line samples' overlays for the report.
     ranked = sorted(

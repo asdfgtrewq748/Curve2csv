@@ -54,11 +54,7 @@ def _broken_thin_stroke(crop: np.ndarray) -> bool:
         return False
     # The two held-out strokes are one pixel tall. Taller fragments are a
     # different series running nearby, and tracking them pulls the centerline off.
-    return (
-        pieces >= 5
-        and 40 <= wide < int(0.2 * width)
-        and float(np.median(heights)) <= 4.0
-    )
+    return pieces >= 5 and 40 <= wide < int(0.2 * width) and float(np.median(heights)) <= 4.0
 
 
 def _component_mask(mask: np.ndarray, bbox: tuple[int, int, int, int], *, kind: str) -> np.ndarray:

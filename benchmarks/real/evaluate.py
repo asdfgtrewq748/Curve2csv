@@ -176,9 +176,7 @@ def _rate(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "median_slope_rel_err": float(np.median(slopes)) if slopes else None,
         "median_intercept_err_range": float(np.median(intercepts)) if intercepts else None,
         "fabrication_count": int(sum(int(row.get("fabrication_count") or 0) for row in rows)),
-        "ink_support_median": (
-            float(np.median(supports)) if supports else None
-        ),
+        "ink_support_median": (float(np.median(supports)) if supports else None),
     }
 
 
@@ -268,7 +266,9 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=("dev", "held-out", "all"), default="all")
     parser.add_argument("--out", type=Path, default=ROOT / "benchmarks" / "results")
-    parser.add_argument("--root", type=Path, default=REAL, help="dataset dir (manifest.json, gt/, figures/)")
+    parser.add_argument(
+        "--root", type=Path, default=REAL, help="dataset dir (manifest.json, gt/, figures/)"
+    )
     parser.add_argument("--tag", default="real-v1", help="output file prefix")
     args = parser.parse_args()
     root = args.root.resolve()

@@ -113,9 +113,18 @@ def simulate(slug: str) -> dict[str, Any]:
 
     def record(step: str, res: ExtractionResult) -> dict[str, Any]:
         s = _score(res, gt)
-        log.append({"step": step, "clicks": clicks, "typed": typed, "correct": s["correct"],
-                    "reason": s["reason"], "n_pred": s["n_pred"],
-                    "worst_nrmse": s["worst_nrmse"], "worst_coverage": s["worst_coverage"]})
+        log.append(
+            {
+                "step": step,
+                "clicks": clicks,
+                "typed": typed,
+                "correct": s["correct"],
+                "reason": s["reason"],
+                "n_pred": s["n_pred"],
+                "worst_nrmse": s["worst_nrmse"],
+                "worst_coverage": s["worst_coverage"],
+            }
+        )
         return s
 
     if len(result.series) > 1:
@@ -127,9 +136,12 @@ def simulate(slug: str) -> dict[str, Any]:
     scale = {"linear": AxisScale.LINEAR, "log10": AxisScale.LOG10}
     result = extract_with_limits(
         image,
-        xmin=gt["x_range"][0], xmax=gt["x_range"][1],
-        ymin=gt["y_range"][0], ymax=gt["y_range"][1],
-        x_scale=scale[gt["x_scale"]], y_scale=scale[gt["y_scale"]],
+        xmin=gt["x_range"][0],
+        xmax=gt["x_range"][1],
+        ymin=gt["y_range"][0],
+        ymax=gt["y_range"][1],
+        x_scale=scale[gt["x_scale"]],
+        y_scale=scale[gt["y_scale"]],
         plot_box=tuple(int(round(v)) for v in box),  # type: ignore[arg-type]
     )
     clicks += 2
@@ -149,8 +161,17 @@ def simulate(slug: str) -> dict[str, Any]:
     return _done(slug, log, clicks, typed, False)
 
 
-def _done(slug: str, log: list[dict[str, Any]], clicks: int, typed: int, ok: bool) -> dict[str, Any]:
-    return {"slug": slug, "auto": False, "passed": ok, "clicks": clicks, "typed": typed, "steps": log}
+def _done(
+    slug: str, log: list[dict[str, Any]], clicks: int, typed: int, ok: bool
+) -> dict[str, Any]:
+    return {
+        "slug": slug,
+        "auto": False,
+        "passed": ok,
+        "clicks": clicks,
+        "typed": typed,
+        "steps": log,
+    }
 
 
 def main() -> None:
@@ -159,27 +180,41 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=HERE.parents[0] / "results")
     args = parser.parse_args()
     manifest = json.loads((HERE / "manifest.json").read_text(encoding="utf-8"))
-    slugs = [f["slug"] for f in manifest["figures"] if args.split == "all" or f["split"] == args.split]
+    slugs = [
+        f["slug"] for f in manifest["figures"] if args.split == "all" or f["split"] == args.split
+    ]
     rows = []
     for slug in slugs:
         row = simulate(slug)
         row["est_seconds"] = REVIEW_S + CLICK_S * row["clicks"] + TYPE_S * row["typed"]
         rows.append(row)
-        print(f"{slug:28s} auto={row['auto']!s:5s} passed={row['passed']!s:5s} clicks={row['clicks']} typed={row['typed']} "
-              f"~{row['est_seconds']:.0f}s {[s['step'] + ':' + s['reason'] for s in row['steps']]}", flush=True)
+        print(
+            f"{slug:28s} auto={row['auto']!s:5s} passed={row['passed']!s:5s} clicks={row['clicks']} typed={row['typed']} "
+            f"~{row['est_seconds']:.0f}s {[s['step'] + ':' + s['reason'] for s in row['steps']]}",
+            flush=True,
+        )
     summary = {
         "n": len(rows),
         "auto_pass": sum(r["auto"] for r in rows),
         "pass_after_confirm": sum(r["passed"] for r in rows),
         "confirmed_figures": sum(not r["auto"] for r in rows),
-        "mean_clicks_failing": float(np.mean([r["clicks"] for r in rows if not r["auto"]])) if any(not r["auto"] for r in rows) else 0.0,
-        "mean_typed_failing": float(np.mean([r["typed"] for r in rows if not r["auto"]])) if any(not r["auto"] for r in rows) else 0.0,
+        "mean_clicks_failing": float(np.mean([r["clicks"] for r in rows if not r["auto"]]))
+        if any(not r["auto"] for r in rows)
+        else 0.0,
+        "mean_typed_failing": float(np.mean([r["typed"] for r in rows if not r["auto"]]))
+        if any(not r["auto"] for r in rows)
+        else 0.0,
         "mean_est_seconds_all": float(np.mean([r["est_seconds"] for r in rows])) if rows else 0.0,
-        "timing_model": {"click_s": CLICK_S, "typed_value_s": TYPE_S, "review_s_per_figure": REVIEW_S},
+        "timing_model": {
+            "click_s": CLICK_S,
+            "typed_value_s": TYPE_S,
+            "review_s_per_figure": REVIEW_S,
+        },
     }
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / f"domain-v1-confirm-{args.split}.json").write_text(
-        json.dumps({"summary": summary, "figures": rows}, indent=2), encoding="utf-8")
+        json.dumps({"summary": summary, "figures": rows}, indent=2), encoding="utf-8"
+    )
     print(json.dumps(summary, indent=2))
 
 

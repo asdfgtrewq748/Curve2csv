@@ -239,9 +239,7 @@ def _dominant_curve_mask(
     return np.asarray(keep, dtype=bool)
 
 
-def _spine_band_zone(
-    dark_ink: NDArray[np.bool_], bbox: BBox, band: int
-) -> NDArray[np.bool_]:
+def _spine_band_zone(dark_ink: NDArray[np.bool_], bbox: BBox, band: int) -> NDArray[np.bool_]:
     """Top/bottom spine rows plus the border depth strips inside the box."""
 
     x0, y0, x1, y1 = bbox
@@ -312,13 +310,7 @@ def grow_along_spine_band(
     kernel = np.ones((3, 3), dtype=np.uint8)
     band_ink = cv2.dilate(dark_ink.astype(np.uint8), kernel, iterations=1) > 0
     allow = (
-        band_zone
-        & band_ink
-        & inside
-        & ~text_exclusion
-        & ~grid
-        & ~legend
-        & empty_cols[None, :]
+        band_zone & band_ink & inside & ~text_exclusion & ~grid & ~legend & empty_cols[None, :]
     ) | grown
     current = grown
     for _ in range(150):

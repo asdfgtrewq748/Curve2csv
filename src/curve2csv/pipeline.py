@@ -192,9 +192,7 @@ def run_pipeline(
         ys_single, xs_single = np.nonzero(single.mask)
         if xs_single.size:
             series_chroma = float(np.median(chroma[ys_single, xs_single]))
-            chromatic_ink = chromatic_mask(
-                loaded.rgb, max(cfg.chroma_min, 0.4 * series_chroma)
-            )
+            chromatic_ink = chromatic_mask(loaded.rgb, max(cfg.chroma_min, 0.4 * series_chroma))
             # Keep the band ink dark enough to be the stroke, not a light fill.
             chromatic_ink &= (lab[:, :, 0] >= 8.0) & (lab[:, :, 0] < 98.0)
             text_exclusion = achromatic_text_exclusion(masks.text, area.bbox)

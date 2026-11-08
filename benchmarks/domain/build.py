@@ -62,7 +62,9 @@ def _log_limits(lo: float, hi: float) -> tuple[float, float]:
 def _style(slug: str) -> dict[str, Any]:
     r = _rng(slug)
     return {
-        "size_in": [(3.35, 2.6), (3.5, 2.8), (4.0, 3.0), (3.0, 2.4), (5.0, 3.6)][int(r.integers(5))],
+        "size_in": [(3.35, 2.6), (3.5, 2.8), (4.0, 3.0), (3.0, 2.4), (5.0, 3.6)][
+            int(r.integers(5))
+        ],
         "dpi": int(r.choice([150, 200, 300])),
         "color": str(r.choice(["black", "black", "#404040", "#d62728", "#1f4e9c"])),
         "lw": float(r.choice([0.8, 1.0, 1.25, 1.5])),
@@ -75,7 +77,9 @@ def _style(slug: str) -> dict[str, Any]:
     }
 
 
-def render(slug: str, x: np.ndarray, y: np.ndarray, meta: dict[str, Any]) -> tuple[Image.Image, dict[str, Any]]:
+def render(
+    slug: str, x: np.ndarray, y: np.ndarray, meta: dict[str, Any]
+) -> tuple[Image.Image, dict[str, Any]]:
     st = _style(slug)
     font_manager.fontManager.addfont(str(FONT))
     plt.rcParams.update(

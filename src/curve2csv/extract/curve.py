@@ -179,7 +179,7 @@ def column_is_occluded(
     _x0, y0, _x1, y1 = bbox
     col = int(np.clip(round(px - 0.5), 0, gray.shape[1] - 1))
     band = gray[max(0, y0) : max(0, y1), col]
-    return bool(band.size) and float(np.mean(band < 200)) > 0.45
+    return bool(band.size) and float(np.mean(band < 200)) > 0.16
 
 
 def extract_curve(
@@ -284,6 +284,22 @@ def extract_curve(
             flags |= PointFlag.EDGE_OF_PLOT
         if node.thickness > cfg.thick_factor * est_width and node.n_runs > 1:
             flags |= PointFlag.THICK_SEGMENT
+        if other_mask is not None and other_mask[:, node.col].any():
+            other_rows = np.flatnonzero(other_mask[:, node.col])
+            dist_other = float(np.min(np.abs(other_rows - py)))
+            if dist_other <= max(2.5, 1.2 * thin_width) or (
+                dist_other <= max(6.0, 2.0 * thin_width) and node.n_runs > 1
+            ):
+                flags |= PointFlag.THICK_SEGMENT
+        if node.n_runs > 1:
+            local = np.flatnonzero(mask[y0:y1, node.col])
+            splits = np.where(np.diff(local) > 2)[0] + 1
+            if len(splits) > 0:
+                parts = [part for part in np.split(local, splits) if part.size >= 4]
+                if len(parts) > 1:
+                    run_pys = [float(np.mean(part) + y0 + 0.5) for part in parts]
+                    if any(abs(rpy - py) > max(36.0, 4.0 * thin_width) for rpy in run_pys):
+                        flags |= PointFlag.THICK_SEGMENT
         if column_is_occluded(gray, area.bbox, px):
             flags |= PointFlag.THICK_SEGMENT
         confidence = 0.93

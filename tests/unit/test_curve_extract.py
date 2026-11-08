@@ -62,3 +62,16 @@ def test_sine_nrmse_and_occluded_gap() -> None:
             continue
         if 6.0 <= point.x <= 9.0:
             assert point.flags != PointFlag.NONE
+
+
+def test_crossing_series_occluded_points_flagged_thick_segment() -> None:
+    x = np.linspace(0.0, 10.0, 200)
+    y1 = 0.5 * x
+    y2 = 5.0 - 0.5 * x
+    image, axes = line_figure(x, [(y1, "#d62728"), (y2, "#1f77b4")])
+    result = extract(image, axes=axes)
+    assert len(result.series) == 2
+    for series in result.series:
+        crossing_points = [p for p in series.points if p.x is not None and abs(p.x - 5.0) < 0.25]
+        assert crossing_points
+        assert any(PointFlag.THICK_SEGMENT in p.flags for p in crossing_points)

@@ -207,7 +207,7 @@ class DataPoint:
             return "empty"
         if PointFlag.INTERPOLATED in self.flags:
             return "bridge"
-        if self.flags != PointFlag.NONE:
+        if (self.flags & ~PointFlag.MANUAL) != PointFlag.NONE:
             return "flagged"
         return "ok"
 

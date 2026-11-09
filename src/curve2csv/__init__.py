@@ -6,6 +6,7 @@ from curve2csv.api import (
     confirm_plot_box,
     extract,
     pick_series,
+    trace_stroke,
 )
 from curve2csv.types import ExtractionResult
 
@@ -18,4 +19,5 @@ __all__ = [
     "confirm_plot_box",
     "extract",
     "pick_series",
+    "trace_stroke",
 ]

@@ -180,3 +180,58 @@ def test_pdf_page_and_series_rename(tmp_path: Path) -> None:
     assert '"label": "measured"' in json_path.read_text(encoding="utf-8")
     with pytest.raises(InputError):
         rename_series_label(csv_path, json_path, "s1", "a,b")
+
+
+def test_extract_subcommand_pick_and_trace(tmp_path: Path) -> None:
+    x = np.linspace(0.0, 3.0, 120)
+    image, _axes = line_figure(x, [(np.sin(x), "#d62728")])
+    image_path = tmp_path / "fig_pick_trace.png"
+    save_image(image_path, image)
+    out = tmp_path / "out_pick_trace"
+    code = main(
+        [
+            "extract",
+            str(image_path),
+            "-o",
+            str(out),
+            "--xmin",
+            "0",
+            "--xmax",
+            "3",
+            "--ymin",
+            "-1.2",
+            "--ymax",
+            "1.2",
+            "--pick-series",
+            "256.5,50.0",
+            "--clear-range",
+            "1:2",
+            "--trace-stroke",
+            "200,60:300,60",
+            "--trace-radius",
+            "12.0",
+        ]
+    )
+    assert code == 0
+    assert (out / "fig_pick_trace.csv").is_file()
+
+    # Invalid trace stroke (fewer than 2 points)
+    bad_code = main(
+        [
+            "extract",
+            str(image_path),
+            "-o",
+            str(out),
+            "--xmin",
+            "0",
+            "--xmax",
+            "3",
+            "--ymin",
+            "-1.2",
+            "--ymax",
+            "1.2",
+            "--trace-stroke",
+            "single_point",
+        ]
+    )
+    assert bad_code == 2

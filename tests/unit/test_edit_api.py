@@ -17,6 +17,7 @@ from curve2csv.api import (
     confirm_plot_box,
     extract,
     pick_series,
+    trace_stroke,
 )
 from curve2csv.errors import InputError
 from curve2csv.io.export import write_csv, write_json
@@ -182,3 +183,86 @@ def test_clear_range_rejects_unknown_series() -> None:
     result = extract(image, axes=axes)
     with pytest.raises(InputError):
         clear_range(result, 1.0, 2.0, series_id="missing")
+
+
+def test_trace_stroke_recovers_cleared_segment(tmp_path: Path) -> None:
+    image, axes = _one_line()
+    result = extract(image, axes=axes)
+    cleared = clear_range(result, 4.0, 6.0)
+    series_before = cleared.series[0]
+    assert series_before.coverage < 0.95
+
+    p4 = next(p for p in result.series[0].points if p.x is not None and 3.7 <= float(p.x) <= 4.0)
+    p6 = next(p for p in result.series[0].points if p.x is not None and 6.0 <= float(p.x) <= 6.3)
+    traced = trace_stroke(cleared, [(p4.px, p4.py), (p6.px, p6.py)], radius=8.0, out=tmp_path)
+    series_after = traced.series[0]
+    recovered = [p for p in series_after.points if p.x is not None and 4.2 <= float(p.x) <= 5.8]
+    assert len(recovered) > 5
+    for p in recovered:
+        assert p.status == "ok"
+        assert PointFlag.MANUAL in p.flags
+    assert series_after.coverage > series_before.coverage
+    assert series_after.coverage >= 0.90
+
+    with (tmp_path / "extraction.csv").open(encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    recovered_rows = [row for row in rows if row["x"] and 4.2 <= float(row["x"]) <= 5.8]
+    assert recovered_rows
+    assert all(row["status"] == "ok" for row in recovered_rows)
+    assert all("MANUAL" in row["flags"] for row in recovered_rows)
+
+
+def test_trace_stroke_abstains_on_blank_background() -> None:
+    image, axes = _one_line()
+    result = extract(image, axes=axes)
+    n_before = sum(len(s.points) for s in result.series)
+    # Stroke in pure white background near top of the plot
+    area = result.plot_area
+    assert isinstance(area, PlotArea)
+    top_y = float(area.bbox[1] + 5)
+    traced = trace_stroke(
+        result,
+        [(float(area.bbox[0] + 10), top_y), (float(area.bbox[2] - 10), top_y)],
+        radius=4.0,
+    )
+    n_after = sum(len(s.points) for s in traced.series)
+    assert n_after == n_before
+
+
+def test_trace_stroke_creates_new_series_when_far() -> None:
+    x = np.linspace(0.0, 10.0, 240)
+    image, axes = line_figure(x, [(0.2 * x, "#1f77b4"), (0.2 * x + 2.0, "#ff7f0e")])
+    result = extract(image, axes=axes)
+    assert len(result.series) >= 2
+    # Keep only the first series
+    first = result.series[0]
+    sample = first.points[len(first.points) // 2]
+    picked = pick_series(result, (sample.px, sample.py))
+    assert len(picked.series) == 1
+
+    # Second series sample
+    second = result.series[1]
+    s_start = second.points[10]
+    s_end = second.points[-10]
+    traced = trace_stroke(
+        picked,
+        [(s_start.px, s_start.py), (s_end.px, s_end.py)],
+        radius=6.0,
+        snap_series_px=4.0,
+    )
+    assert len(traced.series) == 2
+    new_s = traced.series[-1]
+    assert new_s.kind == "line"
+    assert len(new_s.points) > 10
+    assert any(PointFlag.MANUAL in p.flags for p in new_s.points)
+
+
+def test_trace_stroke_validations() -> None:
+    image, axes = _one_line()
+    result = extract(image, axes=axes)
+    with pytest.raises(InputError, match="radius must be positive"):
+        trace_stroke(result, [(10.0, 10.0), (20.0, 20.0)], radius=-1.0)
+    with pytest.raises(InputError, match="requires at least 2 stroke points"):
+        trace_stroke(result, [(10.0, 10.0)])
+    with pytest.raises(InputError, match="no series with id missing"):
+        trace_stroke(result, [(10.0, 10.0), (20.0, 20.0)], series_id="missing")

@@ -8,7 +8,7 @@ import logging
 import sys
 from pathlib import Path
 
-from curve2csv.api import clear_range, extract, extract_with_limits
+from curve2csv.api import clear_range, extract, extract_with_limits, pick_series, trace_stroke
 from curve2csv.errors import InputError
 from curve2csv.types import (
     AxesOverride,
@@ -85,6 +85,47 @@ def _parse_clear(text: str) -> tuple[str | None, float, float]:
         raise InputError("--clear-range bounds must be numbers") from exc
 
 
+def _parse_pick(text: str) -> list[tuple[float, float]]:
+    parts = text.split(":")
+    points: list[tuple[float, float]] = []
+    for part in parts:
+        coords = part.split(",")
+        if len(coords) != 2:
+            raise InputError("--pick-series needs X,Y or X1,Y1:X2,Y2...")
+        try:
+            points.append((float(coords[0]), float(coords[1])))
+        except ValueError as exc:
+            raise InputError("--pick-series coordinates must be numbers") from exc
+    return points
+
+
+def _parse_trace(text: str) -> tuple[str | None, list[tuple[float, float]]]:
+    parts = text.split(":")
+    if not parts:
+        raise InputError("--trace-stroke needs X1,Y1:X2,Y2... or SERIES:X1,Y1:X2,Y2...")
+    series_id: str | None = None
+    first = parts[0]
+    if "," not in first:
+        series_id = first
+        coord_parts = parts[1:]
+    else:
+        coord_parts = parts
+
+    if len(coord_parts) < 2:
+        raise InputError("--trace-stroke requires at least 2 points: X1,Y1:X2,Y2...")
+
+    points: list[tuple[float, float]] = []
+    for cp in coord_parts:
+        coords = cp.split(",")
+        if len(coords) != 2:
+            raise InputError("--trace-stroke points must be X,Y pairs")
+        try:
+            points.append((float(coords[0]), float(coords[1])))
+        except ValueError as exc:
+            raise InputError("--trace-stroke coordinates must be numbers") from exc
+    return series_id, points
+
+
 def _run_extract(
     image: Path,
     out: Path,
@@ -94,6 +135,10 @@ def _run_extract(
     y_log: bool,
     plot_box: BBox | None = None,
     clear_ranges: list[str] | None = None,
+    pick_series_list: list[str] | None = None,
+    trace_strokes: list[str] | None = None,
+    trace_radius: float = 10.0,
+    trace_bridge: bool = False,
 ) -> int:
     try:
         if axes_path is not None:
@@ -116,9 +161,22 @@ def _run_extract(
                 raise InputError(
                     "tick labels were not read. Pass --axes or --xmin/--xmax/--ymin/--ymax."
                 )
+        for pick_spec in pick_series_list or []:
+            stroke_samples = _parse_pick(pick_spec)
+            result = pick_series(result, stroke_samples, out=out)
         for spec in clear_ranges or []:
             series_id, lo, hi = _parse_clear(spec)
             result = clear_range(result, lo, hi, series_id=series_id, out=out)
+        for trace_spec in trace_strokes or []:
+            s_id, pts = _parse_trace(trace_spec)
+            result = trace_stroke(
+                result,
+                pts,
+                series_id=s_id,
+                radius=trace_radius,
+                bridge=trace_bridge,
+                out=out,
+            )
     except InputError as exc:
         logging.error("%s", exc)
         return 2
@@ -160,6 +218,29 @@ def _extract_command(argv: list[str]) -> int:
         default=[],
         help="force an x range empty: XMIN:XMAX or SERIES:XMIN:XMAX (repeatable)",
     )
+    parser.add_argument(
+        "--pick-series",
+        action="append",
+        default=[],
+        help="keep series touched by click X,Y or stroke X1,Y1:X2,Y2 (repeatable)",
+    )
+    parser.add_argument(
+        "--trace-stroke",
+        action="append",
+        default=[],
+        help="guide curve tracing through pixels: X1,Y1:X2,Y2... or SERIES:X1,Y1:X2,Y2... (repeatable)",
+    )
+    parser.add_argument(
+        "--trace-radius",
+        type=float,
+        default=10.0,
+        help="search radius for trace-stroke in pixels (default 10.0)",
+    )
+    parser.add_argument(
+        "--trace-bridge",
+        action="store_true",
+        help="allow short interpolation bridges for trace-stroke",
+    )
     parser.add_argument("-v", action="count", default=0)
     args = parser.parse_args(argv)
     logging.basicConfig(
@@ -188,6 +269,10 @@ def _extract_command(argv: list[str]) -> int:
         args.y_log,
         plot_box,
         args.clear_range,
+        args.pick_series,
+        args.trace_stroke,
+        args.trace_radius,
+        args.trace_bridge,
     )
 
 
@@ -225,6 +310,10 @@ def main(argv: list[str] | None = None) -> int:
         return _headless_smoke(args[1:])
     if args and args[0] == "extract":
         return _extract_command(args[1:])
+    if args and args[0] == "web":
+        from curve2csv.web import run_web
+
+        return run_web(args[1:])
     if not args or args[0] == "gui":
         from curve2csv.gui import run_gui
 

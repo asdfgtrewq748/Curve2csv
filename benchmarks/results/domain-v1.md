@@ -1,6 +1,6 @@
 # Real-figure results (domain-single-curve-v1)
 
-Commit `8f6c8b5c36985df4c66bb5afc400a47daa772d4c`. Python 3.12.3.
+Commit `243630f85fd0a6ff3de6f8d4e96be793cfeef9e6`. Python 3.12.3.
 
 Strict scoring drops every flagged point, including occlusion bridges. With-bridge scoring keeps points flagged `INTERPOLATED` and still drops every other flag. A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90.
 
@@ -12,7 +12,7 @@ Strict scoring drops every flagged point, including occlusion bridges. With-brid
 | held-out | 16 | 16 | 100.00% | 16 | 100.00% |
 | all | 24 | 24 | 100.00% | 24 | 100.00% |
 
-Mean CPU time 8.706s/image. Bridged points: 0. Report-only fabrication points: 0.
+Mean CPU time 7.177s/image. Bridged points: 0. Report-only fabrication points: 0.
 
 Parameter error is the worst relative slope error on series whose ground truth is a straight line (R² ≥ 0.98) in axis space. It is not part of the pass rule. Median over figures where a fit applies:
 
@@ -30,9 +30,9 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | clay-creep-c4k-s1 | dev | yes | ok | yes | ok | 1 | 1 | 0.558 | 0.925 | 0.558 | 0.925 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23666827 |
 | clay-creep-nc1b-s1 | held-out | yes | ok | yes | ok | 1 | 1 | 0.421 | 1.000 | 0.421 | 1.000 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23666827 |
 | clay-creep-tcb7b-s2 | held-out | yes | ok | yes | ok | 1 | 1 | 0.835 | 0.965 | 0.835 | 0.965 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.23666827 |
-| gateroad-sandstone-0mpa | dev | yes | ok | yes | ok | 1 | 1 | 0.780 | 0.915 | 0.780 | 0.915 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
+| gateroad-sandstone-0mpa | dev | yes | ok | yes | ok | 1 | 1 | 0.775 | 0.935 | 0.775 | 0.935 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
 | gateroad-sandstone-15mpa | dev | yes | ok | yes | ok | 1 | 1 | 0.390 | 0.990 | 0.390 | 0.990 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
-| gateroad-shale-0mpa | held-out | yes | ok | yes | ok | 1 | 1 | 1.083 | 0.900 | 1.083 | 0.900 | 0 | 0 | 0.998 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
+| gateroad-shale-0mpa | held-out | yes | ok | yes | ok | 1 | 1 | 1.080 | 0.905 | 1.080 | 0.905 | 0 | 0 | 0.998 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
 | gateroad-shale-15mpa | held-out | yes | ok | yes | ok | 1 | 1 | 0.566 | 0.985 | 0.566 | 0.985 | 0 | 0 | 1.000 | CC0-1.0 | https://doi.org/10.5281/zenodo.4959298 |
 | gob-compaction-testa | held-out | yes | ok | yes | ok | 1 | 1 | 1.275 | 0.925 | 1.275 | 0.925 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.3929410 |
 | gob-compaction-testb | held-out | yes | ok | yes | ok | 1 | 1 | 0.388 | 0.995 | 0.388 | 0.995 | 0 | 0 | 1.000 | CC-BY-4.0 | https://doi.org/10.5281/zenodo.3929410 |

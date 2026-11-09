@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 from tests.helpers import line_figure
 
@@ -75,3 +77,49 @@ def test_crossing_series_occluded_points_flagged_thick_segment() -> None:
         crossing_points = [p for p in series.points if p.x is not None and abs(p.x - 5.0) < 0.25]
         assert crossing_points
         assert any(PointFlag.THICK_SEGMENT in p.flags for p in crossing_points)
+
+
+def test_smoke_00052_and_00007_real_ink_not_cleared(tmp_path: Path) -> None:
+    from benchmarks.generator.render import render_sample
+    from benchmarks.generator.spec import make_spec
+    from curve2csv.types import AxesOverride, TickInput
+
+    # smoke_00052 has close-pair curves and markers
+    spec52 = make_spec("smoke", 52, 20261025)
+    doc52 = render_sample(spec52, tmp_path / "00052")
+    axes52 = doc52["axes"]
+    override52 = AxesOverride(
+        x_ticks=tuple(
+            TickInput(px=t["px"], py=t["py"], value=t["value"]) for t in axes52["x"]["ticks"]
+        ),
+        y_ticks=tuple(
+            TickInput(px=t["px"], py=t["py"], value=t["value"]) for t in axes52["y"]["ticks"]
+        ),
+        source="sidecar",
+    )
+    res52 = extract(tmp_path / "00052" / "img.png", axes=override52)
+    assert res52.series
+    # Real ink columns must not be cleared to empty
+    s1 = next(s for s in res52.series if len(s.points) > 200)
+    empty_s1 = [p for p in s1.points if p.status == "empty"]
+    assert len(empty_s1) == 0, f"Expected 0 empty points on real ink, got {len(empty_s1)}"
+    assert s1.coverage >= 0.90
+
+    # smoke_00007 has steep steps where whole-column darkness previously emptied columns
+    spec07 = make_spec("smoke", 7, 20261025)
+    doc07 = render_sample(spec07, tmp_path / "00007")
+    axes07 = doc07["axes"]
+    override07 = AxesOverride(
+        x_ticks=tuple(
+            TickInput(px=t["px"], py=t["py"], value=t["value"]) for t in axes07["x"]["ticks"]
+        ),
+        y_ticks=tuple(
+            TickInput(px=t["px"], py=t["py"], value=t["value"]) for t in axes07["y"]["ticks"]
+        ),
+        source="sidecar",
+    )
+    res07 = extract(tmp_path / "00007" / "img.png", axes=override07)
+    assert len(res07.series) == 3
+    for s in res07.series:
+        empty_pts = [p for p in s.points if p.status == "empty"]
+        assert len(empty_pts) == 0

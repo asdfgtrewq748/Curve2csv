@@ -1,6 +1,6 @@
 # Real-figure results (owid-grapher-v1)
 
-Commit `8f6c8b5c36985df4c66bb5afc400a47daa772d4c`. Python 3.12.3.
+Commit `243630f85fd0a6ff3de6f8d4e96be793cfeef9e6`. Python 3.12.3.
 
 Strict scoring drops every flagged point, including occlusion bridges. With-bridge scoring keeps points flagged `INTERPOLATED` and still drops every other flag. A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90.
 
@@ -12,13 +12,13 @@ Strict scoring drops every flagged point, including occlusion bridges. With-brid
 | held-out | 61 | 47 | 77.05% | 47 | 77.05% |
 | all | 110 | 82 | 74.55% | 82 | 74.55% |
 
-Mean CPU time 11.375s/image. Bridged points: 72. Report-only fabrication points: 2539.
+Mean CPU time 13.834s/image. Bridged points: 72. Report-only fabrication points: 2542.
 
 Parameter error is the worst relative slope error on series whose ground truth is a straight line (R² ≥ 0.98) in axis space. It is not part of the pass rule. Median over figures where a fit applies:
 
-- dev: n_fit=2, median |Δslope|/|slope|=0.015, median |Δintercept|/range=0.872, median ink_support=1.000, fabrication=793
+- dev: n_fit=2, median |Δslope|/|slope|=0.015, median |Δintercept|/range=0.872, median ink_support=1.000, fabrication=796
 - held-out: n_fit=2, median |Δslope|/|slope|=0.006, median |Δintercept|/range=0.061, median ink_support=1.000, fabrication=1746
-- all: n_fit=4, median |Δslope|/|slope|=0.009, median |Δintercept|/range=0.125, median ink_support=1.000, fabrication=2539
+- all: n_fit=4, median |Δslope|/|slope|=0.009, median |Δintercept|/range=0.125, median ink_support=1.000, fabrication=2542
 
 ## Per figure
 
@@ -45,12 +45,12 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009 | held-out | yes | ok | yes | ok | 1 | 1 | 0.192 | 1.000 | 0.192 | 1.000 | 0 | 3 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/cost-of-generating-electricity-new-capacity-using-photovoltaic-cells-in-the-us-19762009 |
 | countries-with-a-signed-bilateral-investment-treaty | held-out | yes | ok | yes | ok | 2 | 2 | 0.255 | 1.000 | 0.255 | 1.000 | 0 | 68 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/countries-with-a-signed-bilateral-investment-treaty |
 | countries-with-an-inforce-bilateral-investment-treaty | held-out | yes | ok | yes | ok | 2 | 2 | 0.244 | 0.960 | 0.244 | 0.960 | 0 | 23 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/countries-with-an-inforce-bilateral-investment-treaty |
-| crude-death-rate-hmd | dev | no | x_coverage | no | x_coverage | 5 | 5 | 2.793 | 0.090 | 2.793 | 0.090 | 0 | 0 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/crude-death-rate-hmd |
+| crude-death-rate-hmd | dev | no | nrmse_and_coverage | no | nrmse_and_coverage | 5 | 5 | 3.188 | 0.070 | 3.188 | 0.070 | 0 | 0 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/crude-death-rate-hmd |
 | cumulative-space-visits | held-out | no | x_coverage | no | x_coverage | 4 | 4 | 0.623 | 0.725 | 0.623 | 0.725 | 5 | 263 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/cumulative-space-visits |
 | daily-per-capita-caloric-supply | dev | yes | ok | yes | ok | 1 | 1 | 0.347 | 0.990 | 0.347 | 0.990 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/daily-per-capita-caloric-supply |
 | deaths-and-disappearances-during-migration | held-out | yes | ok | yes | ok | 1 | 1 | 0.220 | 1.000 | 0.220 | 1.000 | 0 | 3 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-and-disappearances-during-migration |
 | deaths-from-aids-un | dev | yes | ok | yes | ok | 1 | 1 | 1.414 | 0.910 | 1.414 | 0.910 | 0 | 79 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-from-aids-un |
-| deaths-from-smallpox-in-london | dev | no | x_coverage | no | x_coverage | 1 | 1 | 1.687 | 0.500 | 1.687 | 0.500 | 0 | 19 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-from-smallpox-in-london |
+| deaths-from-smallpox-in-london | dev | no | nrmse_and_coverage | no | nrmse_and_coverage | 1 | 1 | 3.039 | 0.500 | 3.039 | 0.500 | 0 | 19 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/deaths-from-smallpox-in-london |
 | difference-in-female-and-male-life-expectancy-at-age-45 | held-out | no | x_coverage | no | x_coverage | 4 | 4 | 0.912 | 0.320 | 0.912 | 0.320 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/difference-in-female-and-male-life-expectancy-at-age-45 |
 | different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk | dev | yes | ok | yes | ok | 2 | 2 | 0.100 | 0.915 | 0.100 | 0.915 | 0 | 4 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/different-ways-of-pushing-down-the-wage-setting-curve-the-netherlands-and-the-uk |
 | diphtheria-cases-in-the-united-states | held-out | yes | ok | yes | ok | 1 | 1 | 0.650 | 0.970 | 0.650 | 0.970 | 0 | 284 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/diphtheria-cases-in-the-united-states |
@@ -60,12 +60,12 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | fatal-airliner-accidents-per-million-flights | held-out | yes | ok | yes | ok | 1 | 1 | 0.232 | 1.000 | 0.232 | 1.000 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/fatal-airliner-accidents-per-million-flights |
 | fatality-rates-due-to-lightning-in-the-us | dev | yes | ok | yes | ok | 1 | 1 | 0.466 | 0.995 | 0.466 | 0.995 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/fatality-rates-due-to-lightning-in-the-us |
 | fertilizer-total-use | dev | yes | ok | yes | ok | 1 | 1 | 0.151 | 1.000 | 0.151 | 1.000 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/fertilizer-total-use |
-| fish-catch-uk | held-out | yes | ok | yes | ok | 2 | 2 | 0.545 | 0.955 | 0.545 | 0.955 | 0 | 4 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/fish-catch-uk |
+| fish-catch-uk | held-out | yes | ok | yes | ok | 2 | 2 | 0.595 | 0.960 | 0.595 | 0.960 | 0 | 4 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/fish-catch-uk |
 | fish-discards | dev | yes | ok | yes | ok | 1 | 1 | 0.210 | 1.000 | 0.210 | 1.000 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/fish-discards |
 | foreign-born-population-of-the-united-states | dev | yes | ok | yes | ok | 1 | 1 | 0.130 | 1.000 | 0.130 | 1.000 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/foreign-born-population-of-the-united-states |
 | global-commodity-prices-19602019 | held-out | yes | ok | yes | ok | 1 | 1 | 0.285 | 1.000 | 0.285 | 1.000 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/global-commodity-prices-19602019 |
 | global-death-rate-in-violent-political-conflicts-over-the-long-run | held-out | no | no_calibration | no | no_calibration | 1 | 0 | n/a | n/a | n/a | n/a | 0 | 0 | n/a | CC BY 4.0 | https://ourworldindata.org/grapher/global-death-rate-in-violent-political-conflicts-over-the-long-run |
-| global-deaths-in-violent-political-conflicts-over-the-long-run | dev | no | nrmse_and_coverage | no | nrmse_and_coverage | 1 | 1 | 4.532 | 0.630 | 4.532 | 0.630 | 0 | 24 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/global-deaths-in-violent-political-conflicts-over-the-long-run |
+| global-deaths-in-violent-political-conflicts-over-the-long-run | dev | no | nrmse_and_coverage | no | nrmse_and_coverage | 1 | 1 | 4.608 | 0.620 | 4.608 | 0.620 | 0 | 27 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/global-deaths-in-violent-political-conflicts-over-the-long-run |
 | global-plastics-production | dev | yes | ok | yes | ok | 1 | 1 | 0.114 | 0.995 | 0.114 | 0.995 | 0 | 3 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/global-plastics-production |
 | global-smallpox-cases | held-out | no | nrmse_and_coverage | no | nrmse_and_coverage | 1 | 1 | 6.145 | 0.655 | 6.145 | 0.655 | 0 | 13 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/global-smallpox-cases |
 | growth-of-global-trade | held-out | yes | ok | yes | ok | 1 | 1 | 0.159 | 1.000 | 0.159 | 1.000 | 0 | 70 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/growth-of-global-trade |
@@ -92,8 +92,8 @@ Parameter error is the worst relative slope error on series whose ground truth i
 | microplastics-in-ocean | held-out | no | series_count | no | series_count | 3 | 2 | 0.285 | 0.175 | 0.285 | 0.175 | 0 | 44 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/microplastics-in-ocean |
 | natural-resource-rents | dev | yes | ok | yes | ok | 1 | 1 | 0.328 | 1.000 | 0.328 | 1.000 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/natural-resource-rents |
 | new-reported-cases-tetanus | held-out | yes | ok | yes | ok | 1 | 1 | 0.206 | 1.000 | 0.206 | 1.000 | 0 | 3 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/new-reported-cases-tetanus |
-| nitrous-oxide-long | held-out | no | nrmse_and_coverage | no | nrmse_and_coverage | 1 | 1 | 3.992 | 0.395 | 3.992 | 0.395 | 0 | 0 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/nitrous-oxide-long |
-| northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c | dev | yes | ok | yes | ok | 1 | 1 | 1.198 | 0.925 | 1.198 | 0.925 | 0 | 1 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c |
+| nitrous-oxide-long | held-out | no | nrmse_and_coverage | no | nrmse_and_coverage | 1 | 1 | 5.186 | 0.375 | 5.186 | 0.375 | 0 | 0 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/nitrous-oxide-long |
+| northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c | dev | yes | ok | yes | ok | 1 | 1 | 1.205 | 0.925 | 1.205 | 0.925 | 0 | 1 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/northern-hemisphere-temperatures-over-the-long-run-deviation-from-1951-1990-mean-temperature-c |
 | northern-white-rhinos | held-out | yes | ok | yes | ok | 1 | 1 | 0.150 | 1.000 | 0.150 | 1.000 | 0 | 94 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/northern-white-rhinos |
 | number-of-child-deaths-unwpp | held-out | yes | ok | yes | ok | 1 | 1 | 0.131 | 1.000 | 0.131 | 1.000 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-child-deaths-unwpp |
 | number-of-countries-having-implemented-a-vat | dev | yes | ok | yes | ok | 1 | 1 | 0.156 | 1.000 | 0.156 | 1.000 | 0 | 2 | 1.000 | CC BY 4.0 | https://ourworldindata.org/grapher/number-of-countries-having-implemented-a-vat |

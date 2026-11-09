@@ -10,6 +10,7 @@ from __future__ import annotations
 import cv2
 import numpy as np
 
+from curve2csv.color_math import deltaE_ciede2000
 from curve2csv.config import PipelineConfig
 from curve2csv.extract.track import track_series
 from curve2csv.types import (
@@ -167,19 +168,68 @@ def _runs(rows: np.ndarray) -> list[np.ndarray]:
     return list(np.split(rows, splits))
 
 
+def point_is_occluded(
+    col: int,
+    py: float,
+    thin_width: float,
+    bbox: tuple[int, int, int, int],
+    *,
+    other_mask: np.ndarray | None,
+    mask: np.ndarray,
+    lab_image: np.ndarray | None,
+    color_lab: tuple[float, float, float] | None,
+    node_color_delta: float,
+) -> bool:
+    """True only when another curve occludes this curve at (col, py).
+
+    1. In local window [py - 3*width, py + 3*width], another curve's ink must exist.
+    2. The other curve's ink must cover the stroke core around py.
+    3. This curve's ink must be truly covered (no matching color in the core).
+       If this curve's ink is still visible, it is NOT occluded.
+       Markers, steep slopes, text, and grid lines are never occluders.
+    """
+    if other_mask is None:
+        return False
+    _x0, y0, _x1, y1 = bbox
+    win_radius = max(2, int(round(3.0 * thin_width)))
+    r0 = max(y0, int(round(py - win_radius)))
+    r1 = min(y1, int(round(py + win_radius)) + 1)
+    if r1 <= r0 or col < 0 or col >= other_mask.shape[1]:
+        return False
+
+    # 1. Must have another curve's ink within +- 3 * thin_width in this column
+    if not np.any(other_mask[r0:r1, col]):
+        return False
+
+    # 2. Must cover the stroke core
+    core_radius = max(1, int(round(1.0 * thin_width)))
+    cr0 = max(y0, int(round(py - core_radius)))
+    cr1 = min(y1, int(round(py + core_radius)) + 1)
+    if not np.any(other_mask[cr0:cr1, col]):
+        return False
+
+    # 3. If this curve's ink is still visible in the core, it is not occluded
+    if lab_image is not None and color_lab is not None and cr1 > cr0:
+        samples = lab_image[cr0:cr1, col]
+        deltas = deltaE_ciede2000(samples, np.asarray(color_lab, dtype=np.float64))
+        if float(np.min(deltas)) <= 18.0:
+            return False
+    elif node_color_delta <= 17.0:
+        return False
+
+    return True
+
+
 def column_is_occluded(
     gray: np.ndarray | None,
     bbox: tuple[int, int, int, int],
     px: float,
 ) -> bool:
-    """True when the plot column is mostly dark, which is an occluder not a stroke."""
+    """Legacy helper kept for bar/scatter compatibility.
 
-    if gray is None or gray.ndim != 2:
-        return False
-    _x0, y0, _x1, y1 = bbox
-    col = int(np.clip(round(px - 0.5), 0, gray.shape[1] - 1))
-    band = gray[max(0, y0) : max(0, y1), col]
-    return bool(band.size) and float(np.mean(band < 200)) > 0.16
+    Whole-column darkness check (>0.16) has been deprecated and removed.
+    """
+    return False
 
 
 def extract_curve(
@@ -300,7 +350,18 @@ def extract_curve(
                     run_pys = [float(np.mean(part) + y0 + 0.5) for part in parts]
                     if any(abs(rpy - py) > max(36.0, 4.0 * thin_width) for rpy in run_pys):
                         flags |= PointFlag.THICK_SEGMENT
-        occluded = column_is_occluded(gray, area.bbox, px)
+        col = int(np.clip(round(px - 0.5), 0, area.bbox[2] - 1))
+        occluded = point_is_occluded(
+            col,
+            py,
+            thin_width,
+            area.bbox,
+            other_mask=other_mask,
+            mask=mask,
+            lab_image=lab_image,
+            color_lab=series_mask.color_lab,
+            node_color_delta=node.color_delta,
+        )
         if occluded:
             flags |= PointFlag.THICK_SEGMENT
         confidence = 0.93

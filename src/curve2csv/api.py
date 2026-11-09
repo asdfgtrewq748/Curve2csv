@@ -13,7 +13,9 @@ from numpy.typing import NDArray
 from curve2csv.calibrate.limits import axes_from_box
 from curve2csv.color_math import deltaE_ciede2000, rgb2lab
 from curve2csv.config import PipelineConfig
+from curve2csv.detect.grid import detect_grid_mask
 from curve2csv.detect.plot_area import detect_plot_area
+from curve2csv.detect.text import detect_text_mask
 from curve2csv.errors import InputError
 from curve2csv.io.export import export_all
 from curve2csv.io.image import load_image
@@ -316,7 +318,9 @@ def trace_stroke(
     radius: float = 10.0,
     snap_series_px: float = 16.0,
     bridge: bool = False,
-    bridge_max_gap_px: float = 5.0,
+    bridge_max_gap_px: float | None = None,
+    line_width: float | None = None,
+    bridge_slack_px: float = 2.0,
     out: str | Path | None = None,
 ) -> ExtractionResult:
     """Trace and snap to real curve ink guided by human-provided stroke points.
@@ -324,8 +328,8 @@ def trace_stroke(
     Strictly obeys 'abstain over fabricate': only columns with real ink matching
     the target color (or dark ink) within ``radius`` pixels of the stroke guide
     are emitted as data points. Emitted points receive ``PointFlag.MANUAL``
-    (with status="ok"). Missing ink columns are left empty unless ``bridge=True``
-    is explicitly requested for short gaps.
+    (with status="manual"). Missing ink columns are left empty unless ``bridge=True``
+    is explicitly requested for short gaps where another curve occludes this curve.
     """
 
     if radius <= 0:
@@ -418,6 +422,7 @@ def trace_stroke(
     # Column-by-column tracing
     traced_by_col: dict[int, DataPoint] = {}
     prev_py: float | None = None
+    ink_run_sizes: list[float] = []
 
     for col in range(c_min, c_max + 1):
         col_x = float(col) + 0.5
@@ -469,6 +474,8 @@ def trace_stroke(
         if mapped is None:
             continue
         dx, dy = mapped
+        if np.any(ink_mask):
+            ink_run_sizes.append(float(np.sum(ink_mask)))
         traced_by_col[col] = DataPoint(
             x=dx,
             y=dy,
@@ -478,16 +485,34 @@ def trace_stroke(
             flags=PointFlag.MANUAL,
         )
 
+    # Determine curve line width (source: measured from ink runs or user override)
+    if line_width is not None and line_width > 0:
+        est_line_width = float(line_width)
+    elif ink_run_sizes:
+        est_line_width = max(1.0, float(np.percentile(ink_run_sizes, 30)))
+    else:
+        est_line_width = 2.0
+
+    effective_max_gap = (
+        int(round(bridge_max_gap_px))
+        if bridge_max_gap_px is not None
+        else max(1, int(round(est_line_width + bridge_slack_px)))
+    )
+
     # Optional short bridging: ONLY allowed when another curve covers the intersection
     # Gaps caused by text, grid, axes, or blank background MUST stay empty.
     target_id_str = target_series.series_id if target_series else None
     if bridge and len(traced_by_col) >= 2:
+        text_mask = detect_text_mask(rgb, area.bbox)
+        grid_mask = detect_grid_mask(rgb, area.bbox)
+        lab_chroma = np.hypot(lab_img[:, :, 1], lab_img[:, :, 2])
+        img_h, img_w = rgb.shape[:2]
         cols_sorted = sorted(traced_by_col.keys())
         for i in range(len(cols_sorted) - 1):
             left_col = cols_sorted[i]
             right_col = cols_sorted[i + 1]
             gap_len = right_col - left_col - 1
-            if 1 <= gap_len <= int(round(bridge_max_gap_px)):
+            if 1 <= gap_len <= effective_max_gap:
                 p_left = traced_by_col[left_col]
                 p_right = traced_by_col[right_col]
                 if (
@@ -496,13 +521,40 @@ def trace_stroke(
                     and p_right.x is not None
                     and p_right.y is not None
                 ):
-                    # Check that EVERY column in the gap is covered by another curve
                     can_bridge = True
                     for step, b_col in enumerate(range(left_col + 1, right_col), start=1):
                         frac = float(step) / float(gap_len + 1)
                         b_px = float(b_col) + 0.5
                         b_py = p_left.py + frac * (p_right.py - p_left.py)
-                        # Verify another curve crosses here
+                        r_b = int(np.clip(round(b_py), 0, img_h - 1))
+                        c_b = int(np.clip(round(b_px), 0, img_w - 1))
+
+                        # 1. Blank background rejection: must not be blank background
+                        if gray[r_b, c_b] >= bg_q75 - 5.0:
+                            can_bridge = False
+                            break
+
+                        # 2. Text rejection: cannot bridge across text
+                        if text_mask[r_b, c_b]:
+                            can_bridge = False
+                            break
+
+                        # 3. Grid line rejection: cannot bridge across grid lines
+                        if grid_mask[r_b, c_b] and lab_chroma[r_b, c_b] < 12.0:
+                            can_bridge = False
+                            break
+
+                        # 4. Axis spine rejection: cannot bridge across axis spines
+                        if (
+                            abs(b_px - x0) <= 2
+                            or abs(b_px - (x1 - 1)) <= 2
+                            or abs(b_py - y0) <= 2
+                            or abs(b_py - (y1 - 1)) <= 2
+                        ):
+                            can_bridge = False
+                            break
+
+                        # 5. Curve crossing requirement: MUST be covered by another curve
                         covered_by_other = False
                         for s in result.series:
                             if target_id_str is not None and s.series_id == target_id_str:
@@ -511,7 +563,7 @@ def trace_stroke(
                                 if (
                                     p.x is not None
                                     and abs(p.px - b_px) <= 1.0
-                                    and abs(p.py - b_py) <= 4.0
+                                    and abs(p.py - b_py) <= max(4.0, 1.5 * est_line_width)
                                 ):
                                     covered_by_other = True
                                     break
@@ -520,6 +572,7 @@ def trace_stroke(
                         if not covered_by_other:
                             can_bridge = False
                             break
+
                     if can_bridge:
                         for step, b_col in enumerate(range(left_col + 1, right_col), start=1):
                             frac = float(step) / float(gap_len + 1)

@@ -1,6 +1,6 @@
 # Real-figure results (domain-single-curve-v1)
 
-Commit `d65c41c4c634faf2625f138d3e0162cfa6bfd068`. Python 3.12.3.
+Commit `8f6c8b5c36985df4c66bb5afc400a47daa772d4c`. Python 3.12.3.
 
 Strict scoring drops every flagged point, including occlusion bridges. With-bridge scoring keeps points flagged `INTERPOLATED` and still drops every other flag. A figure is correct when the predicted series count equals the ground-truth count and every series has NRMSE ≤ 2% of the axis range and x-coverage ≥ 0.90.
 
@@ -12,7 +12,7 @@ Strict scoring drops every flagged point, including occlusion bridges. With-brid
 | held-out | 16 | 16 | 100.00% | 16 | 100.00% |
 | all | 24 | 24 | 100.00% | 24 | 100.00% |
 
-Mean CPU time 3.798s/image. Bridged points: 0. Report-only fabrication points: 0.
+Mean CPU time 8.706s/image. Bridged points: 0. Report-only fabrication points: 0.
 
 Parameter error is the worst relative slope error on series whose ground truth is a straight line (R² ≥ 0.98) in axis space. It is not part of the pass rule. Median over figures where a fit applies:
 

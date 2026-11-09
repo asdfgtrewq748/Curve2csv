@@ -266,3 +266,220 @@ def test_trace_stroke_validations() -> None:
         trace_stroke(result, [(10.0, 10.0)])
     with pytest.raises(InputError, match="no series with id missing"):
         trace_stroke(result, [(10.0, 10.0), (20.0, 20.0)], series_id="missing")
+
+
+def test_extraction_result_metrics_partition() -> None:
+    """Verify that n_points equals the sum of the disjoint status categories."""
+    result = ExtractionResult(
+        schema_version=SCHEMA_VERSION,
+        source=LoadedImage(rgb=np.zeros((20, 20, 3), dtype=np.uint8), source="memory", sha256="0"),
+        plot_area=PlotArea((0, 0, 20, 20), 20.0, 0.0, 1.0),
+        calibration={},
+        series=[
+            Series(
+                series_id="s0",
+                kind="line",
+                label=None,
+                color_hex="#1f77b4",
+                points=[
+                    DataPoint(1.0, 2.0, 1.5, 1.5, 0.9, PointFlag.NONE),
+                    DataPoint(None, None, 2.5, 1.5, 0.0, PointFlag.LOW_CONFIDENCE),
+                    DataPoint(3.0, 2.0, 3.5, 1.5, 0.55, PointFlag.INTERPOLATED),
+                    DataPoint(4.0, 2.0, 4.5, 1.5, 0.9, PointFlag.MANUAL),
+                    DataPoint(
+                        5.0, 2.0, 5.5, 1.5, 0.8, PointFlag.LOW_CONFIDENCE | PointFlag.THICK_SEGMENT
+                    ),
+                ],
+                gaps=[],
+                coverage=0.8,
+                confidence=0.7,
+            )
+        ],
+        image_confidence=0.7,
+        abstentions=[],
+        config_hash="test",
+    )
+    m = result.metrics()
+    assert m["n_points"] == 5
+    assert m["n_ok"] == 1
+    assert m["n_abstained"] == 1
+    assert m["n_bridged"] == 1
+    assert m["n_manual"] == 1
+    assert m["n_flagged"] == 1
+    assert m["n_points"] == (
+        m["n_abstained"] + m["n_flagged"] + m["n_bridged"] + m["n_manual"] + m["n_ok"]
+    )
+
+
+def test_web_summary_reports_flagged_count(tmp_path: Path) -> None:
+    from curve2csv.web import WebSession
+
+    session = WebSession(work_dir=tmp_path)
+    result = ExtractionResult(
+        schema_version=SCHEMA_VERSION,
+        source=LoadedImage(rgb=np.zeros((20, 20, 3), dtype=np.uint8), source="memory", sha256="0"),
+        plot_area=PlotArea((0, 0, 20, 20), 20.0, 0.0, 1.0),
+        calibration={},
+        series=[
+            Series(
+                series_id="s0",
+                kind="line",
+                label=None,
+                color_hex="#1f77b4",
+                points=[
+                    DataPoint(1.0, 2.0, 1.5, 1.5, 0.9, PointFlag.NONE),
+                    DataPoint(
+                        5.0, 2.0, 5.5, 1.5, 0.8, PointFlag.LOW_CONFIDENCE | PointFlag.THICK_SEGMENT
+                    ),
+                ],
+                gaps=[],
+                coverage=0.8,
+                confidence=0.7,
+            )
+        ],
+        image_confidence=0.7,
+        abstentions=[],
+        config_hash="test",
+    )
+    session.current_result = result
+    summary = session.summary()
+    assert summary["loaded"]
+    assert "series" in summary
+    assert len(summary["series"]) == 1
+    assert summary["series"][0]["flagged_count"] == 1
+
+
+def test_bridge_restrictions_and_allowances() -> None:
+    from curve2csv.types import AxisCalibration, AxisScale
+
+    class DummyMapper:
+        def pixel_to_data(self, px: float, py: float) -> tuple[float, float]:
+            return (float(px), float(py))
+
+    img = np.full((100, 100, 3), 255, dtype=np.uint8)
+    img[49:52, 20:48] = (31, 119, 180)  # blue line
+    img[49:52, 51:81] = (31, 119, 180)  # blue line
+    img[20:81, 48:51] = (255, 127, 14)  # orange crossing line
+
+    other_pts = []
+    for x in range(48, 51):
+        for y in range(20, 81):
+            other_pts.append(
+                DataPoint(
+                    float(x) + 0.5,
+                    float(y) + 0.5,
+                    float(x) + 0.5,
+                    float(y) + 0.5,
+                    0.9,
+                    PointFlag.NONE,
+                )
+            )
+
+    other_s = Series("s1", "line", "other", "#ff7f0e", other_pts, [], 1.0, 0.9)
+    target_s = Series("s0", "line", "target", "#1f77b4", [], [], 0.5, 0.9)
+
+    res = ExtractionResult(
+        schema_version="1.0",
+        source=LoadedImage(img, "mem", "0"),
+        plot_area=PlotArea((10, 10, 90, 90), 90.0, 10.0, 1.0),
+        calibration={
+            "x": AxisCalibration("x", AxisScale.LINEAR, 1.0, 0.0, False, 0.0, 2, "test"),
+            "y": AxisCalibration("y", AxisScale.LINEAR, 1.0, 0.0, False, 0.0, 2, "test"),
+        },
+        series=[target_s, other_s],
+        image_confidence=0.9,
+        abstentions=[],
+        mapper=DummyMapper(),
+    )
+
+    # 1. Allowed: bridge across curve intersection within line_width + slack
+    t1 = trace_stroke(
+        res, [(25.0, 50.0), (75.0, 50.0)], series_id="s0", bridge=True, line_width=2.0
+    )
+    s0_t1 = next(s for s in t1.series if s.series_id == "s0")
+    bridged = [p for p in s0_t1.points if p.status == "bridge"]
+    assert len(bridged) == 3
+    for p in bridged:
+        assert PointFlag.INTERPOLATED in p.flags
+        assert PointFlag.MANUAL in p.flags
+
+    # 2. Refused: bridge=False leaves gap empty
+    t2 = trace_stroke(
+        res, [(25.0, 50.0), (75.0, 50.0)], series_id="s0", bridge=False, line_width=2.0
+    )
+    s0_t2 = next(s for s in t2.series if s.series_id == "s0")
+    assert not any(p.status == "bridge" for p in s0_t2.points)
+
+    # 3. Refused: gap too wide (> line_width + 2px)
+    img_wide = img.copy()
+    img_wide[49:52, 45:55] = 255
+    res_wide = ExtractionResult(
+        schema_version="1.0",
+        source=LoadedImage(img_wide, "mem", "0"),
+        plot_area=PlotArea((10, 10, 90, 90), 90.0, 10.0, 1.0),
+        calibration=res.calibration,
+        series=[target_s, other_s],
+        image_confidence=0.9,
+        abstentions=[],
+        mapper=DummyMapper(),
+    )
+    t3 = trace_stroke(
+        res_wide, [(25.0, 50.0), (75.0, 50.0)], series_id="s0", bridge=True, line_width=2.0
+    )
+    s0_t3 = next(s for s in t3.series if s.series_id == "s0")
+    assert not any(p.status == "bridge" for p in s0_t3.points)
+
+    # 4. Refused: blank background (no other curve at the gap)
+    res_no_other = ExtractionResult(
+        schema_version="1.0",
+        source=LoadedImage(img, "mem", "0"),
+        plot_area=PlotArea((10, 10, 90, 90), 90.0, 10.0, 1.0),
+        calibration=res.calibration,
+        series=[target_s],
+        image_confidence=0.9,
+        abstentions=[],
+        mapper=DummyMapper(),
+    )
+    t4 = trace_stroke(
+        res_no_other, [(25.0, 50.0), (75.0, 50.0)], series_id="s0", bridge=True, line_width=2.0
+    )
+    s0_t4 = next(s for s in t4.series if s.series_id == "s0")
+    assert not any(p.status == "bridge" for p in s0_t4.points)
+
+    # 5. Refused: grid line without curve crossing
+    img_grid = img.copy()
+    img_grid[:, 48:51] = (200, 200, 200)
+    res_grid = ExtractionResult(
+        schema_version="1.0",
+        source=LoadedImage(img_grid, "mem", "0"),
+        plot_area=PlotArea((10, 10, 90, 90), 90.0, 10.0, 1.0),
+        calibration=res.calibration,
+        series=[target_s],
+        image_confidence=0.9,
+        abstentions=[],
+        mapper=DummyMapper(),
+    )
+    t5 = trace_stroke(
+        res_grid, [(25.0, 50.0), (75.0, 50.0)], series_id="s0", bridge=True, line_width=2.0
+    )
+    s0_t5 = next(s for s in t5.series if s.series_id == "s0")
+    assert not any(p.status == "bridge" for p in s0_t5.points)
+
+    # 6. Refused: on axis border
+    img_axis = img.copy()
+    img_axis[49:52, 10:14] = 255
+    res_axis = ExtractionResult(
+        schema_version="1.0",
+        source=LoadedImage(img_axis, "mem", "0"),
+        plot_area=PlotArea((10, 10, 90, 90), 90.0, 10.0, 1.0),
+        calibration=res.calibration,
+        series=[target_s, other_s],
+        image_confidence=0.9,
+        abstentions=[],
+        mapper=DummyMapper(),
+    )
+    t6 = trace_stroke(
+        res_axis, [(10.0, 50.0), (30.0, 50.0)], series_id="s0", bridge=True, line_width=2.0
+    )
+    s0_t6 = next(s for s in t6.series if s.series_id == "s0")
+    assert not any(p.status == "bridge" for p in s0_t6.points)

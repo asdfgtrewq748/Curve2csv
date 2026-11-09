@@ -207,6 +207,7 @@ class WebSession:
                     "coverage": float(s.coverage),
                     "confidence": float(s.confidence),
                     "points_count": pts_count,
+                    "flagged_count": sum(1 for p in s.points if p.status == "flagged"),
                     "manual_count": sum(1 for p in s.points if p.status == "manual"),
                     "bridge_count": sum(1 for p in s.points if p.status == "bridge"),
                     "gaps": [[float(lo), float(hi)] for lo, hi in s.gaps],

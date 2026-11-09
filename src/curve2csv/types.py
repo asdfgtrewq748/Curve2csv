@@ -301,15 +301,16 @@ class ExtractionResult:
         for series in self.series:
             for point in series.points:
                 n_points += 1
-                if (point.flags & ~(PointFlag.MANUAL | PointFlag.INTERPOLATED)) != PointFlag.NONE:
-                    n_flagged += 1
-                if point.status == "empty":
+                st = point.status
+                if st == "empty":
                     n_abstained += 1
-                elif point.status == "bridge":
+                elif st == "flagged":
+                    n_flagged += 1
+                elif st == "bridge":
                     n_bridged += 1
-                elif point.status == "manual":
+                elif st == "manual":
                     n_manual += 1
-                elif point.status == "ok":
+                elif st == "ok":
                     n_ok += 1
         return {
             "n_points": n_points,

@@ -316,6 +316,7 @@ def trace_stroke(
     radius: float = 10.0,
     snap_series_px: float = 16.0,
     bridge: bool = False,
+    bridge_max_gap_px: float = 5.0,
     out: str | Path | None = None,
 ) -> ExtractionResult:
     """Trace and snap to real curve ink guided by human-provided stroke points.
@@ -477,14 +478,16 @@ def trace_stroke(
             flags=PointFlag.MANUAL,
         )
 
-    # Optional short bridging
+    # Optional short bridging: ONLY allowed when another curve covers the intersection
+    # Gaps caused by text, grid, axes, or blank background MUST stay empty.
+    target_id_str = target_series.series_id if target_series else None
     if bridge and len(traced_by_col) >= 2:
         cols_sorted = sorted(traced_by_col.keys())
         for i in range(len(cols_sorted) - 1):
             left_col = cols_sorted[i]
             right_col = cols_sorted[i + 1]
             gap_len = right_col - left_col - 1
-            if 1 <= gap_len <= 6:
+            if 1 <= gap_len <= int(round(bridge_max_gap_px)):
                 p_left = traced_by_col[left_col]
                 p_right = traced_by_col[right_col]
                 if (
@@ -493,20 +496,45 @@ def trace_stroke(
                     and p_right.x is not None
                     and p_right.y is not None
                 ):
+                    # Check that EVERY column in the gap is covered by another curve
+                    can_bridge = True
                     for step, b_col in enumerate(range(left_col + 1, right_col), start=1):
                         frac = float(step) / float(gap_len + 1)
                         b_px = float(b_col) + 0.5
                         b_py = p_left.py + frac * (p_right.py - p_left.py)
-                        b_x = float(p_left.x) + frac * (float(p_right.x) - float(p_left.x))
-                        b_y = float(p_left.y) + frac * (float(p_right.y) - float(p_left.y))
-                        traced_by_col[b_col] = DataPoint(
-                            x=b_x,
-                            y=b_y,
-                            px=b_px,
-                            py=b_py,
-                            confidence=0.55,
-                            flags=PointFlag.MANUAL | PointFlag.INTERPOLATED,
-                        )
+                        # Verify another curve crosses here
+                        covered_by_other = False
+                        for s in result.series:
+                            if target_id_str is not None and s.series_id == target_id_str:
+                                continue
+                            for p in s.points:
+                                if (
+                                    p.x is not None
+                                    and abs(p.px - b_px) <= 1.0
+                                    and abs(p.py - b_py) <= 4.0
+                                ):
+                                    covered_by_other = True
+                                    break
+                            if covered_by_other:
+                                break
+                        if not covered_by_other:
+                            can_bridge = False
+                            break
+                    if can_bridge:
+                        for step, b_col in enumerate(range(left_col + 1, right_col), start=1):
+                            frac = float(step) / float(gap_len + 1)
+                            b_px = float(b_col) + 0.5
+                            b_py = p_left.py + frac * (p_right.py - p_left.py)
+                            b_x = float(p_left.x) + frac * (float(p_right.x) - float(p_left.x))
+                            b_y = float(p_left.y) + frac * (float(p_right.y) - float(p_left.y))
+                            traced_by_col[b_col] = DataPoint(
+                                x=b_x,
+                                y=b_y,
+                                px=b_px,
+                                py=b_py,
+                                confidence=0.55,
+                                flags=PointFlag.MANUAL | PointFlag.INTERPOLATED,
+                            )
 
     if not traced_by_col:
         return _export(result, out)

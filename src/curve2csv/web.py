@@ -207,6 +207,8 @@ class WebSession:
                     "coverage": float(s.coverage),
                     "confidence": float(s.confidence),
                     "points_count": pts_count,
+                    "manual_count": sum(1 for p in s.points if p.status == "manual"),
+                    "bridge_count": sum(1 for p in s.points if p.status == "bridge"),
                     "gaps": [[float(lo), float(hi)] for lo, hi in s.gaps],
                 }
             )
@@ -239,6 +241,7 @@ class WebSession:
             "series": series_summary,
             "can_undo": len(self.history) > 0,
             "confidence": float(res.image_confidence),
+            "metrics": res.metrics(),
         }
 
 

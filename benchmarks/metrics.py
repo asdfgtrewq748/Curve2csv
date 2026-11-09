@@ -191,7 +191,9 @@ def _f1(tp: int, fp: int, fn: int) -> float:
     return float(2 * prec * rec / (prec + rec))
 
 
-def _pred_arrays(result: ExtractionResult) -> list[dict[str, Any]]:
+def _pred_arrays(
+    result: ExtractionResult, *, include_interpolated: bool = True
+) -> list[dict[str, Any]]:
     series: list[dict[str, Any]] = []
     for item in result.series:
         xy = []
@@ -200,6 +202,8 @@ def _pred_arrays(result: ExtractionResult) -> list[dict[str, Any]]:
         conf = []
         for point in item.points:
             if point.x is None or point.y is None:
+                continue
+            if not include_interpolated and PointFlag.INTERPOLATED in point.flags:
                 continue
             xy.append((point.x, point.y))
             pix.append((point.px, point.py))
@@ -399,7 +403,8 @@ def score_sample(gt: dict[str, Any], result: ExtractionResult, runtime_s: float)
         flagged_parts.append(pred["flagged"])
     false_point_rate = float(n_false / n_emitted) if n_emitted else 0.0
 
-    fabrication = 0
+    fabrication_unflagged = 0
+    fabrication_flagged_wrong = 0
     bridged = 0
     for item in result.series:
         for point in item.points:
@@ -416,14 +421,15 @@ def score_sample(gt: dict[str, Any], result: ExtractionResult, runtime_s: float)
         invisible = series.get("invisible_ranges") or []
         pred = preds[i]
         for k in range(pred["xy"].shape[0]):
-            if pred["flags"][k] != 0 or pred["conf"][k] < 0.5:
-                continue
             x_val = float(pred["xy"][k, 0])
             px, py = float(pred["pix"][k, 0]), float(pred["pix"][k, 1])
             outside = px < bbox[0] or py < bbox[1] or px >= bbox[2] or py >= bbox[3]
             in_gap = any(float(lo) <= x_val <= float(hi) for lo, hi in invisible)
             if outside or in_gap:
-                fabrication += 1
+                if pred["flags"][k] == 0 and pred["conf"][k] >= 0.5:
+                    fabrication_unflagged += 1
+                else:
+                    fabrication_flagged_wrong += 1
 
     scatter_f1 = _image_scatter_f1(gt_series, preds) if chart == "scatter" else None
     bar_rel = _image_bar_rel(gt_series, preds, ry) if chart == "bar" else None
@@ -454,7 +460,10 @@ def score_sample(gt: dict[str, Any], result: ExtractionResult, runtime_s: float)
         "series_match_acc": float(series_match_acc),
         "scatter_f1": scatter_f1,
         "bar_rel_err": bar_rel,
-        "fabrication_count": int(fabrication),
+        "fabrication_count": int(fabrication_unflagged),
+        "fabrication_unflagged": int(fabrication_unflagged),
+        "fabrication_flagged_wrong": int(fabrication_flagged_wrong),
+        "fabrication_total": int(fabrication_unflagged + fabrication_flagged_wrong),
         "bridged_count": int(bridged),
         "ink_support_fraction": support["fraction"],
         "ink_support_checked": support["n_checked"],
@@ -681,6 +690,15 @@ def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "scatter_f1_median": _median(col(_subset(rows, "scatter/nonoverlap"), "scatter_f1")),
         "bar_rel_err_median": _median(col(_subset(rows, "bar"), "bar_rel_err")),
         "fabrication_count": int(sum(int(r["fabrication_count"]) for r in rows)),
+        "fabrication_unflagged": int(
+            sum(int(r.get("fabrication_unflagged", r["fabrication_count"])) for r in rows)
+        ),
+        "fabrication_flagged_wrong": int(
+            sum(int(r.get("fabrication_flagged_wrong") or 0) for r in rows)
+        ),
+        "fabrication_total": int(
+            sum(int(r.get("fabrication_total", r["fabrication_count"])) for r in rows)
+        ),
         "bridged_count": int(sum(int(r.get("bridged_count") or 0) for r in rows)),
         "ink_support_median": _median(col(rows, "ink_support_fraction")),
         "ink_support_checked": int(sum(int(r.get("ink_support_checked") or 0) for r in rows)),
@@ -713,6 +731,9 @@ def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
             "scatter_f1_median": _median(col(group, "scatter_f1")),
             "bar_rel_err_median": _median(col(group, "bar_rel_err")),
             "fabrication_count": int(sum(int(r["fabrication_count"]) for r in group)),
+            "fabrication_flagged_wrong": int(
+                sum(int(r.get("fabrication_flagged_wrong") or 0) for r in group)
+            ),
         }
     summary["categories"] = categories
     return summary
@@ -774,7 +795,7 @@ def regression_failures(
         gate = gates.get(name) or {}
         target = gate.get("value")
         margin = abs(old_f - float(target)) if target is not None else 0.0
-        relative_hit = drop > relative * scale and drop > 0
+        relative_hit = drop > relative * scale and drop > 1e-6
         absolute_hit = margin > 0 and drop > margin_fraction * margin
         if relative_hit or absolute_hit:
             failures.append(f"{name} moved from {old_f:.6g} to {new_f:.6g} (drop {drop:.6g})")

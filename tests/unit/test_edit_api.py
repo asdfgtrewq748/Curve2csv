@@ -199,7 +199,7 @@ def test_trace_stroke_recovers_cleared_segment(tmp_path: Path) -> None:
     recovered = [p for p in series_after.points if p.x is not None and 4.2 <= float(p.x) <= 5.8]
     assert len(recovered) > 5
     for p in recovered:
-        assert p.status == "ok"
+        assert p.status == "manual"
         assert PointFlag.MANUAL in p.flags
     assert series_after.coverage > series_before.coverage
     assert series_after.coverage >= 0.90
@@ -208,7 +208,7 @@ def test_trace_stroke_recovers_cleared_segment(tmp_path: Path) -> None:
         rows = list(csv.DictReader(handle))
     recovered_rows = [row for row in rows if row["x"] and 4.2 <= float(row["x"]) <= 5.8]
     assert recovered_rows
-    assert all(row["status"] == "ok" for row in recovered_rows)
+    assert all(row["status"] == "manual" for row in recovered_rows)
     assert all("MANUAL" in row["flags"] for row in recovered_rows)
 
 

@@ -300,7 +300,8 @@ def extract_curve(
                     run_pys = [float(np.mean(part) + y0 + 0.5) for part in parts]
                     if any(abs(rpy - py) > max(36.0, 4.0 * thin_width) for rpy in run_pys):
                         flags |= PointFlag.THICK_SEGMENT
-        if column_is_occluded(gray, area.bbox, px):
+        occluded = column_is_occluded(gray, area.bbox, px)
+        if occluded:
             flags |= PointFlag.THICK_SEGMENT
         confidence = 0.93
         if series_mask.separation_score < cfg.min_series_delta_e:
@@ -312,8 +313,9 @@ def extract_curve(
         confidence = float(np.clip(confidence, 0.0, 1.0))
         x_val: float | None
         y_val: float | None
-        if data is None or confidence < cfg.min_point_confidence:
-            flags |= PointFlag.LOW_CONFIDENCE
+        if data is None or confidence < cfg.min_point_confidence or occluded:
+            if occluded or confidence < cfg.min_point_confidence:
+                flags |= PointFlag.LOW_CONFIDENCE
             x_val, y_val = None, None
         else:
             x_val, y_val = data

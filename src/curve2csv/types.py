@@ -191,11 +191,14 @@ class DataPoint:
 
     @property
     def status(self) -> str:
-        """Honest export state: empty, bridge, flagged, or ok.
+        """Honest export state: empty, bridge, flagged, manual, or ok.
 
         ``empty`` means there is no emitted coordinate. A point can be present
         as evidence (pixel position, flags) and still be empty. ``bridge`` is
         the only filled gap; it is never counted as measured ink.
+        ``flagged`` indicates points carrying error or ambiguity flags.
+        ``manual`` indicates confirmed human-supplied or traced points.
+        ``ok`` is strictly reserved for clean, unflagged automatic points.
         """
 
         if (
@@ -207,8 +210,10 @@ class DataPoint:
             return "empty"
         if PointFlag.INTERPOLATED in self.flags:
             return "bridge"
-        if (self.flags & ~PointFlag.MANUAL) != PointFlag.NONE:
+        if (self.flags & ~(PointFlag.MANUAL | PointFlag.INTERPOLATED)) != PointFlag.NONE:
             return "flagged"
+        if PointFlag.MANUAL in self.flags:
+            return "manual"
         return "ok"
 
 
@@ -291,16 +296,19 @@ class ExtractionResult:
         n_flagged = 0
         n_abstained = 0
         n_bridged = 0
+        n_manual = 0
         n_ok = 0
         for series in self.series:
             for point in series.points:
                 n_points += 1
-                if point.flags != PointFlag.NONE:
+                if (point.flags & ~(PointFlag.MANUAL | PointFlag.INTERPOLATED)) != PointFlag.NONE:
                     n_flagged += 1
                 if point.status == "empty":
                     n_abstained += 1
                 elif point.status == "bridge":
                     n_bridged += 1
+                elif point.status == "manual":
+                    n_manual += 1
                 elif point.status == "ok":
                     n_ok += 1
         return {
@@ -308,6 +316,7 @@ class ExtractionResult:
             "n_flagged": n_flagged,
             "n_abstained": n_abstained,
             "n_bridged": n_bridged,
+            "n_manual": n_manual,
             "n_ok": n_ok,
             "n_series": len(self.series),
             "image_confidence": self.image_confidence,

@@ -107,7 +107,7 @@
                 "confidence": { "type": "number" },
                 "flags": { "type": "array", "items": { "type": "string" } },
                 "interpolated": { "type": "integer", "enum": [0, 1] },
-                "status": { "type": "string", "enum": ["ok", "flagged", "bridge", "empty"] },
+                "status": { "type": "string", "enum": ["ok", "flagged", "bridge", "manual", "empty"] },
                 "segment_id": { "type": "integer" },
                 "calibration_id": { "type": "string" }
               }

@@ -128,6 +128,9 @@ def render_overlay(result: ExtractionResult) -> np.ndarray:
                 )
             if emitted:
                 cv2.circle(canvas, (cx, cy), 2, color, -1, cv2.LINE_AA)
+                if PointFlag.MANUAL in point.flags:
+                    # Distinct ring for human confirmed / manual traced points
+                    cv2.circle(canvas, (cx, cy), 4, (255, 180, 0), 1, cv2.LINE_AA)
                 previous = (point.px, point.py, point.segment_id)
             else:
                 cv2.circle(canvas, (cx, cy), 3, (220, 30, 30), 1, cv2.LINE_AA)

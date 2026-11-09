@@ -1,12 +1,12 @@
 {
   "dataset": "domain-single-curve-v1",
-  "commit": "a2d8088fe23be4348ae0590de04ea60c01f86ba4",
-  "python": "3.13.5",
-  "platform": "Linux-6.12.94+-x86_64-with-glibc2.41",
+  "commit": "d65c41c4c634faf2625f138d3e0162cfa6bfd068",
+  "python": "3.12.3",
+  "platform": "Windows-11-10.0.26300-SP0",
   "split_requested": "all",
   "split_rule": "sort slugs by sha256(slug) hex; first 8 dev, rest held-out",
-  "runtime_s_mean": 1.2432871000840653,
-  "runtime_s_median": 1.1258476194998366,
+  "runtime_s_mean": 3.7983632708334576,
+  "runtime_s_median": 3.816192799997225,
   "bridged_count": 0,
   "fabrication_count": 0,
   "summary": {
@@ -16,8 +16,8 @@
       "accuracy": 1.0,
       "failure_reasons": {},
       "n_with_parameter_fit": 1,
-      "median_slope_rel_err": 0.00725735603634646,
-      "median_intercept_err_range": 0.001417041882551621,
+      "median_slope_rel_err": 0.007257356036348083,
+      "median_intercept_err_range": 0.0014170418825521169,
       "fabrication_count": 0,
       "ink_support_median": 1.0
     },
@@ -38,8 +38,8 @@
       "accuracy": 1.0,
       "failure_reasons": {},
       "n_with_parameter_fit": 1,
-      "median_slope_rel_err": 0.00725735603634646,
-      "median_intercept_err_range": 0.001417041882551621,
+      "median_slope_rel_err": 0.007257356036348083,
+      "median_intercept_err_range": 0.0014170418825521169,
       "fabrication_count": 0,
       "ink_support_median": 1.0
     }
@@ -51,8 +51,8 @@
       "accuracy": 1.0,
       "failure_reasons": {},
       "n_with_parameter_fit": 1,
-      "median_slope_rel_err": 0.00725735603634646,
-      "median_intercept_err_range": 0.001417041882551621,
+      "median_slope_rel_err": 0.007257356036348083,
+      "median_intercept_err_range": 0.0014170418825521169,
       "fabrication_count": 0,
       "ink_support_median": 1.0
     },
@@ -73,8 +73,8 @@
       "accuracy": 1.0,
       "failure_reasons": {},
       "n_with_parameter_fit": 1,
-      "median_slope_rel_err": 0.00725735603634646,
-      "median_intercept_err_range": 0.001417041882551621,
+      "median_slope_rel_err": 0.007257356036348083,
+      "median_intercept_err_range": 0.0014170418825521169,
       "fabrication_count": 0,
       "ink_support_median": 1.0
     }
@@ -86,26 +86,26 @@
       "title": "An investigation on the effect of high energy storage anchor on surrounding rock conditions",
       "source_url": "https://doi.org/10.5281/zenodo.4072158",
       "license": "CC0-1.0",
-      "runtime_s": 1.9488977690052707,
+      "runtime_s": 6.036275199992815,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
       "y_scale_pred": "linear",
       "fabrication_count": 0,
       "ink_support_fraction": 1.0,
-      "ink_support_checked": 766,
+      "ink_support_checked": 763,
       "ink_support_radius_px": 2,
       "correct": true,
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.20769839500503662,
+      "worst_nrmse": 0.20769839500502935,
       "worst_coverage": 0.995,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.20769839500503662,
+          "nrmse": 0.20769839500502935,
           "x_coverage": 0.995
         }
       ],
@@ -117,7 +117,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.20769839500503662,
+        "worst_nrmse": 0.20769839500502935,
         "worst_coverage": 0.995
       }
     },
@@ -127,26 +127,26 @@
       "title": "An investigation on the effect of high energy storage anchor on surrounding rock conditions",
       "source_url": "https://doi.org/10.5281/zenodo.4072158",
       "license": "CC0-1.0",
-      "runtime_s": 1.5329761630055145,
+      "runtime_s": 5.078716200005147,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
       "y_scale_pred": "linear",
       "fabrication_count": 0,
       "ink_support_fraction": 1.0,
-      "ink_support_checked": 839,
+      "ink_support_checked": 838,
       "ink_support_radius_px": 2,
       "correct": true,
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.3938134142635059,
+      "worst_nrmse": 0.39381341426350536,
       "worst_coverage": 0.995,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.3938134142635059,
+          "nrmse": 0.39381341426350536,
           "x_coverage": 0.995
         }
       ],
@@ -158,7 +158,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.3938134142635059,
+        "worst_nrmse": 0.39381341426350536,
         "worst_coverage": 0.995
       }
     },
@@ -168,7 +168,7 @@
       "title": "An investigation on the effect of high energy storage anchor on surrounding rock conditions",
       "source_url": "https://doi.org/10.5281/zenodo.4072158",
       "license": "CC0-1.0",
-      "runtime_s": 1.7405987849997473,
+      "runtime_s": 5.1458546000067145,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -209,7 +209,7 @@
       "title": "Experimental data for \"The creep coefficient in clays: evolution and interpretation\"",
       "source_url": "https://doi.org/10.5281/zenodo.23666827",
       "license": "CC-BY-4.0",
-      "runtime_s": 1.1726728709982126,
+      "runtime_s": 4.222339600004489,
       "x_scale_gt": "log10",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -250,7 +250,7 @@
       "title": "Experimental data for \"The creep coefficient in clays: evolution and interpretation\"",
       "source_url": "https://doi.org/10.5281/zenodo.23666827",
       "license": "CC-BY-4.0",
-      "runtime_s": 1.3412481090053916,
+      "runtime_s": 4.00067080000008,
       "x_scale_gt": "log10",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -291,7 +291,7 @@
       "title": "Experimental data for \"The creep coefficient in clays: evolution and interpretation\"",
       "source_url": "https://doi.org/10.5281/zenodo.23666827",
       "license": "CC-BY-4.0",
-      "runtime_s": 1.1862971640002797,
+      "runtime_s": 3.3913850000099046,
       "x_scale_gt": "log10",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -304,13 +304,13 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.8350905302288634,
+      "worst_nrmse": 0.8350905302288593,
       "worst_coverage": 0.965,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.8350905302288634,
+          "nrmse": 0.8350905302288593,
           "x_coverage": 0.965
         }
       ],
@@ -322,7 +322,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.8350905302288634,
+        "worst_nrmse": 0.8350905302288593,
         "worst_coverage": 0.965
       }
     },
@@ -332,27 +332,27 @@
       "title": "Data from: Strain energy analysis of floor heave in longwall gateroads",
       "source_url": "https://doi.org/10.5281/zenodo.4959298",
       "license": "CC0-1.0",
-      "runtime_s": 1.1335902299979352,
+      "runtime_s": 3.9307052999938605,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
       "y_scale_pred": "linear",
       "fabrication_count": 0,
       "ink_support_fraction": 1.0,
-      "ink_support_checked": 619,
+      "ink_support_checked": 607,
       "ink_support_radius_px": 2,
       "correct": true,
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.7752727388852139,
-      "worst_coverage": 0.945,
+      "worst_nrmse": 0.7796435419556054,
+      "worst_coverage": 0.915,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.7752727388852139,
-          "x_coverage": 0.945
+          "nrmse": 0.7796435419556054,
+          "x_coverage": 0.915
         }
       ],
       "slope_rel_err": null,
@@ -363,8 +363,8 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.7752727388852139,
-        "worst_coverage": 0.945
+        "worst_nrmse": 0.7796435419556054,
+        "worst_coverage": 0.915
       }
     },
     {
@@ -373,14 +373,14 @@
       "title": "Data from: Strain energy analysis of floor heave in longwall gateroads",
       "source_url": "https://doi.org/10.5281/zenodo.4959298",
       "license": "CC0-1.0",
-      "runtime_s": 0.9333769189979648,
+      "runtime_s": 4.104978900009883,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
       "y_scale_pred": "linear",
       "fabrication_count": 0,
       "ink_support_fraction": 1.0,
-      "ink_support_checked": 440,
+      "ink_support_checked": 439,
       "ink_support_radius_px": 2,
       "correct": true,
       "reason": "ok",
@@ -414,27 +414,27 @@
       "title": "Data from: Strain energy analysis of floor heave in longwall gateroads",
       "source_url": "https://doi.org/10.5281/zenodo.4959298",
       "license": "CC0-1.0",
-      "runtime_s": 0.9725259049955639,
+      "runtime_s": 3.4155132999876514,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
       "y_scale_pred": "linear",
       "fabrication_count": 0,
-      "ink_support_fraction": 0.9976744186046511,
-      "ink_support_checked": 430,
+      "ink_support_fraction": 0.9976580796252927,
+      "ink_support_checked": 427,
       "ink_support_radius_px": 2,
       "correct": true,
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 1.0778053147142233,
-      "worst_coverage": 0.91,
+      "worst_nrmse": 1.082666529724235,
+      "worst_coverage": 0.9,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 1.0778053147142233,
-          "x_coverage": 0.91
+          "nrmse": 1.082666529724235,
+          "x_coverage": 0.9
         }
       ],
       "slope_rel_err": null,
@@ -445,8 +445,8 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 1.0778053147142233,
-        "worst_coverage": 0.91
+        "worst_nrmse": 1.082666529724235,
+        "worst_coverage": 0.9
       }
     },
     {
@@ -455,14 +455,14 @@
       "title": "Data from: Strain energy analysis of floor heave in longwall gateroads",
       "source_url": "https://doi.org/10.5281/zenodo.4959298",
       "license": "CC0-1.0",
-      "runtime_s": 1.0055494219996035,
+      "runtime_s": 3.9731157000060193,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
       "y_scale_pred": "linear",
       "fabrication_count": 0,
       "ink_support_fraction": 1.0,
-      "ink_support_checked": 351,
+      "ink_support_checked": 349,
       "ink_support_radius_px": 2,
       "correct": true,
       "reason": "ok",
@@ -496,7 +496,7 @@
       "title": "Continuous compaction and permeability evolution in longwall gob materials",
       "source_url": "https://doi.org/10.5281/zenodo.3929410",
       "license": "CC-BY-4.0",
-      "runtime_s": 1.0889363460009918,
+      "runtime_s": 3.7016803000005893,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -537,7 +537,7 @@
       "title": "Continuous compaction and permeability evolution in longwall gob materials",
       "source_url": "https://doi.org/10.5281/zenodo.3929410",
       "license": "CC-BY-4.0",
-      "runtime_s": 2.025252024999645,
+      "runtime_s": 5.093516199995065,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -578,7 +578,7 @@
       "title": "Data from: A novel in-situ stress measurement method based on acoustic emission kaiser effect: a theoretical and experimental study",
       "source_url": "https://doi.org/10.5281/zenodo.4942609",
       "license": "CC0-1.0",
-      "runtime_s": 0.7520861419980065,
+      "runtime_s": 2.8050828999985242,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -591,25 +591,25 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.28015055788947224,
+      "worst_nrmse": 0.28015055788947085,
       "worst_coverage": 0.99,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.28015055788947224,
+          "nrmse": 0.28015055788947085,
           "x_coverage": 0.99
         }
       ],
-      "slope_rel_err": 0.00725735603634646,
-      "intercept_err_range": 0.001417041882551621,
+      "slope_rel_err": 0.007257356036348083,
+      "intercept_err_range": 0.0014170418825521169,
       "bridged_count": 0,
       "with_bridge": {
         "correct": true,
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.28015055788947224,
+        "worst_nrmse": 0.28015055788947085,
         "worst_coverage": 0.99
       }
     },
@@ -619,7 +619,7 @@
       "title": "Data from: A novel in-situ stress measurement method based on acoustic emission kaiser effect: a theoretical and experimental study",
       "source_url": "https://doi.org/10.5281/zenodo.4942609",
       "license": "CC0-1.0",
-      "runtime_s": 0.8157190850033658,
+      "runtime_s": 3.0836434999946505,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -632,13 +632,13 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.7482742340120454,
+      "worst_nrmse": 0.7482742340120477,
       "worst_coverage": 0.945,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.7482742340120454,
+          "nrmse": 0.7482742340120477,
           "x_coverage": 0.945
         }
       ],
@@ -650,7 +650,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.7482742340120454,
+        "worst_nrmse": 0.7482742340120477,
         "worst_coverage": 0.945
       }
     },
@@ -660,26 +660,26 @@
       "title": "Data from: A novel in-situ stress measurement method based on acoustic emission kaiser effect: a theoretical and experimental study",
       "source_url": "https://doi.org/10.5281/zenodo.4942609",
       "license": "CC0-1.0",
-      "runtime_s": 1.503293103996839,
+      "runtime_s": 4.0133396000019275,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
       "y_scale_pred": "linear",
       "fabrication_count": 0,
       "ink_support_fraction": 1.0,
-      "ink_support_checked": 828,
+      "ink_support_checked": 827,
       "ink_support_radius_px": 2,
       "correct": true,
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.4140829232985315,
+      "worst_nrmse": 0.4140829232985501,
       "worst_coverage": 0.995,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.4140829232985315,
+          "nrmse": 0.4140829232985501,
           "x_coverage": 0.995
         }
       ],
@@ -691,7 +691,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.4140829232985315,
+        "worst_nrmse": 0.4140829232985501,
         "worst_coverage": 0.995
       }
     },
@@ -701,7 +701,7 @@
       "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
       "source_url": "https://doi.org/10.5281/zenodo.10598216",
       "license": "CC-BY-4.0",
-      "runtime_s": 0.7675721480045468,
+      "runtime_s": 2.8237267000076827,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -714,13 +714,13 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.5110905554645223,
+      "worst_nrmse": 0.5110905554645269,
       "worst_coverage": 0.995,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.5110905554645223,
+          "nrmse": 0.5110905554645269,
           "x_coverage": 0.995
         }
       ],
@@ -732,7 +732,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.5110905554645223,
+        "worst_nrmse": 0.5110905554645269,
         "worst_coverage": 0.995
       }
     },
@@ -742,7 +742,7 @@
       "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
       "source_url": "https://doi.org/10.5281/zenodo.10598216",
       "license": "CC-BY-4.0",
-      "runtime_s": 0.8266913699990255,
+      "runtime_s": 2.743605999989086,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -755,13 +755,13 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.5773597875277767,
+      "worst_nrmse": 0.5773597875277787,
       "worst_coverage": 0.995,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.5773597875277767,
+          "nrmse": 0.5773597875277787,
           "x_coverage": 0.995
         }
       ],
@@ -773,7 +773,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.5773597875277767,
+        "worst_nrmse": 0.5773597875277787,
         "worst_coverage": 0.995
       }
     },
@@ -783,7 +783,7 @@
       "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
       "source_url": "https://doi.org/10.5281/zenodo.10598216",
       "license": "CC-BY-4.0",
-      "runtime_s": 1.118105009001738,
+      "runtime_s": 3.1712329000001773,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -796,13 +796,13 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.8192508492903138,
+      "worst_nrmse": 0.8192508492903124,
       "worst_coverage": 0.955,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.8192508492903138,
+          "nrmse": 0.8192508492903124,
           "x_coverage": 0.955
         }
       ],
@@ -814,7 +814,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.8192508492903138,
+        "worst_nrmse": 0.8192508492903124,
         "worst_coverage": 0.955
       }
     },
@@ -824,7 +824,7 @@
       "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
       "source_url": "https://doi.org/10.5281/zenodo.10598216",
       "license": "CC-BY-4.0",
-      "runtime_s": 2.083751377002045,
+      "runtime_s": 4.494597999990219,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -865,7 +865,7 @@
       "title": "Water weakening and the compressive brittle strength of carbonates: influence of fracture toughness and static friction",
       "source_url": "https://doi.org/10.5281/zenodo.10598216",
       "license": "CC-BY-4.0",
-      "runtime_s": 2.004549841003609,
+      "runtime_s": 4.4239030000026105,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -906,7 +906,7 @@
       "title": "Dataset for: Compressibility, pH, and Electrical Conductivity of Cu\u00b2\u207a- and Zn\u00b2\u207a-Contaminated Tropical Residual Soil from Penang, Malaysia",
       "source_url": "https://doi.org/10.5281/zenodo.23356064",
       "license": "CC-BY-4.0",
-      "runtime_s": 1.0152740909979912,
+      "runtime_s": 2.9536807000113185,
       "x_scale_gt": "log10",
       "y_scale_gt": "linear",
       "x_scale_pred": "log10",
@@ -947,7 +947,7 @@
       "title": "Research on stress release for gob-side roadway using roof-cutting technology with chainsaw arm",
       "source_url": "https://doi.org/10.5281/zenodo.4991755",
       "license": "CC0-1.0",
-      "runtime_s": 0.7963098260006518,
+      "runtime_s": 2.86256379999395,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -960,13 +960,13 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.6850866441401511,
+      "worst_nrmse": 0.685086644140137,
       "worst_coverage": 0.985,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.6850866441401511,
+          "nrmse": 0.685086644140137,
           "x_coverage": 0.985
         }
       ],
@@ -978,7 +978,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.6850866441401511,
+        "worst_nrmse": 0.685086644140137,
         "worst_coverage": 0.985
       }
     },
@@ -988,7 +988,7 @@
       "title": "Research on stress release for gob-side roadway using roof-cutting technology with chainsaw arm",
       "source_url": "https://doi.org/10.5281/zenodo.4991755",
       "license": "CC0-1.0",
-      "runtime_s": 0.7695413350011222,
+      "runtime_s": 2.848063800003729,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",
@@ -1001,13 +1001,13 @@
       "reason": "ok",
       "n_gt": 1,
       "n_pred": 1,
-      "worst_nrmse": 0.7910918418394148,
+      "worst_nrmse": 0.7910918418394169,
       "worst_coverage": 0.985,
       "pairs": [
         {
           "pred": 0,
           "gt": 0,
-          "nrmse": 0.7910918418394148,
+          "nrmse": 0.7910918418394169,
           "x_coverage": 0.985
         }
       ],
@@ -1019,7 +1019,7 @@
         "reason": "ok",
         "n_gt": 1,
         "n_pred": 1,
-        "worst_nrmse": 0.7910918418394148,
+        "worst_nrmse": 0.7910918418394169,
         "worst_coverage": 0.985
       }
     },
@@ -1029,7 +1029,7 @@
       "title": "Research on stress release for gob-side roadway using roof-cutting technology with chainsaw arm",
       "source_url": "https://doi.org/10.5281/zenodo.4991755",
       "license": "CC0-1.0",
-      "runtime_s": 1.3040753660025075,
+      "runtime_s": 2.842526499996893,
       "x_scale_gt": "linear",
       "y_scale_gt": "linear",
       "x_scale_pred": "linear",

@@ -243,7 +243,7 @@ def simulate(slug: str, root: Path = HERE) -> dict[str, Any]:
         except Exception:
             pass
 
-    # Semi-automatic trace_stroke for missing coverage
+    # Oracle trace diagnostic (uses ground truth coordinates, NOT counted as human confirm)
     for s_id, gt_name, m_lo, m_hi in _missing_pairs(result, gt):
         pts = np.asarray(gt["series"][gt_name], dtype=np.float64)
         m_mid = (m_lo + m_hi) / 2.0
@@ -256,10 +256,9 @@ def simulate(slug: str, root: Path = HERE) -> dict[str, Any]:
         if p0 and p1 and p2:
             stroke = [p0, p1, p2]
             try:
-                result = trace_stroke(result, stroke, series_id=s_id, radius=12.0, bridge=True)
-                clicks += 2
-                if record(f"trace[{gt_name}:{m_lo:.4g},{m_hi:.4g}]", result)["correct"]:
-                    return _done(slug, log, clicks, typed, True)
+                result = trace_stroke(result, stroke, series_id=s_id, radius=12.0, bridge=False)
+                if record(f"oracle_trace[{gt_name}:{m_lo:.4g},{m_hi:.4g}]", result)["correct"]:
+                    return _done(slug, log, clicks, typed, ok=True, oracle=True)
             except Exception:
                 pass
 
@@ -267,12 +266,18 @@ def simulate(slug: str, root: Path = HERE) -> dict[str, Any]:
 
 
 def _done(
-    slug: str, log: list[dict[str, Any]], clicks: int, typed: int, ok: bool
+    slug: str,
+    log: list[dict[str, Any]],
+    clicks: int,
+    typed: int,
+    ok: bool,
+    oracle: bool = False,
 ) -> dict[str, Any]:
     return {
         "slug": slug,
         "auto": False,
-        "passed": ok,
+        "passed": ok and not oracle,
+        "oracle_passed": ok and oracle,
         "clicks": clicks,
         "typed": typed,
         "steps": log,
@@ -303,6 +308,7 @@ def main() -> None:
         "n": len(rows),
         "auto_pass": sum(r["auto"] for r in rows),
         "pass_after_confirm": sum(r["passed"] for r in rows),
+        "pass_with_oracle_trace": sum(r.get("oracle_passed", False) for r in rows),
         "confirmed_figures": sum(not r["auto"] for r in rows),
         "mean_clicks_failing": float(np.mean([r["clicks"] for r in rows if not r["auto"]]))
         if any(not r["auto"] for r in rows)
